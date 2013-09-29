@@ -1,0 +1,28 @@
+.row
+    .main.col-xs-2
+        div
+            span.remove(title="remove") &times;
+            .name.label.label-default(title="#{model.country}") #{model.name}
+        div
+            .label.label-info.temp(title="temperature") #{model.temp}°
+            .label.label-info.humidity(title="humidity") #{model.humidity}%
+        if model.weather
+            .weather(title="#{model.weather.description}")
+                    img(alt="#{model.weather.main}",
+                        src="icons/#{model.weather.icon}.png")
+    if model.days
+        each day in model.days
+            .day.col-xs-2
+                div
+                    .label.label-default #{day.date}
+                div
+                    .label.label-info.temp
+                        span(title="temperature in night") #{day.night}° / 
+                        span(title="temperature in day") #{day.day}°
+                    if day.humidity
+                        .label.label-info.humidity(title="humidity")
+                             | #{day.humidity}%
+                if day.weather
+                    .weather(title="#{day.weather.description}")
+                            img(alt="#{day.weather.main}",
+                                src="icons/#{day.weather.icon}.png")

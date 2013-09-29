@@ -1,0 +1,18 @@
+#content.container
+    h2 Weather forecast for Cozy
+    div.row
+        form#search.col-xs-6.well(role="form")
+            input.form-control.city(name="city", 
+                                    id="city-name", 
+                                    placeholder="Type the name of a city and press enter",
+                                    title="Type the name of a city and press enter",
+                                    type="text")
+    .alerts
+    ul#cities.list-unstyled
+#footer.container
+    small.well.well-small.pull-right
+        p
+            a(href="http://openweathermap.org/") weather data from OpenWeatherMap
+        p
+            a(href="http://d3stroy.deviantart.com/art/SILq-Weather-Icons-356609017") icons from ~d3stroy
+

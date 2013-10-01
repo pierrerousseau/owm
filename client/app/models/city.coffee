@@ -40,14 +40,16 @@ module.exports = class City extends Backbone.Model
         date.getFullYear()
 
     fmtCityForecastInfos: () =>
-        next5 = []
-        for day in @get "list"
-            nextDay = {}
-            nextDay.date     = @toReadableDate(day.dt)
-            nextDay.day      = @toRoundCelcius(day.temp.day)
-            nextDay.night    = @toRoundCelcius(day.temp.night)
-            nextDay.humidity = day.humidity
-            nextDay.weather  = day.weather[0]
+        next5    = []
+        forecast = @get "list"
+        if forecast
+            for day in forecast
+                nextDay = {}
+                nextDay.date     = @toReadableDate(day.dt)
+                nextDay.day      = @toRoundCelcius(day.temp.day)
+                nextDay.night    = @toRoundCelcius(day.temp.night)
+                nextDay.humidity = day.humidity
+                nextDay.weather  = day.weather[0]
 
-            next5.push nextDay
+                next5.push nextDay
         @set "days", next5

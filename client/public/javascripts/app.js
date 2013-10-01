@@ -414,18 +414,20 @@ window.require.define({"models/city": function(exports, require, module) {
     };
 
     City.prototype.fmtCityForecastInfos = function() {
-      var day, next5, nextDay, _i, _len, _ref;
+      var day, forecast, next5, nextDay, _i, _len;
       next5 = [];
-      _ref = this.get("list");
-      for (_i = 0, _len = _ref.length; _i < _len; _i++) {
-        day = _ref[_i];
-        nextDay = {};
-        nextDay.date = this.toReadableDate(day.dt);
-        nextDay.day = this.toRoundCelcius(day.temp.day);
-        nextDay.night = this.toRoundCelcius(day.temp.night);
-        nextDay.humidity = day.humidity;
-        nextDay.weather = day.weather[0];
-        next5.push(nextDay);
+      forecast = this.get("list");
+      if (forecast) {
+        for (_i = 0, _len = forecast.length; _i < _len; _i++) {
+          day = forecast[_i];
+          nextDay = {};
+          nextDay.date = this.toReadableDate(day.dt);
+          nextDay.day = this.toRoundCelcius(day.temp.day);
+          nextDay.night = this.toRoundCelcius(day.temp.night);
+          nextDay.humidity = day.humidity;
+          nextDay.weather = day.weather[0];
+          next5.push(nextDay);
+        }
       }
       return this.set("days", next5);
     };
@@ -512,6 +514,9 @@ window.require.define({"views/app_view": function(exports, require, module) {
         "name": city.val()
       };
       this.citiesView.collection.create(cityObj, {
+        success: function(newObj) {
+          return newObj.initialize();
+        },
         error: function() {
           return alertUser("impossible to add weather informations for " + city.val());
         }

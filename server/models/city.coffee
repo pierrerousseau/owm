@@ -6,8 +6,9 @@ module.exports = City = americano.getModel 'City',
 
 http = require "http"
 
-httpGet = (url, callback) ->
-    http.get url, (res) ->
+httpGet = (url, deflt, callback) ->
+    result = deflt
+    req = http.get url, (res) ->
         data   = ''
         chunks = []
         length = 0
@@ -18,28 +19,40 @@ httpGet = (url, callback) ->
         res.on "end", () ->
             data   = Buffer.concat chunks, length
             result = JSON.parse(data.toString("UTF-8"))
-
             callback(result)
+
+    req.on "error", ->
+        callback(deflt, "error")
 
 City.baseUrl     = "http://api.openweathermap.org/data/2.5/"
 City.weatherUrl  = City.baseUrl + "weather?q="
 City.forecastUrl = City.baseUrl + "forecast/daily?cnt=5&q="
 
-City.fullCity = (city, cities, fullCities, callback) ->
+City.fullCity = (city, callback, cities, fullCities) ->
     weatherUrl  = @weatherUrl + city.name
     forecastUrl = @forecastUrl + city.name
-    httpGet weatherUrl, (weather) =>
-        fullCity = weather
-        httpGet forecastUrl, (forecast) =>
-            for key, value of forecast 
-                fullCity[key] = value
-            fullCities.push(fullCity)
-            @fullCities(cities, fullCities, callback)
+
+    fullCity      = {}
+    fullCity.id   = city.id
+    fullCity.name = city.name
+    httpGet weatherUrl, city, (weather, err) =>
+        if not err
+            for key, value of weather
+                fullCity[key] = value if key != "id"
+        httpGet forecastUrl, fullCity, (forecast, err) =>
+            if not err
+                for key, value of forecast 
+                    fullCity[key] = value if key != "id"
+            if fullCities
+                fullCities.push(fullCity)
+                @fullCities(cities, fullCities, callback)
+            else
+                callback.send(fullCity)
 
 City.fullCities = (cities, fullCities, callback) ->
     city = cities.pop()
     if city
-        @fullCity(city, cities, fullCities, callback)
+        @fullCity(city, callback, cities, fullCities)
     else
         callback.call(@, 0, fullCities.reverse())
 

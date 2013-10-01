@@ -2,19 +2,34 @@ module.exports = class City extends Backbone.Model
 
     urlRoot: 'cities'
 
-    weatherUrl: "http://api.openweathermap.org/data/2.5/weather?q="
-    forecastUrl:
-        "http://api.openweathermap.org/data/2.5/forecast/daily?cnt=5&q="
-
     initialize: ->
-        $.ajax
-            "url": @weatherUrl + @get("name")
-            "dataType": "jsonp"
-            "success": @addCityWeatherInfos
-            "error": @badCity
+        @fmtCityWeatherInfos()
+        @fmtCityForecastInfos()
 
     toRoundCelcius: (value) ->
         parseInt(value - 273.15)
+
+    fmtCityWeatherInfos: () =>
+        main = @get "main"
+        if main
+            @set "temp", @toRoundCelcius(main.temp)
+            @set "humidity", main.humidity
+
+        weather = @get "weather"
+        if weather
+            @set "weather", weather[0]
+
+        clouds = @get "clouds"
+        if clouds
+            @set "clouds", clouds.all
+
+        sys = @get "sys"
+        if sys
+            @set "country", sys.country
+
+        name = @get "name"
+        if name
+            @set "name", name
 
     toReadableDate: (value) ->
         date = new Date 0
@@ -24,33 +39,9 @@ module.exports = class City extends Backbone.Model
         (date.getMonth()+ 1) + '/' +
         date.getFullYear()
 
-    addCityWeatherInfos: (city) =>
-        if city.main
-            @set "temp", @toRoundCelcius(city.main.temp)
-            @set "humidity", city.main.humidity
-        if city.weather
-            @set "weather", city.weather[0]
-        if city.clouds
-            @set "clouds", city.clouds.all
-
-        if city.sys
-            @set "country", city.sys.country
-        if city.name
-            @set "name", city.name
-
-        @set "days", []
-
-        if city
-            $.ajax
-                "url": @forecastUrl + @get("name")
-                "dataType": "jsonp"
-                "success": @addCityForecastInfos
-                "error": @badCity
-
-
-    addCityForecastInfos: (city) =>
+    fmtCityForecastInfos: () =>
         next5 = []
-        for day in city.list
+        for day in @get "list"
             nextDay = {}
             nextDay.date     = @toReadableDate(day.dt)
             nextDay.day      = @toRoundCelcius(day.temp.day)
@@ -60,6 +51,3 @@ module.exports = class City extends Backbone.Model
 
             next5.push nextDay
         @set "days", next5
-
-    badCity: (err) =>
-        alertUser "impossible to find weather for " + @get "name"

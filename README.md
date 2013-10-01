@@ -8,13 +8,13 @@ Weather application based on the OpenWeather Map API
 
 # Changelog
 
+* v0.2 : use owm on server (client use causes https/http mixin)
 * v0.1 : display weather for current day and the next 5 days
 
 # Tools & resources used
 
 * weather data from OpenWeatherMap, http://openweathermap.org/
 * icons from ~d3stroy, http://d3stroy.deviantart.com/art/SILq-Weather-Icons-356609017
-
 
 # About Cozy
 

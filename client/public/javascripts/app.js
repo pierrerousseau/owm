@@ -364,31 +364,46 @@ window.require.define({"models/city": function(exports, require, module) {
     __extends(City, _super);
 
     function City() {
-      this.badCity = __bind(this.badCity, this);
+      this.fmtCityForecastInfos = __bind(this.fmtCityForecastInfos, this);
 
-      this.addCityForecastInfos = __bind(this.addCityForecastInfos, this);
-
-      this.addCityWeatherInfos = __bind(this.addCityWeatherInfos, this);
+      this.fmtCityWeatherInfos = __bind(this.fmtCityWeatherInfos, this);
       return City.__super__.constructor.apply(this, arguments);
     }
 
     City.prototype.urlRoot = 'cities';
 
-    City.prototype.weatherUrl = "http://api.openweathermap.org/data/2.5/weather?q=";
-
-    City.prototype.forecastUrl = "http://api.openweathermap.org/data/2.5/forecast/daily?cnt=5&q=";
-
     City.prototype.initialize = function() {
-      return $.ajax({
-        "url": this.weatherUrl + this.get("name"),
-        "dataType": "jsonp",
-        "success": this.addCityWeatherInfos,
-        "error": this.badCity
-      });
+      this.fmtCityWeatherInfos();
+      return this.fmtCityForecastInfos();
     };
 
     City.prototype.toRoundCelcius = function(value) {
       return parseInt(value - 273.15);
+    };
+
+    City.prototype.fmtCityWeatherInfos = function() {
+      var clouds, main, name, sys, weather;
+      main = this.get("main");
+      if (main) {
+        this.set("temp", this.toRoundCelcius(main.temp));
+        this.set("humidity", main.humidity);
+      }
+      weather = this.get("weather");
+      if (weather) {
+        this.set("weather", weather[0]);
+      }
+      clouds = this.get("clouds");
+      if (clouds) {
+        this.set("clouds", clouds.all);
+      }
+      sys = this.get("sys");
+      if (sys) {
+        this.set("country", sys.country);
+      }
+      name = this.get("name");
+      if (name) {
+        return this.set("name", name);
+      }
     };
 
     City.prototype.toReadableDate = function(value) {
@@ -398,38 +413,10 @@ window.require.define({"models/city": function(exports, require, module) {
       return "" + date.getDate() + '/' + (date.getMonth() + 1) + '/' + date.getFullYear();
     };
 
-    City.prototype.addCityWeatherInfos = function(city) {
-      if (city.main) {
-        this.set("temp", this.toRoundCelcius(city.main.temp));
-        this.set("humidity", city.main.humidity);
-      }
-      if (city.weather) {
-        this.set("weather", city.weather[0]);
-      }
-      if (city.clouds) {
-        this.set("clouds", city.clouds.all);
-      }
-      if (city.sys) {
-        this.set("country", city.sys.country);
-      }
-      if (city.name) {
-        this.set("name", city.name);
-      }
-      this.set("days", []);
-      if (city) {
-        return $.ajax({
-          "url": this.forecastUrl + this.get("name"),
-          "dataType": "jsonp",
-          "success": this.addCityForecastInfos,
-          "error": this.badCity
-        });
-      }
-    };
-
-    City.prototype.addCityForecastInfos = function(city) {
+    City.prototype.fmtCityForecastInfos = function() {
       var day, next5, nextDay, _i, _len, _ref;
       next5 = [];
-      _ref = city.list;
+      _ref = this.get("list");
       for (_i = 0, _len = _ref.length; _i < _len; _i++) {
         day = _ref[_i];
         nextDay = {};
@@ -441,10 +428,6 @@ window.require.define({"models/city": function(exports, require, module) {
         next5.push(nextDay);
       }
       return this.set("days", next5);
-    };
-
-    City.prototype.badCity = function(err) {
-      return alertUser("impossible to find weather for " + this.get("name"));
     };
 
     return City;

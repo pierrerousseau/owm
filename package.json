@@ -2,12 +2,12 @@
   "name": "piour-cozy-owm",
   "version": "0.1.0",
   "engines": [
-    "node = 0.8.x"
+    "node >= 0.8.0"
   ],
   "description": "Weather of your favorites cities !",
   "repository": {
     "type": "git",
-    "url": "https://github.com/mycozycloud/cozy-template.git"
+    "url": "https://github.com/Piour/piour-cozy-owm.git"
   },
   "main": "server.coffee",
   "dependencies": {
@@ -21,11 +21,11 @@
   },
   "scripts": {
     "test": "cake tests",
-    "start": "node server.js"
+    "start": "coffee server.coffee"
   },
   "cozy-displayName": "Weather",
   "cozy-permissions": {
-    "owm-cities": {
+    "City": {
       "description": "Allow you to manage your weather forecast"
     }
   }

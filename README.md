@@ -5,9 +5,12 @@ Weather application based on the OpenWeather Map API
 # To do ...
 
 * display current weather and 14 days forcast for a stored city
+* display hour by hour weather for the current day
 
 # Changelog
 
+* v0.2.1 
+  * change default port (all apps with same port may disturb cozy)
 * v0.2 : use owm on server (client use causes https/http mixin)
 * v0.1 : display weather for current day and the next 5 days
 

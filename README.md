@@ -9,7 +9,9 @@ Weather application based on the OpenWeather Map API
 
 # Changelog
 
-* v0.2.1 
+* v0.2.2
+  * config update
+* v0.2.1
   * change default port (all apps with same port may disturb cozy)
 * v0.2 : use owm on server (client use causes https/http mixin)
 * v0.1 : display weather for current day and the next 5 days
@@ -22,8 +24,8 @@ Weather application based on the OpenWeather Map API
 # About Cozy
 
 This app is suited to be deployed on the Cozy platform. Cozy is the personal
-server for everyone. It allows you to install your every day web applications 
-easily on your server, a single place you control. This means you can manage 
+server for everyone. It allows you to install your every day web applications
+easily on your server, a single place you control. This means you can manage
 efficiently your data while protecting your privacy without technical skills.
 
 More informations and hosting services on:

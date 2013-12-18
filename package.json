@@ -11,8 +11,8 @@
   },
   "main": "server.coffee",
   "dependencies": {
-    "americano": "~0.2.5",
-    "americano-cozy": "~0.1.2"
+    "americano": "0.2.13",
+    "americano-cozy": "0.1.10"
   },
   "devDependencies": {
     "should": "= 1.2.0",

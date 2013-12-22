@@ -18,7 +18,9 @@ httpGet = (url, deflt, callback) ->
             length += chunk.length
         res.on "end", () ->
             data   = Buffer.concat chunks, length
-            result = JSON.parse(data.toString("UTF-8"))
+            result = ""
+            if data.length
+                result = JSON.parse(data.toString("UTF-8"))
             callback(result)
 
     req.on "error", ->
@@ -41,7 +43,7 @@ City.fullCity = (city, callback, cities, fullCities) ->
                 fullCity[key] = value if key != "id"
         httpGet forecastUrl, fullCity, (forecast, err) =>
             if not err
-                for key, value of forecast 
+                for key, value of forecast
                     fullCity[key] = value if key != "id"
             if fullCities
                 fullCities.push(fullCity)

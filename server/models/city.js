@@ -29,7 +29,10 @@ httpGet = function(url, deflt, callback) {
     });
     return res.on("end", function() {
       data = Buffer.concat(chunks, length);
-      result = JSON.parse(data.toString("UTF-8"));
+      result = "";
+      if (data.length) {
+        result = JSON.parse(data.toString("UTF-8"));
+      }
       return callback(result);
     });
   });

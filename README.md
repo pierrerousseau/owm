@@ -9,6 +9,8 @@ Weather application based on the OpenWeather Map API
 
 # Changelog
 
+* v0.2.3
+  * bug fix : stay alive when a city is not found
 * v0.2.2
   * config update
 * v0.2.1

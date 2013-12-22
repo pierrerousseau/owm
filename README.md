@@ -9,11 +9,10 @@ Weather application based on the OpenWeather Map API
 
 # Changelog
 
-* v0.2.3
+* v0.3
+  * use of async
   * bug fix : stay alive when a city is not found
-* v0.2.2
   * config update
-* v0.2.1
   * change default port (all apps with same port may disturb cozy)
 * v0.2 : use owm on server (client use causes https/http mixin)
 * v0.1 : display weather for current day and the next 5 days

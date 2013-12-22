@@ -4,7 +4,9 @@ module.exports = City = americano.getModel 'City',
     'name': type: String
     'created': type: Date, default: Date
 
-http = require "http"
+http  = require "http"
+async = require "async"
+
 
 httpGet = (url, deflt, callback) ->
     result = deflt
@@ -26,41 +28,41 @@ httpGet = (url, deflt, callback) ->
     req.on "error", ->
         callback(deflt, "error")
 
+
 City.baseUrl     = "http://api.openweathermap.org/data/2.5/"
 City.weatherUrl  = City.baseUrl + "weather?q="
 City.forecastUrl = City.baseUrl + "forecast/daily?cnt=5&q="
 
-City.fullCity = (city, callback, cities, fullCities) ->
-    weatherUrl  = @weatherUrl + city.name
-    forecastUrl = @forecastUrl + city.name
+City.fullCity = (city, mainCallback) ->
+    weatherUrl  = City.weatherUrl + city.name
+    forecastUrl = City.forecastUrl + city.name
 
-    fullCity      = {}
-    fullCity.id   = city.id
-    fullCity.name = city.name
-    httpGet weatherUrl, city, (weather, err) =>
-        if not err
-            for key, value of weather
-                fullCity[key] = value if key != "id"
-        httpGet forecastUrl, fullCity, (forecast, err) =>
-            if not err
-                for key, value of forecast
-                    fullCity[key] = value if key != "id"
-            if fullCities
-                fullCities.push(fullCity)
-                @fullCities(cities, fullCities, callback)
-            else
-                callback.send(fullCity)
+    fullCity      =
+        id: city.id
+        name: city.name
+    async.series([
+        ((callback) ->
+            httpGet weatherUrl, null, (weather, err) =>
+                if not err
+                    for key, value of weather
+                        fullCity[key] = value if key != "id"
+                callback()),
+        ((callback) ->
+            httpGet forecastUrl, null, (forecast, err) =>
+                if not err
+                    for key, value of forecast
+                        fullCity[key] = value if key != "id"
+                callback(null, fullCity))
+    ], (err, results) ->
+        mainCallback(null, fullCity))
 
-City.fullCities = (cities, fullCities, callback) ->
-    city = cities.pop()
-    if city
-        @fullCity(city, callback, cities, fullCities)
-    else
-        callback.call(@, 0, fullCities.reverse())
+City.fullCities = (cities, callback) ->
+    async.map cities, @fullCity, (err, results) ->
+        callback(err, results)
 
 City.all = (callback) ->
     @request "all", (err, cities) =>
         if err
             callback.call(@, err, [])
         else
-            @fullCities(cities, [], callback)
+            @fullCities(cities, callback)

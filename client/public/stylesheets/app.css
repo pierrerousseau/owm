@@ -907,6 +907,9 @@ cursor not-allowed {
 .city img {
   height: 128px;
 }
+body.widget {
+  background-color: #f7f4f0;
+}
 body.widget .city {
   width: 200px;
 }

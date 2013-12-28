@@ -927,6 +927,7 @@ body.widget .humidity {
   display: none;
 }
 body.widget .container {
+  background-color: #f7f4f0;
   max-width: 100% !important;
 }
 .chromeframe { margin: 0.2em 0; background: #ccc; color: #000; padding: 0.2em 0; }

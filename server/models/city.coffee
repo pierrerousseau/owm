@@ -37,7 +37,7 @@ City.fullCity = (city, mainCallback) ->
     weatherUrl  = City.weatherUrl + city.name
     forecastUrl = City.forecastUrl + city.name
 
-    fullCity      =
+    fullCity =
         id: city.id
         name: city.name
     async.series([

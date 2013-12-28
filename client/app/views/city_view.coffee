@@ -11,7 +11,13 @@ module.exports = class CityView extends View
         super()
 
     initialize: ->
-        @model.on "change", @render, @
+        @model.on "change", ((t, evt) ->
+            if @model.attributes.weather?.icon
+                @render.call @
+            else if @model.attributes.weather?
+                @model.initialize()
+            else if @model.attributes.message
+                alertUser @model.attributes.message), @
 
     template: ->
         template = require "./templates/city"

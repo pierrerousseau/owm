@@ -10,26 +10,30 @@ module.exports = class City extends Backbone.Model
         parseInt(value - 273.15)
 
     fmtCityWeatherInfos: () =>
+        toSet = {}
+
         main = @get "main"
         if main
-            @set "temp", @toRoundCelcius(main.temp)
-            @set "humidity", main.humidity
+            toSet.temp     = @toRoundCelcius(main.temp)
+            toSet.humidity = main.humidity
 
         weather = @get "weather"
         if weather
-            @set "weather", weather[0]
+            toSet.weather = weather[0]
 
         clouds = @get "clouds"
         if clouds
-            @set "clouds", clouds.all
+            toSet.clouds = clouds.all
 
         sys = @get "sys"
         if sys
-            @set "country", sys.country
+            toSet.country = sys.country
 
         name = @get "name"
         if name
-            @set "name", name
+            toSet.name = name
+
+        @set toSet
 
     toReadableDate: (value) ->
         date = new Date 0

@@ -382,28 +382,30 @@ window.require.define({"models/city": function(exports, require, module) {
     };
 
     City.prototype.fmtCityWeatherInfos = function() {
-      var clouds, main, name, sys, weather;
+      var clouds, main, name, sys, toSet, weather;
+      toSet = {};
       main = this.get("main");
       if (main) {
-        this.set("temp", this.toRoundCelcius(main.temp));
-        this.set("humidity", main.humidity);
+        toSet.temp = this.toRoundCelcius(main.temp);
+        toSet.humidity = main.humidity;
       }
       weather = this.get("weather");
       if (weather) {
-        this.set("weather", weather[0]);
+        toSet.weather = weather[0];
       }
       clouds = this.get("clouds");
       if (clouds) {
-        this.set("clouds", clouds.all);
+        toSet.clouds = clouds.all;
       }
       sys = this.get("sys");
       if (sys) {
-        this.set("country", sys.country);
+        toSet.country = sys.country;
       }
       name = this.get("name");
       if (name) {
-        return this.set("name", name);
+        toSet.name = name;
       }
+      return this.set(toSet);
     };
 
     City.prototype.toReadableDate = function(value) {
@@ -514,9 +516,6 @@ window.require.define({"views/app_view": function(exports, require, module) {
         "name": city.val()
       };
       this.citiesView.collection.create(cityObj, {
-        success: function(newObj) {
-          return newObj.initialize();
-        },
         error: function() {
           return alertUser("impossible to add weather informations for " + city.val());
         }
@@ -588,7 +587,16 @@ window.require.define({"views/city_view": function(exports, require, module) {
     }
 
     CityView.prototype.initialize = function() {
-      return this.model.on("change", this.render, this);
+      return this.model.on("change", (function(t, evt) {
+        var _ref;
+        if ((_ref = this.model.attributes.weather) != null ? _ref.icon : void 0) {
+          return this.render.call(this);
+        } else if (this.model.attributes.weather != null) {
+          return this.model.initialize();
+        } else if (this.model.attributes.message) {
+          return alertUser(this.model.attributes.message);
+        }
+      }), this);
     };
 
     CityView.prototype.template = function() {

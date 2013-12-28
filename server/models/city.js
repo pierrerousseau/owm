@@ -19,7 +19,6 @@ async = require("async");
 
 httpGet = function(url, deflt, callback) {
   var req, result;
-  console.log(async);
   result = deflt;
   req = http.get(url, function(res) {
     var chunks, data, length;

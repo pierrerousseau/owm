@@ -7,8 +7,6 @@ module.exports.all = function(req, res) {
   return City.all(function(err, cities) {
     var msg;
     if (err) {
-      console.log(err);
-      console.log(Object.keys(err));
       msg = "Server error occured while retrieving data.";
       return res.send({
         error: true,
@@ -32,7 +30,9 @@ module.exports.create = function(req, res) {
         msg: msg
       }, 500);
     } else {
-      return City.fullCity(city, res);
+      return City.fullCity(city, function(err, city) {
+        return res.send(city);
+      });
     }
   });
 };

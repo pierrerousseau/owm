@@ -26,8 +26,6 @@ module.exports = class AppView extends View
         cityObj =
             "name": city.val()
         @citiesView.collection.create cityObj,
-            success: (newObj) =>
-                newObj.initialize()
             error: =>
                 alertUser "impossible to add weather informations for " +
                           city.val()

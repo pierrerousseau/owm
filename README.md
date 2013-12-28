@@ -9,6 +9,8 @@ Weather application based on the OpenWeather Map API
 
 # Changelog
 
+* v0.3.1
+  * bug fix : display newly added a city
 * v0.3
   * use of async
   * bug fix : stay alive when a city is not found

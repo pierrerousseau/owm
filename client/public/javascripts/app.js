@@ -105,31 +105,36 @@ window.require.define({"collections/city_collection": function(exports, require,
 window.require.define({"initialize": function(exports, require, module) {
   var _ref, _ref1, _ref2, _ref3, _ref4;
 
-  if ((_ref = this.CozyApp) == null) {
-    this.CozyApp = {};
+  if ((_ref = this.PiourCozyOWM) == null) {
+    this.PiourCozyOWM = {};
   }
 
-  if ((_ref1 = CozyApp.Routers) == null) {
-    CozyApp.Routers = {};
+  if ((_ref1 = PiourCozyOWM.Routers) == null) {
+    PiourCozyOWM.Routers = {};
   }
 
-  if ((_ref2 = CozyApp.Views) == null) {
-    CozyApp.Views = {};
+  if ((_ref2 = PiourCozyOWM.Views) == null) {
+    PiourCozyOWM.Views = {};
   }
 
-  if ((_ref3 = CozyApp.Models) == null) {
-    CozyApp.Models = {};
+  if ((_ref3 = PiourCozyOWM.Models) == null) {
+    PiourCozyOWM.Models = {};
   }
 
-  if ((_ref4 = CozyApp.Collections) == null) {
-    CozyApp.Collections = {};
+  if ((_ref4 = PiourCozyOWM.Collections) == null) {
+    PiourCozyOWM.Collections = {};
   }
 
   $(function() {
     var AppView;
     require('../lib/app_helpers');
-    CozyApp.Views.appView = new (AppView = require('views/app_view'));
-    CozyApp.Views.appView.render();
+    if (window.location.href.match("widget.html")) {
+      PiourCozyOWM.Views.appView = new (AppView = require('views/widget_view'));
+      PiourCozyOWM.Views.appView.render();
+    } else {
+      PiourCozyOWM.Views.appView = new (AppView = require('views/app_view'));
+      PiourCozyOWM.Views.appView.render();
+    }
     return Backbone.history.start({
       pushState: true
     });
@@ -491,7 +496,7 @@ window.require.define({"views/app_view": function(exports, require, module) {
     };
 
     AppView.prototype.initialize = function() {
-      return this.router = CozyApp.Routers.AppRouter = new AppRouter();
+      return this.router = PiourCozyOWM.Routers.AppRouter = new AppRouter();
     };
 
     AppView.prototype.afterRender = function() {
@@ -629,9 +634,7 @@ window.require.define({"views/templates/city": function(exports, require, module
   var buf = [];
   with (locals || {}) {
   var interp;
-  buf.push('<div class="row"><div class="main col-xs-2"><div><span title="remove" class="remove">&times;</span><div');
-  buf.push(attrs({ 'title':("" + (model.country) + ""), "class": ('name') + ' ' + ('label') + ' ' + ('label-default') }, {"title":true}));
-  buf.push('>' + escape((interp = model.name) == null ? '' : interp) + '</div></div><div><div title="temperature" class="label label-info temp">' + escape((interp = model.temp) == null ? '' : interp) + '°</div><div title="humidity" class="label label-info humidity">' + escape((interp = model.humidity) == null ? '' : interp) + '%</div></div>');
+  buf.push('<div class="row panel panel-warning"><div class="main col-xs-2"><div><div class="label label-default">Now</div></div><div><div title="temperature" class="label label-info temp">' + escape((interp = model.temp) == null ? '' : interp) + '°</div><div title="humidity" class="label label-info humidity">' + escape((interp = model.humidity) == null ? '' : interp) + '%</div></div>');
   if ( model.weather)
   {
   buf.push('<div');
@@ -640,7 +643,9 @@ window.require.define({"views/templates/city": function(exports, require, module
   buf.push(attrs({ 'alt':("" + (model.weather.main) + ""), 'src':("icons/" + (model.weather.icon) + ".png") }, {"alt":true,"src":true}));
   buf.push('/></div>');
   }
-  buf.push('</div>');
+  buf.push('<div><span title="remove" class="remove">&times;</span><div');
+  buf.push(attrs({ 'title':("" + (model.country) + ""), "class": ('name') + ' ' + ('label') + ' ' + ('label-warning') }, {"title":true}));
+  buf.push('>' + escape((interp = model.name) == null ? '' : interp) + '</div></div></div>');
   if ( model.days)
   {
   // iterate model.days
@@ -709,5 +714,75 @@ window.require.define({"views/templates/home": function(exports, require, module
   }
   return buf.join("");
   };
+}});
+
+window.require.define({"views/templates/widget": function(exports, require, module) {
+  module.exports = function anonymous(locals, attrs, escape, rethrow, merge) {
+  attrs = attrs || jade.attrs; escape = escape || jade.escape; rethrow = rethrow || jade.rethrow; merge = merge || jade.merge;
+  var buf = [];
+  with (locals || {}) {
+  var interp;
+  buf.push('<div id="content" class="container"><ul id="cities" class="list-unstyled"></ul></div>');
+  }
+  return buf.join("");
+  };
+}});
+
+window.require.define({"views/widget_view": function(exports, require, module) {
+  var AppRouter, AppView, CitiesView, City, View,
+    __hasProp = {}.hasOwnProperty,
+    __extends = function(child, parent) { for (var key in parent) { if (__hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; };
+
+  View = require("../lib/view");
+
+  AppRouter = require("../routers/app_router");
+
+  CitiesView = require("./cities_view");
+
+  City = require("../models/city");
+
+  module.exports = AppView = (function(_super) {
+
+    __extends(AppView, _super);
+
+    function AppView() {
+      return AppView.__super__.constructor.apply(this, arguments);
+    }
+
+    AppView.prototype.el = "body.widget";
+
+    AppView.prototype.template = function() {
+      return require("./templates/widget");
+    };
+
+    AppView.prototype.initialize = function() {
+      return this.router = PiourCozyOWM.Routers.AppRouter = new AppRouter();
+    };
+
+    AppView.prototype.afterRender = function() {
+      var _this = this;
+      this.citiesView = new CitiesView();
+      return this.citiesView.collection.fetch({
+        error: function() {
+          return alertUser("impossible to retrieve weather informations");
+        }
+      });
+    };
+
+    AppView.prototype.events = {
+      "click": function() {
+        var intent;
+        intent = {
+          action: 'goto',
+          params: "piour-owm/"
+        };
+        return window.parent.postMessage(intent, window.location.origin);
+      }
+    };
+
+    return AppView;
+
+  })(View);
+  
 }});
 

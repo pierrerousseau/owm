@@ -907,6 +907,28 @@ cursor not-allowed {
 .city img {
   height: 128px;
 }
+body.widget .city {
+  width: 200px;
+}
+body.widget .city .remove {
+  display: none;
+}
+body.widget .city div {
+  padding: 0.1em;
+}
+body.widget .city .label-default {
+  display: none;
+}
+body.widget img {
+  height: 32px;
+}
+body.widget .temp,
+body.widget .humidity {
+  display: none;
+}
+body.widget .container {
+  max-width: 100% !important;
+}
 .chromeframe { margin: 0.2em 0; background: #ccc; color: #000; padding: 0.2em 0; }
 .ir { display: block; border: 0; text-indent: -999em; overflow: hidden; background-color: transparent; background-repeat: no-repeat; text-align: left; direction: ltr; *line-height: 0; }
 .ir br { display: none; }

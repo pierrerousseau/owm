@@ -1,8 +1,7 @@
-.row
+.row.panel.panel-warning
     .main.col-xs-2
         div
-            span.remove(title="remove") &times;
-            .name.label.label-default(title="#{model.country}") #{model.name}
+            .label.label-default Now
         div
             .label.label-info.temp(title="temperature") #{model.temp}°
             .label.label-info.humidity(title="humidity") #{model.humidity}%
@@ -10,6 +9,9 @@
             .weather(title="#{model.weather.description}")
                     img(alt="#{model.weather.main}",
                         src="icons/#{model.weather.icon}.png")
+        div
+            span.remove(title="remove") &times;
+            .name.label.label-warning(title="#{model.country}") #{model.name}
     if model.days
         each day in model.days
             .day.col-xs-2

@@ -1,6 +1,6 @@
 {
   "name": "piour-cozy-owm",
-  "version": "0.1.0",
+  "version": "0.4.0",
   "engines": [
     "node >= 0.8.0"
   ],
@@ -29,5 +29,6 @@
     "City": {
       "description": "Allow you to manage your weather forecast"
     }
-  }
+  },
+  "cozy-widget": "/apps/piour-owm/widget.html"
 }

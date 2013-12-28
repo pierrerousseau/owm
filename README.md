@@ -9,7 +9,8 @@ Weather application based on the OpenWeather Map API
 
 # Changelog
 
-* v0.3.1
+* v0.4
+  * add the widget view
   * bug fix : display newly added a city
 * v0.3
   * use of async

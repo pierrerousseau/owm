@@ -914,7 +914,7 @@ cursor not-allowed {
 body.widget {
   background-color: #f7f4f0;
 }
-body.widget .cities {
+body.widget #cities {
   margin-top: 10px;
   margin-bottom: 10px;
 }

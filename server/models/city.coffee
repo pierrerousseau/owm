@@ -1,23 +1,26 @@
-americano = require 'americano-cozy'
+http      = require "http"
+async     = require "async"
+americano = require "americano-cozy"
 
-module.exports = City = americano.getModel 'City',
-    'name': type: String
-    'created': type: Date, default: Date
-
-http  = require "http"
-async = require "async"
+module.exports = City = americano.getModel "City",
+    "name":
+        "type": String
+    "created":
+        "type": Date,
+        "default": Date
 
 
 httpGet = (url, deflt, callback) ->
     result = deflt
     req = http.get url, (res) ->
-        data   = ''
+        data   = ""
         chunks = []
         length = 0
 
         res.on "data", (chunk) ->
             chunks.push chunk
             length += chunk.length
+
         res.on "end", () ->
             data   = Buffer.concat chunks, length
             result = ""
@@ -38,8 +41,9 @@ City.fullCity = (city, mainCallback) ->
     forecastUrl = City.forecastUrl + city.name
 
     fullCity =
-        id: city.id
-        name: city.name
+        "id": city.id
+        "name": city.name
+
     async.series([
         ((callback) ->
             httpGet weatherUrl, null, (weather, err) =>

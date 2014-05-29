@@ -757,7 +757,7 @@ buf.push('</div>');
 buf.push('</div>');
 if ( model.days)
 {
-buf.push('<div class="row"><div class="day col-xs-2"></div>');
+buf.push('<div class="row days"><div class="day col-xs-2"></div>');
 // iterate model.days
 ;(function(){
   if ('number' == typeof model.days.length) {

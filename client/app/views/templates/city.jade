@@ -29,7 +29,7 @@
                                 img(alt="#{hour.weather.main}",
                                     src="icons/#{hour.weather.icon}.png")
     if model.days
-        .row
+        .row.days
             .day.col-xs-2
             each day in model.days
                 .day.col-xs-2

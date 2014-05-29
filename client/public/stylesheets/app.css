@@ -243,6 +243,9 @@ body.widget {
 body.widget .row {
   margin: 0;
 }
+body.widget .days {
+  display: none;
+}
 body.widget #cities {
   margin-top: 10px;
   margin-bottom: 10px;

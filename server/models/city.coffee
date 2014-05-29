@@ -32,30 +32,44 @@ httpGet = (url, deflt, callback) ->
         callback(deflt, "error")
 
 
-City.baseUrl     = "http://api.openweathermap.org/data/2.5/"
-City.weatherUrl  = City.baseUrl + "weather?q="
-City.forecastUrl = City.baseUrl + "forecast/daily?cnt=5&q="
+addCityKeys = (mainKey, values, city) ->
+    for key, value of values
+        city[mainKey][key] = value
+    city
+
+
+City.baseUrl        = "http://api.openweathermap.org/data/2.5/"
+City.weatherUrl     = City.baseUrl + "weather?q="
+City.forecastUrl    = City.baseUrl + "forecast/?q="
+City.dayForecastUrl = City.baseUrl + "forecast/daily?cnt=5&q="
 
 City.fullCity = (city, mainCallback) ->
-    weatherUrl  = City.weatherUrl + city.name
-    forecastUrl = City.forecastUrl + city.name
+    weatherUrl     = City.weatherUrl + city.name
+    forecastUrl    = City.forecastUrl + city.name
+    dayForecastUrl = City.dayForecastUrl + city.name
 
     fullCity =
         "id": city.id
         "name": city.name
+        "weather": {},
+        "hours": {},
+        "days": {}
 
     async.series([
         ((callback) ->
             httpGet weatherUrl, null, (weather, err) =>
                 if not err
-                    for key, value of weather
-                        fullCity[key] = value if key != "id"
+                    fullCity = addCityKeys "weather", weather, fullCity
                 callback()),
         ((callback) ->
             httpGet forecastUrl, null, (forecast, err) =>
                 if not err
-                    for key, value of forecast
-                        fullCity[key] = value if key != "id"
+                    fullCity = addCityKeys "hours", forecast, fullCity
+                callback()),
+        ((callback) ->
+            httpGet dayForecastUrl, null, (forecast, err) =>
+                if not err
+                    fullCity = addCityKeys "days", forecast, fullCity
                 callback(null, fullCity))
     ], (err, results) ->
         mainCallback(null, fullCity))

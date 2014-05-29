@@ -385,6 +385,8 @@ module.exports = City = (function(_super) {
   __extends(City, _super);
 
   function City() {
+    this.fmtCityDaysForecastInfos = __bind(this.fmtCityDaysForecastInfos, this);
+
     this.fmtCityForecastInfos = __bind(this.fmtCityForecastInfos, this);
 
     this.fmtCityWeatherInfos = __bind(this.fmtCityWeatherInfos, this);
@@ -395,7 +397,8 @@ module.exports = City = (function(_super) {
 
   City.prototype.initialize = function() {
     this.fmtCityWeatherInfos();
-    return this.fmtCityForecastInfos();
+    this.fmtCityForecastInfos();
+    return this.fmtCityDaysForecastInfos();
   };
 
   City.prototype.toRoundCelcius = function(value) {
@@ -403,30 +406,37 @@ module.exports = City = (function(_super) {
   };
 
   City.prototype.fmtCityWeatherInfos = function() {
-    var clouds, main, name, sys, toSet, weather;
+    var clouds, main, main_weather, name, sys, toSet, weather;
     toSet = {};
-    main = this.get("main");
-    if (main) {
-      toSet.temp = this.toRoundCelcius(main.temp);
-      toSet.humidity = main.humidity;
-    }
     weather = this.get("weather");
     if (weather) {
-      toSet.weather = weather[0];
-    }
-    clouds = this.get("clouds");
-    if (clouds) {
-      toSet.clouds = clouds.all;
-    }
-    sys = this.get("sys");
-    if (sys) {
-      toSet.country = sys.country;
-    }
-    name = this.get("name");
-    if (name) {
-      toSet.name = name;
+      main = weather.main;
+      if (main) {
+        toSet.temp = this.toRoundCelcius(main.temp);
+        toSet.humidity = main.humidity;
+      }
+      main_weather = weather.weather;
+      if (main_weather) {
+        toSet.weather = main_weather[0];
+      }
+      clouds = weather.clouds;
+      if (clouds) {
+        toSet.clouds = clouds.all;
+      }
+      sys = weather.sys;
+      if (sys) {
+        toSet.country = sys.country;
+      }
+      name = weather.name;
+      if (name) {
+        toSet.name = name;
+      }
     }
     return this.set(toSet);
+  };
+
+  City.prototype.toReadableHour = function(value) {
+    return value.split(" ")[1].slice(0, 5);
   };
 
   City.prototype.toReadableDate = function(value) {
@@ -437,19 +447,49 @@ module.exports = City = (function(_super) {
   };
 
   City.prototype.fmtCityForecastInfos = function() {
+    var forecast, hour, next5, nextHour, now, _i, _len;
+    next5 = [];
+    forecast = this.get("hours");
+    if (forecast) {
+      forecast = forecast.list;
+      now = new Date().getTime();
+      if (forecast) {
+        for (_i = 0, _len = forecast.length; _i < _len; _i++) {
+          hour = forecast[_i];
+          if (hour.dt * 1000 >= now) {
+            nextHour = {};
+            nextHour.hour = this.toReadableHour(hour.dt_txt);
+            nextHour.temp = this.toRoundCelcius(hour.main.temp);
+            nextHour.humidity = hour.main.humidity;
+            nextHour.weather = hour.weather[0];
+            next5.push(nextHour);
+          }
+          if (next5.length >= 5) {
+            break;
+          }
+        }
+      }
+    }
+    return this.set("hours", next5);
+  };
+
+  City.prototype.fmtCityDaysForecastInfos = function() {
     var day, forecast, next5, nextDay, _i, _len;
     next5 = [];
-    forecast = this.get("list");
+    forecast = this.get("days");
     if (forecast) {
-      for (_i = 0, _len = forecast.length; _i < _len; _i++) {
-        day = forecast[_i];
-        nextDay = {};
-        nextDay.date = this.toReadableDate(day.dt);
-        nextDay.day = this.toRoundCelcius(day.temp.day);
-        nextDay.night = this.toRoundCelcius(day.temp.night);
-        nextDay.humidity = day.humidity;
-        nextDay.weather = day.weather[0];
-        next5.push(nextDay);
+      forecast = forecast.list;
+      if (forecast) {
+        for (_i = 0, _len = forecast.length; _i < _len; _i++) {
+          day = forecast[_i];
+          nextDay = {};
+          nextDay.date = this.toReadableDate(day.dt);
+          nextDay.day = this.toRoundCelcius(day.temp.day);
+          nextDay.night = this.toRoundCelcius(day.temp.night);
+          nextDay.humidity = day.humidity;
+          nextDay.weather = day.weather[0];
+          next5.push(nextDay);
+        }
       }
     }
     return this.set("days", next5);
@@ -650,7 +690,7 @@ attrs = attrs || jade.attrs; escape = escape || jade.escape; rethrow = rethrow |
 var buf = [];
 with (locals || {}) {
 var interp;
-buf.push('<div class="row panel panel-warning"><div class="main col-xs-2"><div><div class="label label-default">Now</div></div><div><div title="temperature" class="label label-info temp">' + escape((interp = model.temp) == null ? '' : interp) + '°</div><div title="humidity" class="label label-info humidity">' + escape((interp = model.humidity) == null ? '' : interp) + '%</div></div>');
+buf.push('<div class="row panel panel-warning"><div class="row"><div class="main col-xs-2"><div><div class="label label-default">Now</div></div><div><div title="temperature" class="label label-info temp">' + escape((interp = model.temp) == null ? '' : interp) + '°</div><div title="humidity" class="label label-info humidity">' + escape((interp = model.humidity) == null ? '' : interp) + '%</div></div>');
 if ( model.weather)
 {
 buf.push('<div');
@@ -662,8 +702,62 @@ buf.push('/></div>');
 buf.push('<div><span title="remove" class="remove">&times;</span><div');
 buf.push(attrs({ 'title':("" + (model.country) + ""), "class": ('name') + ' ' + ('label') + ' ' + ('label-warning') }, {"title":true}));
 buf.push('>' + escape((interp = model.name) == null ? '' : interp) + '</div></div></div>');
+if ( model.hours)
+{
+// iterate model.hours
+;(function(){
+  if ('number' == typeof model.hours.length) {
+
+    for (var $index = 0, $$l = model.hours.length; $index < $$l; $index++) {
+      var hour = model.hours[$index];
+
+buf.push('<div class="hour col-xs-2"><div><div class="label label-default">' + escape((interp = hour.hour) == null ? '' : interp) + '</div></div><div><div class="label label-info temp"><span title="temperature">' + escape((interp = hour.temp) == null ? '' : interp) + '°</span></div>');
+if ( hour.humidity)
+{
+buf.push('<div title="humidity" class="label label-info humidity">' + escape((interp = hour.humidity) == null ? '' : interp) + '%</div>');
+}
+buf.push('</div>');
+if ( hour.weather)
+{
+buf.push('<div');
+buf.push(attrs({ 'title':("" + (hour.weather.description) + ""), "class": ('weather') }, {"title":true}));
+buf.push('><img');
+buf.push(attrs({ 'alt':("" + (hour.weather.main) + ""), 'src':("icons/" + (hour.weather.icon) + ".png") }, {"alt":true,"src":true}));
+buf.push('/></div>');
+}
+buf.push('</div>');
+    }
+
+  } else {
+    var $$l = 0;
+    for (var $index in model.hours) {
+      $$l++;      var hour = model.hours[$index];
+
+buf.push('<div class="hour col-xs-2"><div><div class="label label-default">' + escape((interp = hour.hour) == null ? '' : interp) + '</div></div><div><div class="label label-info temp"><span title="temperature">' + escape((interp = hour.temp) == null ? '' : interp) + '°</span></div>');
+if ( hour.humidity)
+{
+buf.push('<div title="humidity" class="label label-info humidity">' + escape((interp = hour.humidity) == null ? '' : interp) + '%</div>');
+}
+buf.push('</div>');
+if ( hour.weather)
+{
+buf.push('<div');
+buf.push(attrs({ 'title':("" + (hour.weather.description) + ""), "class": ('weather') }, {"title":true}));
+buf.push('><img');
+buf.push(attrs({ 'alt':("" + (hour.weather.main) + ""), 'src':("icons/" + (hour.weather.icon) + ".png") }, {"alt":true,"src":true}));
+buf.push('/></div>');
+}
+buf.push('</div>');
+    }
+
+  }
+}).call(this);
+
+}
+buf.push('</div>');
 if ( model.days)
 {
+buf.push('<div class="row"><div class="day col-xs-2"></div>');
 // iterate model.days
 ;(function(){
   if ('number' == typeof model.days.length) {
@@ -713,6 +807,7 @@ buf.push('</div>');
   }
 }).call(this);
 
+buf.push('</div>');
 }
 buf.push('</div>');
 }

@@ -5,10 +5,11 @@ Weather application based on the OpenWeather Map API
 # To do ...
 
 * display current weather and 14 days forcast for a stored city
-* display hour by hour weather for the current day
 
 # Changelog
 
+* v0.5
+  * display hour by hour weather for the current day (every 3 hours)
 * v0.4
   * add the widget view
   * bug fix : display newly added a city

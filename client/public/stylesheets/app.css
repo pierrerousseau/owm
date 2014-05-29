@@ -237,7 +237,11 @@ cursor not-allowed {
 }
 
 body.widget {
+  padding: 0;
   background-color: #f7f4f0;
+}
+body.widget .row {
+  margin: 0;
 }
 body.widget #cities {
   margin-top: 10px;

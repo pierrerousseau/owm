@@ -821,7 +821,7 @@ attrs = attrs || jade.attrs; escape = escape || jade.escape; rethrow = rethrow |
 var buf = [];
 with (locals || {}) {
 var interp;
-buf.push('<div id="content" class="container"><h2>Weather forecast for Cozy</h2><div class="row"><form id="search" role="form" class="col-xs-6 well"><input name="city" id="city-name" placeholder="Type the name of a city and press enter" title="Type the name of a city and press enter" type="text" class="form-control city"/></form></div><div class="alerts"></div><ul id="cities" class="list-unstyled"></ul></div><div id="footer" class="container"><small class="well well-small pull-right"><p><a href="http://openweathermap.org/">weather data from OpenWeatherMap</a></p><p><a href="http://d3stroy.deviantart.com/art/SILq-Weather-Icons-356609017">icons from ~d3stroy</a></p></small></div>');
+buf.push('<div id="content" class="container"><h2>Weather forecast for Cozy</h2><div class="row"><form id="search" role="form" class="col-xs-8 well"><input name="city" id="city-name" placeholder="Type the name of a city and press enter (or name,country code to ensure country. For ex. paris,fr)" title="Type the name of a city and press enter (or name,country code to ensure country. For ex. paris,fr)" type="text" class="form-control city"/></form></div><div class="alerts"></div><ul id="cities" class="list-unstyled"></ul></div><div id="footer" class="container"><small class="well well-small pull-right"><p><a href="http://openweathermap.org/">weather data from OpenWeatherMap</a></p><p><a href="http://d3stroy.deviantart.com/art/SILq-Weather-Icons-356609017">icons from ~d3stroy</a></p></small></div>');
 }
 return buf.join("");
 };

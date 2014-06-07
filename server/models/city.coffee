@@ -40,13 +40,13 @@ addCityKeys = (mainKey, values, city) ->
 
 City.baseUrl        = "http://api.openweathermap.org/data/2.5/"
 City.weatherUrl     = City.baseUrl + "weather?q="
-City.forecastUrl    = City.baseUrl + "forecast/?q="
-City.dayForecastUrl = City.baseUrl + "forecast/daily?cnt=5&q="
+City.forecastUrl    = City.baseUrl + "forecast/?id="
+City.dayForecastUrl = City.baseUrl + "forecast/daily?cnt=5&id="
 
 City.fullCity = (city, mainCallback) ->
     weatherUrl     = City.weatherUrl + city.name
-    forecastUrl    = City.forecastUrl + city.name
-    dayForecastUrl = City.dayForecastUrl + city.name
+    forecastUrl    = City.forecastUrl
+    dayForecastUrl = City.dayForecastUrl
 
     fullCity =
         "id": city.id
@@ -60,6 +60,8 @@ City.fullCity = (city, mainCallback) ->
             httpGet weatherUrl, null, (weather, err) =>
                 if not err
                     fullCity = addCityKeys "weather", weather, fullCity
+                    forecastUrl    += weather.id
+                    dayForecastUrl += weather.id
                 callback()),
         ((callback) ->
             httpGet forecastUrl, null, (forecast, err) =>

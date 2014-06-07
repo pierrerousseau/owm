@@ -56,15 +56,15 @@ City.baseUrl = "http://api.openweathermap.org/data/2.5/";
 
 City.weatherUrl = City.baseUrl + "weather?q=";
 
-City.forecastUrl = City.baseUrl + "forecast/?q=";
+City.forecastUrl = City.baseUrl + "forecast/?id=";
 
-City.dayForecastUrl = City.baseUrl + "forecast/daily?cnt=5&q=";
+City.dayForecastUrl = City.baseUrl + "forecast/daily?cnt=5&id=";
 
 City.fullCity = function(city, mainCallback) {
   var dayForecastUrl, forecastUrl, fullCity, weatherUrl;
   weatherUrl = City.weatherUrl + city.name;
-  forecastUrl = City.forecastUrl + city.name;
-  dayForecastUrl = City.dayForecastUrl + city.name;
+  forecastUrl = City.forecastUrl;
+  dayForecastUrl = City.dayForecastUrl;
   fullCity = {
     "id": city.id,
     "name": city.name,
@@ -78,6 +78,8 @@ City.fullCity = function(city, mainCallback) {
         return function(weather, err) {
           if (!err) {
             fullCity = addCityKeys("weather", weather, fullCity);
+            forecastUrl += weather.id;
+            dayForecastUrl += weather.id;
           }
           return callback();
         };

@@ -8,6 +8,8 @@ Weather application based on the OpenWeather Map API
 
 # Changelog
 
+* v0.5.1
+  * add a reset button
 * v0.5
   * display hour by hour weather for the current day (every 3 hours)
 * v0.4

@@ -6,7 +6,4 @@ module.exports = class CityCollection extends Backbone.Collection
     url: 'cities'
 
     constructor: (@view) ->
-        super()
-
-        @bind "add", @view.renderOne
-        @bind "reset", @view.renderAll
+        super

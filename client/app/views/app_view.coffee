@@ -1,7 +1,8 @@
-View       = require "../lib/view"
-AppRouter  = require "../routers/app_router"
-CitiesView = require "./cities_view"
-City       = require "../models/city"
+View           = require "../lib/base_view"
+AppRouter      = require "../routers/app_router"
+CitiesView     = require "./cities_view"
+City           = require "../models/city"
+CityCollection = require '../collections/city_collection'
 
 module.exports = class AppView extends View
     el: "body.application"
@@ -13,13 +14,17 @@ module.exports = class AppView extends View
         @router = PiourCozyOWM.Routers.AppRouter = new AppRouter()
 
     afterRender: ->
-        @citiesView = new CitiesView()
+        @citiesView = new CitiesView(collection: new CityCollection)
+        @setLoading()
         @citiesView.collection.fetch
+            success: =>
+                @unSetLoading()
             error: =>
                 alertUser "impossible to retrieve weather informations"
 
     events:
         "submit #search": "cityFind"
+        "submit #refresh": "refresh"
 
     cityFind: (evt) ->
         city    = @$el.find "input.city"
@@ -31,3 +36,22 @@ module.exports = class AppView extends View
                           city.val()
 
         false
+
+    refresh: (evt) ->
+        @setLoading()
+        @citiesView.collection.fetch
+            reset: true
+            success: =>
+                @unSetLoading()
+            error: =>
+                alertUser "impossible to retrieve weather informations"
+
+
+        false
+    
+    setLoading: ->
+        @.$el.find("button").toggleClass "btn-default"
+        @.$el.find("button").toggleClass "btn-warning"
+    unSetLoading: ->
+        @.$el.find("button").toggleClass "btn-default"
+        @.$el.find("button").toggleClass "btn-warning"

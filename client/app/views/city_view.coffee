@@ -1,4 +1,4 @@
-View = require "../lib/view"
+View = require "../lib/base_view"
 
 module.exports = class CityView extends View
     className: "city"
@@ -6,18 +6,6 @@ module.exports = class CityView extends View
 
     events:
         "click .remove": "deleteCity"
-
-    constructor: (@model) ->
-        super()
-
-    initialize: ->
-        @model.on "change", ((t, evt) ->
-            if @model.attributes.weather?.icon
-                @render.call @
-            else if @model.attributes.weather?
-                @model.initialize()
-            else if @model.attributes.message
-                alertUser @model.attributes.message), @
 
     template: ->
         template = require "./templates/city"

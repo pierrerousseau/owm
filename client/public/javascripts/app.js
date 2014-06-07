@@ -107,9 +107,7 @@ module.exports = CityCollection = (function(_super) {
 
   function CityCollection(view) {
     this.view = view;
-    CityCollection.__super__.constructor.call(this);
-    this.bind("add", this.view.renderOne);
-    this.bind("reset", this.view.renderAll);
+    CityCollection.__super__.constructor.apply(this, arguments);
   }
 
   return CityCollection;
@@ -179,198 +177,162 @@ $(function() {
 
 });
 
-;require.register("lib/view", function(exports, require, module) {
-var View,
+;require.register("lib/base_view", function(exports, require, module) {
+var BaseView,
   __hasProp = {}.hasOwnProperty,
   __extends = function(child, parent) { for (var key in parent) { if (__hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; };
 
-module.exports = View = (function(_super) {
+module.exports = BaseView = (function(_super) {
 
-  __extends(View, _super);
+  __extends(BaseView, _super);
 
-  function View() {
-    return View.__super__.constructor.apply(this, arguments);
+  function BaseView() {
+    return BaseView.__super__.constructor.apply(this, arguments);
   }
 
-  View.prototype.tagName = 'section';
+  BaseView.prototype.template = function() {};
 
-  View.prototype.template = function() {};
+  BaseView.prototype.initialize = function() {};
 
-  View.prototype.initialize = function() {
-    return this.render();
-  };
-
-  View.prototype.getRenderData = function() {
+  BaseView.prototype.getRenderData = function() {
     var _ref;
     return {
       model: (_ref = this.model) != null ? _ref.toJSON() : void 0
     };
   };
 
-  View.prototype.render = function() {
+  BaseView.prototype.render = function() {
     this.beforeRender();
-    this.$el.html(this.template());
+    this.$el.html(this.template(this.getRenderData()));
     this.afterRender();
     return this;
   };
 
-  View.prototype.beforeRender = function() {};
+  BaseView.prototype.beforeRender = function() {};
 
-  View.prototype.afterRender = function() {};
+  BaseView.prototype.afterRender = function() {};
 
-  View.prototype.destroy = function() {
+  BaseView.prototype.destroy = function() {
     this.undelegateEvents();
     this.$el.removeData().unbind();
     this.remove();
     return Backbone.View.prototype.remove.call(this);
   };
 
-  return View;
+  return BaseView;
 
 })(Backbone.View);
 
 });
 
 ;require.register("lib/view_collection", function(exports, require, module) {
-var View, ViewCollection, methods,
+var BaseView, ViewCollection,
   __bind = function(fn, me){ return function(){ return fn.apply(me, arguments); }; },
   __hasProp = {}.hasOwnProperty,
   __extends = function(child, parent) { for (var key in parent) { if (__hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; };
 
-View = require('./view');
+BaseView = require('lib/base_view');
 
-ViewCollection = (function(_super) {
+module.exports = ViewCollection = (function(_super) {
 
   __extends(ViewCollection, _super);
 
   function ViewCollection() {
-    this.renderAll = __bind(this.renderAll, this);
+    this.removeItem = __bind(this.removeItem, this);
 
-    this.renderOne = __bind(this.renderOne, this);
+    this.addItem = __bind(this.addItem, this);
     return ViewCollection.__super__.constructor.apply(this, arguments);
   }
 
-  ViewCollection.prototype.collection = new Backbone.Collection();
+  ViewCollection.prototype.itemview = null;
 
-  ViewCollection.prototype.view = new View();
+  ViewCollection.prototype.views = {};
 
-  ViewCollection.prototype.views = [];
-
-  ViewCollection.prototype.length = function() {
-    return this.views.length;
+  ViewCollection.prototype.template = function() {
+    return '';
   };
 
-  ViewCollection.prototype.add = function(views, options) {
-    var view, _i, _len;
-    if (options == null) {
-      options = {};
-    }
-    views = _.isArray(views) ? views.slice() : [views];
-    for (_i = 0, _len = views.length; _i < _len; _i++) {
-      view = views[_i];
-      if (!this.get(view.cid)) {
-        this.views.push(view);
-        if (!options.silent) {
-          this.trigger('add', view, this);
-        }
-      }
-    }
-    return this;
+  ViewCollection.prototype.itemViewOptions = function() {};
+
+  ViewCollection.prototype.collectionEl = null;
+
+  ViewCollection.prototype.onChange = function() {
+    return this.$el.toggleClass('empty', _.size(this.views) === 0);
   };
 
-  ViewCollection.prototype.get = function(cid) {
-    return this.find(function(view) {
-      return view.cid === cid;
-    }) || null;
+  ViewCollection.prototype.appendView = function(view) {
+    return this.$collectionEl.prepend(view.el);
   };
 
-  ViewCollection.prototype.remove = function(views, options) {
-    var view, _i, _len;
-    if (options == null) {
-      options = {};
+  ViewCollection.prototype.initialize = function() {
+    ViewCollection.__super__.initialize.apply(this, arguments);
+    this.views = {};
+    this.listenTo(this.collection, "reset", this.onReset);
+    this.listenTo(this.collection, "add", this.addItem);
+    this.listenTo(this.collection, "remove", this.removeItem);
+    if (!(this.collectionEl != null)) {
+      this.collectionEl = this.el;
+      return this.$collectionEl = $(this.collectionEl);
     }
-    views = _.isArray(views) ? views.slice() : [views];
-    for (_i = 0, _len = views.length; _i < _len; _i++) {
-      view = views[_i];
-      this.destroy(view);
-      if (!options.silent) {
-        this.trigger('remove', view, this);
-      }
-    }
-    return this;
   };
 
-  ViewCollection.prototype.destroy = function(view, options) {
-    var _views;
-    if (view == null) {
-      view = this;
-    }
-    if (options == null) {
-      options = {};
-    }
-    _views = this.filter(_view)(function() {
-      return view.cid !== _view.cid;
-    });
-    this.views = _views;
-    view.undelegateEvents();
-    view.$el.removeData().unbind();
-    view.remove();
-    Backbone.View.prototype.remove.call(view);
-    if (!options.silent) {
-      this.trigger('remove', view, this);
-    }
-    return this;
-  };
-
-  ViewCollection.prototype.reset = function(views, options) {
-    var view, _i, _j, _len, _len1, _ref;
-    if (options == null) {
-      options = {};
-    }
-    views = _.isArray(views) ? views.slice() : [views];
+  ViewCollection.prototype.render = function() {
+    var id, view, _ref;
     _ref = this.views;
-    for (_i = 0, _len = _ref.length; _i < _len; _i++) {
-      view = _ref[_i];
-      this.destroy(view, options);
+    for (id in _ref) {
+      view = _ref[id];
+      view.$el.detach();
     }
-    if (views.length !== 0) {
-      for (_j = 0, _len1 = views.length; _j < _len1; _j++) {
-        view = views[_j];
-        this.add(view, options);
-      }
-      if (!options.silent) {
-        this.trigger('reset', view, this);
-      }
-    }
-    return this;
+    return ViewCollection.__super__.render.apply(this, arguments);
   };
 
-  ViewCollection.prototype.renderOne = function(model) {
-    var view;
-    view = new this.view(model);
-    this.$el.prepend(view.render().el);
-    this.add(view);
-    return this;
+  ViewCollection.prototype.afterRender = function() {
+    var id, view, _ref;
+    this.$collectionEl = $(this.collectionEl);
+    _ref = this.views;
+    for (id in _ref) {
+      view = _ref[id];
+      this.appendView(view.$el);
+    }
+    this.onReset(this.collection);
+    return this.onChange(this.views);
   };
 
-  ViewCollection.prototype.renderAll = function() {
-    this.collection.each(this.renderOne);
-    return this;
+  ViewCollection.prototype.remove = function() {
+    this.onReset([]);
+    return ViewCollection.__super__.remove.apply(this, arguments);
+  };
+
+  ViewCollection.prototype.onReset = function(newcollection) {
+    var id, view, _ref;
+    _ref = this.views;
+    for (id in _ref) {
+      view = _ref[id];
+      view.remove();
+    }
+    return newcollection.forEach(this.addItem);
+  };
+
+  ViewCollection.prototype.addItem = function(model) {
+    var options, view;
+    options = _.extend({}, {
+      model: model
+    }, this.itemViewOptions(model));
+    view = new this.itemview(options);
+    this.views[model.cid] = view.render();
+    this.appendView(view);
+    return this.onChange(this.views);
+  };
+
+  ViewCollection.prototype.removeItem = function(model) {
+    this.views[model.cid].remove();
+    delete this.views[model.cid];
+    return this.onChange(this.views);
   };
 
   return ViewCollection;
 
-})(View);
-
-methods = ['forEach', 'each', 'map', 'reduce', 'reduceRight', 'find', 'detect', 'filter', 'select', 'reject', 'every', 'all', 'some', 'any', 'include', 'contains', 'invoke', 'max', 'min', 'sortBy', 'sortedIndex', 'toArray', 'size', 'first', 'initial', 'rest', 'last', 'without', 'indexOf', 'shuffle', 'lastIndexOf', 'isEmpty', 'groupBy'];
-
-_.each(methods, function(method) {
-  return ViewCollection.prototype[method] = function() {
-    return _[method].apply(_, [this.views].concat(_.toArray(arguments)));
-  };
-});
-
-module.exports = ViewCollection;
+})(BaseView);
 
 });
 
@@ -525,17 +487,19 @@ module.exports = AppRouter = (function(_super) {
 });
 
 ;require.register("views/app_view", function(exports, require, module) {
-var AppRouter, AppView, CitiesView, City, View,
+var AppRouter, AppView, CitiesView, City, CityCollection, View,
   __hasProp = {}.hasOwnProperty,
   __extends = function(child, parent) { for (var key in parent) { if (__hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; };
 
-View = require("../lib/view");
+View = require("../lib/base_view");
 
 AppRouter = require("../routers/app_router");
 
 CitiesView = require("./cities_view");
 
 City = require("../models/city");
+
+CityCollection = require('../collections/city_collection');
 
 module.exports = AppView = (function(_super) {
 
@@ -557,8 +521,14 @@ module.exports = AppView = (function(_super) {
 
   AppView.prototype.afterRender = function() {
     var _this = this;
-    this.citiesView = new CitiesView();
+    this.citiesView = new CitiesView({
+      collection: new CityCollection
+    });
+    this.setLoading();
     return this.citiesView.collection.fetch({
+      success: function() {
+        return _this.unSetLoading();
+      },
       error: function() {
         return alertUser("impossible to retrieve weather informations");
       }
@@ -566,7 +536,8 @@ module.exports = AppView = (function(_super) {
   };
 
   AppView.prototype.events = {
-    "submit #search": "cityFind"
+    "submit #search": "cityFind",
+    "submit #refresh": "refresh"
   };
 
   AppView.prototype.cityFind = function(evt) {
@@ -584,6 +555,31 @@ module.exports = AppView = (function(_super) {
     return false;
   };
 
+  AppView.prototype.refresh = function(evt) {
+    var _this = this;
+    this.setLoading();
+    this.citiesView.collection.fetch({
+      reset: true,
+      success: function() {
+        return _this.unSetLoading();
+      },
+      error: function() {
+        return alertUser("impossible to retrieve weather informations");
+      }
+    });
+    return false;
+  };
+
+  AppView.prototype.setLoading = function() {
+    this.$el.find("button").toggleClass("btn-default");
+    return this.$el.find("button").toggleClass("btn-warning");
+  };
+
+  AppView.prototype.unSetLoading = function() {
+    this.$el.find("button").toggleClass("btn-default");
+    return this.$el.find("button").toggleClass("btn-warning");
+  };
+
   return AppView;
 
 })(View);
@@ -591,15 +587,13 @@ module.exports = AppView = (function(_super) {
 });
 
 ;require.register("views/cities_view", function(exports, require, module) {
-var CitiesView, CityCollection, CityView, ViewCollection,
+var CitiesView, CityView, ViewCollection,
   __hasProp = {}.hasOwnProperty,
   __extends = function(child, parent) { for (var key in parent) { if (__hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; };
 
 ViewCollection = require('../lib/view_collection');
 
 CityView = require('./city_view');
-
-CityCollection = require('../collections/city_collection');
 
 module.exports = CitiesView = (function(_super) {
 
@@ -611,11 +605,7 @@ module.exports = CitiesView = (function(_super) {
 
   CitiesView.prototype.el = "#cities";
 
-  CitiesView.prototype.view = CityView;
-
-  CitiesView.prototype.initialize = function() {
-    return this.collection = new CityCollection(this);
-  };
+  CitiesView.prototype.itemview = CityView;
 
   return CitiesView;
 
@@ -628,11 +618,15 @@ var CityView, View,
   __hasProp = {}.hasOwnProperty,
   __extends = function(child, parent) { for (var key in parent) { if (__hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; };
 
-View = require("../lib/view");
+View = require("../lib/base_view");
 
 module.exports = CityView = (function(_super) {
 
   __extends(CityView, _super);
+
+  function CityView() {
+    return CityView.__super__.constructor.apply(this, arguments);
+  }
 
   CityView.prototype.className = "city";
 
@@ -640,24 +634,6 @@ module.exports = CityView = (function(_super) {
 
   CityView.prototype.events = {
     "click .remove": "deleteCity"
-  };
-
-  function CityView(model) {
-    this.model = model;
-    CityView.__super__.constructor.call(this);
-  }
-
-  CityView.prototype.initialize = function() {
-    return this.model.on("change", (function(t, evt) {
-      var _ref;
-      if ((_ref = this.model.attributes.weather) != null ? _ref.icon : void 0) {
-        return this.render.call(this);
-      } else if (this.model.attributes.weather != null) {
-        return this.model.initialize();
-      } else if (this.model.attributes.message) {
-        return alertUser(this.model.attributes.message);
-      }
-    }), this);
   };
 
   CityView.prototype.template = function() {
@@ -821,7 +797,7 @@ attrs = attrs || jade.attrs; escape = escape || jade.escape; rethrow = rethrow |
 var buf = [];
 with (locals || {}) {
 var interp;
-buf.push('<div id="content" class="container"><h2>Weather forecast for Cozy</h2><div class="row"><form id="search" role="form" class="col-xs-8 well"><input name="city" id="city-name" placeholder="Type the name of a city and press enter (or name,country code to ensure country. For ex. paris,fr)" title="Type the name of a city and press enter (or name,country code to ensure country. For ex. paris,fr)" type="text" class="form-control city"/></form></div><div class="alerts"></div><ul id="cities" class="list-unstyled"></ul></div><div id="footer" class="container"><small class="well well-small pull-right"><p><a href="http://openweathermap.org/">weather data from OpenWeatherMap</a></p><p><a href="http://d3stroy.deviantart.com/art/SILq-Weather-Icons-356609017">icons from ~d3stroy</a></p></small></div>');
+buf.push('<div id="content" class="container"><h2>Weather forecast for Cozy</h2><div class="row"><form id="search" role="form" class="col-xs-8 well"><input name="city" id="city-name" placeholder="Type the name of a city and press enter (or name,country code to ensure country. For ex. paris,fr)" title="Type the name of a city and press enter (or name,country code to ensure country. For ex. paris,fr)" type="text" class="form-control city"/></form><form id="refresh" class="col-xs-1"><button title="refresh" class="btn btn-default glyphicon glyphicon-refresh"></button></form></div><div class="alerts"></div><ul id="cities" class="list-unstyled"></ul></div><div id="footer" class="container"><small class="well well-small pull-right"><p><a href="http://openweathermap.org/">weather data from OpenWeatherMap</a></p><p><a href="http://d3stroy.deviantart.com/art/SILq-Weather-Icons-356609017">icons from ~d3stroy</a></p></small></div>');
 }
 return buf.join("");
 };

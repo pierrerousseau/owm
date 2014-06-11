@@ -530,6 +530,7 @@ module.exports = AppView = (function(_super) {
         return _this.unSetLoading();
       },
       error: function() {
+        _this.unSetLoading();
         return alertUser("impossible to retrieve weather informations");
       }
     });
@@ -564,6 +565,7 @@ module.exports = AppView = (function(_super) {
         return _this.unSetLoading();
       },
       error: function() {
+        _this.unSetLoading();
         return alertUser("impossible to retrieve weather informations");
       }
     });
@@ -816,17 +818,19 @@ return buf.join("");
 });
 
 ;require.register("views/widget_view", function(exports, require, module) {
-var AppRouter, AppView, CitiesView, City, View,
+var AppRouter, AppView, CitiesView, City, CityCollection, View,
   __hasProp = {}.hasOwnProperty,
   __extends = function(child, parent) { for (var key in parent) { if (__hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; };
 
-View = require("../lib/view");
+View = require("../lib/base_view");
 
 AppRouter = require("../routers/app_router");
 
 CitiesView = require("./cities_view");
 
 City = require("../models/city");
+
+CityCollection = require("../collections/city_collection");
 
 module.exports = AppView = (function(_super) {
 
@@ -848,7 +852,9 @@ module.exports = AppView = (function(_super) {
 
   AppView.prototype.afterRender = function() {
     var _this = this;
-    this.citiesView = new CitiesView();
+    this.citiesView = new CitiesView({
+      collection: new CityCollection
+    });
     return this.citiesView.collection.fetch({
       error: function() {
         return alertUser("impossible to retrieve weather informations");

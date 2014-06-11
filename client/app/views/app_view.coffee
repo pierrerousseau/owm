@@ -20,6 +20,7 @@ module.exports = class AppView extends View
             success: =>
                 @unSetLoading()
             error: =>
+                @unSetLoading()
                 alertUser "impossible to retrieve weather informations"
 
     events:
@@ -44,6 +45,7 @@ module.exports = class AppView extends View
             success: =>
                 @unSetLoading()
             error: =>
+                @unSetLoading()
                 alertUser "impossible to retrieve weather informations"
 
 

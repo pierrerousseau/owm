@@ -92,14 +92,13 @@
 })();
 require.register("collections/city_collection", function(exports, require, module) {
 var City, CityCollection,
-  __hasProp = {}.hasOwnProperty,
-  __extends = function(child, parent) { for (var key in parent) { if (__hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; };
+  extend = function(child, parent) { for (var key in parent) { if (hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; },
+  hasProp = {}.hasOwnProperty;
 
 City = require('../models/city');
 
-module.exports = CityCollection = (function(_super) {
-
-  __extends(CityCollection, _super);
+module.exports = CityCollection = (function(superClass) {
+  extend(CityCollection, superClass);
 
   CityCollection.prototype.model = City;
 
@@ -117,25 +116,23 @@ module.exports = CityCollection = (function(_super) {
 });
 
 ;require.register("initialize", function(exports, require, module) {
-var _ref, _ref1, _ref2, _ref3, _ref4;
-
-if ((_ref = this.PiourCozyOWM) == null) {
+if (this.PiourCozyOWM == null) {
   this.PiourCozyOWM = {};
 }
 
-if ((_ref1 = PiourCozyOWM.Routers) == null) {
+if (PiourCozyOWM.Routers == null) {
   PiourCozyOWM.Routers = {};
 }
 
-if ((_ref2 = PiourCozyOWM.Views) == null) {
+if (PiourCozyOWM.Views == null) {
   PiourCozyOWM.Views = {};
 }
 
-if ((_ref3 = PiourCozyOWM.Models) == null) {
+if (PiourCozyOWM.Models == null) {
   PiourCozyOWM.Models = {};
 }
 
-if ((_ref4 = PiourCozyOWM.Collections) == null) {
+if (PiourCozyOWM.Collections == null) {
   PiourCozyOWM.Collections = {};
 }
 
@@ -157,21 +154,18 @@ $(function() {
 });
 
 ;require.register("lib/app_helpers", function(exports, require, module) {
-
 (function() {
   return (function() {
-    var console, dummy, method, methods, _results;
+    var console, dummy, method, methods, results;
     console = window.console = window.console || {};
     method = void 0;
     dummy = function() {};
-    methods = 'assert,count,debug,dir,dirxml,error,exception,\
-                   group,groupCollapsed,groupEnd,info,log,markTimeline,\
-                   profile,profileEnd,time,timeEnd,trace,warn'.split(',');
-    _results = [];
+    methods = 'assert,count,debug,dir,dirxml,error,exception, group,groupCollapsed,groupEnd,info,log,markTimeline, profile,profileEnd,time,timeEnd,trace,warn'.split(',');
+    results = [];
     while (method = methods.pop()) {
-      _results.push(console[method] = console[method] || dummy);
+      results.push(console[method] = console[method] || dummy);
     }
-    return _results;
+    return results;
   })();
 })();
 
@@ -179,12 +173,11 @@ $(function() {
 
 ;require.register("lib/base_view", function(exports, require, module) {
 var BaseView,
-  __hasProp = {}.hasOwnProperty,
-  __extends = function(child, parent) { for (var key in parent) { if (__hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; };
+  extend = function(child, parent) { for (var key in parent) { if (hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; },
+  hasProp = {}.hasOwnProperty;
 
-module.exports = BaseView = (function(_super) {
-
-  __extends(BaseView, _super);
+module.exports = BaseView = (function(superClass) {
+  extend(BaseView, superClass);
 
   function BaseView() {
     return BaseView.__super__.constructor.apply(this, arguments);
@@ -195,9 +188,9 @@ module.exports = BaseView = (function(_super) {
   BaseView.prototype.initialize = function() {};
 
   BaseView.prototype.getRenderData = function() {
-    var _ref;
+    var ref;
     return {
-      model: (_ref = this.model) != null ? _ref.toJSON() : void 0
+      model: (ref = this.model) != null ? ref.toJSON() : void 0
     };
   };
 
@@ -227,20 +220,18 @@ module.exports = BaseView = (function(_super) {
 
 ;require.register("lib/view_collection", function(exports, require, module) {
 var BaseView, ViewCollection,
-  __bind = function(fn, me){ return function(){ return fn.apply(me, arguments); }; },
-  __hasProp = {}.hasOwnProperty,
-  __extends = function(child, parent) { for (var key in parent) { if (__hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; };
+  bind = function(fn, me){ return function(){ return fn.apply(me, arguments); }; },
+  extend = function(child, parent) { for (var key in parent) { if (hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; },
+  hasProp = {}.hasOwnProperty;
 
 BaseView = require('lib/base_view');
 
-module.exports = ViewCollection = (function(_super) {
-
-  __extends(ViewCollection, _super);
+module.exports = ViewCollection = (function(superClass) {
+  extend(ViewCollection, superClass);
 
   function ViewCollection() {
-    this.removeItem = __bind(this.removeItem, this);
-
-    this.addItem = __bind(this.addItem, this);
+    this.removeItem = bind(this.removeItem, this);
+    this.addItem = bind(this.addItem, this);
     return ViewCollection.__super__.constructor.apply(this, arguments);
   }
 
@@ -270,28 +261,28 @@ module.exports = ViewCollection = (function(_super) {
     this.listenTo(this.collection, "reset", this.onReset);
     this.listenTo(this.collection, "add", this.addItem);
     this.listenTo(this.collection, "remove", this.removeItem);
-    if (!(this.collectionEl != null)) {
+    if (this.collectionEl == null) {
       this.collectionEl = this.el;
       return this.$collectionEl = $(this.collectionEl);
     }
   };
 
   ViewCollection.prototype.render = function() {
-    var id, view, _ref;
-    _ref = this.views;
-    for (id in _ref) {
-      view = _ref[id];
+    var id, ref, view;
+    ref = this.views;
+    for (id in ref) {
+      view = ref[id];
       view.$el.detach();
     }
     return ViewCollection.__super__.render.apply(this, arguments);
   };
 
   ViewCollection.prototype.afterRender = function() {
-    var id, view, _ref;
+    var id, ref, view;
     this.$collectionEl = $(this.collectionEl);
-    _ref = this.views;
-    for (id in _ref) {
-      view = _ref[id];
+    ref = this.views;
+    for (id in ref) {
+      view = ref[id];
       this.appendView(view.$el);
     }
     this.onReset(this.collection);
@@ -304,10 +295,10 @@ module.exports = ViewCollection = (function(_super) {
   };
 
   ViewCollection.prototype.onReset = function(newcollection) {
-    var id, view, _ref;
-    _ref = this.views;
-    for (id in _ref) {
-      view = _ref[id];
+    var id, ref, view;
+    ref = this.views;
+    for (id in ref) {
+      view = ref[id];
       view.remove();
     }
     return newcollection.forEach(this.addItem);
@@ -338,20 +329,17 @@ module.exports = ViewCollection = (function(_super) {
 
 ;require.register("models/city", function(exports, require, module) {
 var City,
-  __bind = function(fn, me){ return function(){ return fn.apply(me, arguments); }; },
-  __hasProp = {}.hasOwnProperty,
-  __extends = function(child, parent) { for (var key in parent) { if (__hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; };
+  bind = function(fn, me){ return function(){ return fn.apply(me, arguments); }; },
+  extend = function(child, parent) { for (var key in parent) { if (hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; },
+  hasProp = {}.hasOwnProperty;
 
-module.exports = City = (function(_super) {
-
-  __extends(City, _super);
+module.exports = City = (function(superClass) {
+  extend(City, superClass);
 
   function City() {
-    this.fmtCityDaysForecastInfos = __bind(this.fmtCityDaysForecastInfos, this);
-
-    this.fmtCityForecastInfos = __bind(this.fmtCityForecastInfos, this);
-
-    this.fmtCityWeatherInfos = __bind(this.fmtCityWeatherInfos, this);
+    this.fmtCityDaysForecastInfos = bind(this.fmtCityDaysForecastInfos, this);
+    this.fmtCityForecastInfos = bind(this.fmtCityForecastInfos, this);
+    this.fmtCityWeatherInfos = bind(this.fmtCityWeatherInfos, this);
     return City.__super__.constructor.apply(this, arguments);
   }
 
@@ -409,15 +397,15 @@ module.exports = City = (function(_super) {
   };
 
   City.prototype.fmtCityForecastInfos = function() {
-    var forecast, hour, next5, nextHour, now, _i, _len;
+    var forecast, hour, i, len, next5, nextHour, now;
     next5 = [];
     forecast = this.get("hours");
     if (forecast) {
       forecast = forecast.list;
       now = new Date().getTime();
       if (forecast) {
-        for (_i = 0, _len = forecast.length; _i < _len; _i++) {
-          hour = forecast[_i];
+        for (i = 0, len = forecast.length; i < len; i++) {
+          hour = forecast[i];
           if (hour.dt * 1000 >= now) {
             nextHour = {};
             nextHour.hour = this.toReadableHour(hour.dt_txt);
@@ -436,14 +424,14 @@ module.exports = City = (function(_super) {
   };
 
   City.prototype.fmtCityDaysForecastInfos = function() {
-    var day, forecast, next5, nextDay, _i, _len;
+    var day, forecast, i, len, next5, nextDay;
     next5 = [];
     forecast = this.get("days");
     if (forecast) {
       forecast = forecast.list;
       if (forecast) {
-        for (_i = 0, _len = forecast.length; _i < _len; _i++) {
-          day = forecast[_i];
+        for (i = 0, len = forecast.length; i < len; i++) {
+          day = forecast[i];
           nextDay = {};
           nextDay.date = this.toReadableDate(day.dt);
           nextDay.day = this.toRoundCelcius(day.temp.day);
@@ -465,12 +453,11 @@ module.exports = City = (function(_super) {
 
 ;require.register("routers/app_router", function(exports, require, module) {
 var AppRouter,
-  __hasProp = {}.hasOwnProperty,
-  __extends = function(child, parent) { for (var key in parent) { if (__hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; };
+  extend = function(child, parent) { for (var key in parent) { if (hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; },
+  hasProp = {}.hasOwnProperty;
 
-module.exports = AppRouter = (function(_super) {
-
-  __extends(AppRouter, _super);
+module.exports = AppRouter = (function(superClass) {
+  extend(AppRouter, superClass);
 
   function AppRouter() {
     return AppRouter.__super__.constructor.apply(this, arguments);
@@ -488,8 +475,8 @@ module.exports = AppRouter = (function(_super) {
 
 ;require.register("views/app_view", function(exports, require, module) {
 var AppRouter, AppView, CitiesView, City, CityCollection, View,
-  __hasProp = {}.hasOwnProperty,
-  __extends = function(child, parent) { for (var key in parent) { if (__hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; };
+  extend = function(child, parent) { for (var key in parent) { if (hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; },
+  hasProp = {}.hasOwnProperty;
 
 View = require("../lib/base_view");
 
@@ -501,9 +488,8 @@ City = require("../models/city");
 
 CityCollection = require('../collections/city_collection');
 
-module.exports = AppView = (function(_super) {
-
-  __extends(AppView, _super);
+module.exports = AppView = (function(superClass) {
+  extend(AppView, superClass);
 
   function AppView() {
     return AppView.__super__.constructor.apply(this, arguments);
@@ -520,19 +506,22 @@ module.exports = AppView = (function(_super) {
   };
 
   AppView.prototype.afterRender = function() {
-    var _this = this;
     this.citiesView = new CitiesView({
       collection: new CityCollection
     });
     this.setLoading();
     return this.citiesView.collection.fetch({
-      success: function() {
-        return _this.unSetLoading();
-      },
-      error: function() {
-        _this.unSetLoading();
-        return alertUser("impossible to retrieve weather informations");
-      }
+      success: (function(_this) {
+        return function() {
+          return _this.unSetLoading();
+        };
+      })(this),
+      error: (function(_this) {
+        return function() {
+          _this.unSetLoading();
+          return alertUser("impossible to retrieve weather informations");
+        };
+      })(this)
     });
   };
 
@@ -542,32 +531,36 @@ module.exports = AppView = (function(_super) {
   };
 
   AppView.prototype.cityFind = function(evt) {
-    var city, cityObj,
-      _this = this;
+    var city, cityObj;
     city = this.$el.find("input.city");
     cityObj = {
       "name": city.val()
     };
     this.citiesView.collection.create(cityObj, {
-      error: function() {
-        return alertUser("impossible to add weather informations for " + city.val());
-      }
+      error: (function(_this) {
+        return function() {
+          return alertUser("impossible to add weather informations for " + city.val());
+        };
+      })(this)
     });
     return false;
   };
 
   AppView.prototype.refresh = function(evt) {
-    var _this = this;
     this.setLoading();
     this.citiesView.collection.fetch({
       reset: true,
-      success: function() {
-        return _this.unSetLoading();
-      },
-      error: function() {
-        _this.unSetLoading();
-        return alertUser("impossible to retrieve weather informations");
-      }
+      success: (function(_this) {
+        return function() {
+          return _this.unSetLoading();
+        };
+      })(this),
+      error: (function(_this) {
+        return function() {
+          _this.unSetLoading();
+          return alertUser("impossible to retrieve weather informations");
+        };
+      })(this)
     });
     return false;
   };
@@ -590,16 +583,15 @@ module.exports = AppView = (function(_super) {
 
 ;require.register("views/cities_view", function(exports, require, module) {
 var CitiesView, CityView, ViewCollection,
-  __hasProp = {}.hasOwnProperty,
-  __extends = function(child, parent) { for (var key in parent) { if (__hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; };
+  extend = function(child, parent) { for (var key in parent) { if (hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; },
+  hasProp = {}.hasOwnProperty;
 
 ViewCollection = require('../lib/view_collection');
 
 CityView = require('./city_view');
 
-module.exports = CitiesView = (function(_super) {
-
-  __extends(CitiesView, _super);
+module.exports = CitiesView = (function(superClass) {
+  extend(CitiesView, superClass);
 
   function CitiesView() {
     return CitiesView.__super__.constructor.apply(this, arguments);
@@ -617,14 +609,13 @@ module.exports = CitiesView = (function(_super) {
 
 ;require.register("views/city_view", function(exports, require, module) {
 var CityView, View,
-  __hasProp = {}.hasOwnProperty,
-  __extends = function(child, parent) { for (var key in parent) { if (__hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; };
+  extend = function(child, parent) { for (var key in parent) { if (hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; },
+  hasProp = {}.hasOwnProperty;
 
 View = require("../lib/base_view");
 
-module.exports = CityView = (function(_super) {
-
-  __extends(CityView, _super);
+module.exports = CityView = (function(superClass) {
+  extend(CityView, superClass);
 
   function CityView() {
     return CityView.__super__.constructor.apply(this, arguments);
@@ -645,14 +636,17 @@ module.exports = CityView = (function(_super) {
   };
 
   CityView.prototype.deleteCity = function() {
-    var _this = this;
     return this.model.destroy({
-      success: function() {
-        return _this.remove();
-      },
-      error: function() {
-        return alertUser("impossible to remove " + _this.model.get("name"));
-      }
+      success: (function(_this) {
+        return function() {
+          return _this.remove();
+        };
+      })(this),
+      error: (function(_this) {
+        return function() {
+          return alertUser("impossible to remove " + _this.model.get("name"));
+        };
+      })(this)
     });
   };
 
@@ -819,8 +813,8 @@ return buf.join("");
 
 ;require.register("views/widget_view", function(exports, require, module) {
 var AppRouter, AppView, CitiesView, City, CityCollection, View,
-  __hasProp = {}.hasOwnProperty,
-  __extends = function(child, parent) { for (var key in parent) { if (__hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; };
+  extend = function(child, parent) { for (var key in parent) { if (hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; },
+  hasProp = {}.hasOwnProperty;
 
 View = require("../lib/base_view");
 
@@ -832,9 +826,8 @@ City = require("../models/city");
 
 CityCollection = require("../collections/city_collection");
 
-module.exports = AppView = (function(_super) {
-
-  __extends(AppView, _super);
+module.exports = AppView = (function(superClass) {
+  extend(AppView, superClass);
 
   function AppView() {
     return AppView.__super__.constructor.apply(this, arguments);
@@ -851,14 +844,15 @@ module.exports = AppView = (function(_super) {
   };
 
   AppView.prototype.afterRender = function() {
-    var _this = this;
     this.citiesView = new CitiesView({
       collection: new CityCollection
     });
     return this.citiesView.collection.fetch({
-      error: function() {
-        return alertUser("impossible to retrieve weather informations");
-      }
+      error: (function(_this) {
+        return function() {
+          return alertUser("impossible to retrieve weather informations");
+        };
+      })(this)
     });
   };
 

@@ -2,3 +2,43 @@
 @import 'nib'
 
 // your styles here
+add-head-background = #49b1ec
+add-head-color      = #fff
+input-background    = #fff
+input-help-color    = #000
+
+#add-head
+    background: add-head-background
+    color: add-head-color
+
+    text-align: center
+
+    h1
+        margin-top: 0
+        margin-bottom: .5em 
+        padding-top: 1.5em
+
+        letter-spacing: .02em
+
+    h5
+        margin-bottom: 2em 
+        font-size: smaller
+
+    .input-group
+        input
+            border: 0
+            box-shadow: 0 0 0, 0 0 0
+            background: input-background
+            float: none
+        .input-group-addon
+            border: 0
+            background: input-background
+            cursor: pointer
+
+    .help-block
+        color: input-help-color
+        font-size: xx-small
+
+#add-choices
+    padding-top: 1em
+    text-align: center

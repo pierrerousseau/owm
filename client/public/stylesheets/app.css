@@ -1,3 +1,38 @@
+#add-head {
+  background: #49b1ec;
+  color: #fff;
+  text-align: center;
+}
+#add-head h1 {
+  margin-top: 0;
+  margin-bottom: 0.5em;
+  padding-top: 1.5em;
+  letter-spacing: 0.02em;
+}
+#add-head h5 {
+  margin-bottom: 2em;
+  font-size: smaller;
+}
+#add-head .input-group input {
+  border: 0;
+  -webkit-box-shadow: 0 0 0, 0 0 0;
+  box-shadow: 0 0 0, 0 0 0;
+  background: #fff;
+  float: none;
+}
+#add-head .input-group .input-group-addon {
+  border: 0;
+  background: #fff;
+  cursor: pointer;
+}
+#add-head .help-block {
+  color: #000;
+  font-size: xx-small;
+}
+#add-choices {
+  padding-top: 1em;
+  text-align: center;
+}
 
 /*!
  * Bootstrap v3.3.4 (http://getbootstrap.com)

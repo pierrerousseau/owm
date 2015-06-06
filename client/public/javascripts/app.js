@@ -673,6 +673,7 @@ attrs = attrs || jade.attrs; escape = escape || jade.escape; rethrow = rethrow |
 var buf = [];
 with (locals || {}) {
 var interp;
+buf.push('<div id="content"><div id="add"><div id="add-head"><h1 class="row">Cozy <strong>Weather</strong> Forecast</h1><h5 class="row">Welcome to your weather app, <strong>type the name of a city</strong></h5><form class="row"><div class="input-group col-xs-offset-4 col-xs-4"><input placeholder="Paris, fr" class="form-control"/><div class="input-group-addon"><span class="glyphicon glyphicon-search"></span></div></div><p class="help-block">Tip: To ensure the location, add the country code after the city name (for ex: Paris, fr)</p></form></div><div id="add-choices"><p class="row">Or click to add to your cozy forecast</p><div id="add-choices-examples"></div></div></div></div>');
 }
 return buf.join("");
 };

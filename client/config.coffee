@@ -21,6 +21,7 @@ exports.config =
                 after: [
                     'vendor/stylesheets/bootstrap/bootstrap-3.3.4.min.css'
                     'vendor/stylesheets/bootstrap/bootstrap-theme-3.3.4.min.css'
+                    'vendor/stylesheets/weather-icons-1.3.min.css'
                     'vendor/stylesheets/helpers.css'
                 ]
         templates:

@@ -17,6 +17,13 @@ module.exports.create = (req, res) ->
             City.fullCity city, (err, city) ->
                 res.send city
 
+module.exports.get = (req, res) ->
+    city =
+        "id": ""
+        "name": req.params.id
+    City.fullCity city, (err, city) ->
+        res.send city
+
 module.exports.destroy = (req, res) ->
     City.find req.params.id, (err, city) =>
         if err? or not city?

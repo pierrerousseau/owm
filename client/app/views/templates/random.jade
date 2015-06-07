@@ -1,0 +1,10 @@
+.add-choices-choice(class="col-xs-2 weather-#{weather.icon} temp-#{hotness}")
+    .name #{name} (#{country})
+    .weather
+        span(class="wi wi-#{wiclass}")
+    .infos
+        .temp #{temp}°
+        .humidity 
+            span(class="glyphicon glyphicon-tint")
+            | #{humidity}%
+

@@ -9,6 +9,7 @@ module.exports = {
     post: cities.create
   },
   'cities/:id': {
+    get: cities.get,
     "delete": cities.destroy
   }
 };

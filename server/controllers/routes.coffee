@@ -5,4 +5,5 @@ module.exports =
         get: cities.all
         post: cities.create
     'cities/:id':
+        get: cities.get
         delete: cities.destroy

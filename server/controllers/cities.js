@@ -38,6 +38,17 @@ module.exports.create = function(req, res) {
   })(this));
 };
 
+module.exports.get = function(req, res) {
+  var city;
+  city = {
+    "id": "",
+    "name": req.params.id
+  };
+  return City.fullCity(city, function(err, city) {
+    return res.send(city);
+  });
+};
+
 module.exports.destroy = function(req, res) {
   return City.find(req.params.id, (function(_this) {
     return function(err, city) {

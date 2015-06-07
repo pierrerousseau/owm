@@ -328,10 +328,31 @@ module.exports = ViewCollection = (function(superClass) {
 });
 
 ;require.register("models/city", function(exports, require, module) {
-var City,
+var City, icons,
   bind = function(fn, me){ return function(){ return fn.apply(me, arguments); }; },
   extend = function(child, parent) { for (var key in parent) { if (hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; },
   hasProp = {}.hasOwnProperty;
+
+icons = {
+  "01d": "day-sunny",
+  "01n": "night-clear",
+  "02d": "day-cloudy",
+  "02n": "night-cloudy",
+  "03d": "cloud",
+  "03n": "cloud",
+  "04d": "cloudy",
+  "04n": "cloudy",
+  "09d": "rain",
+  "09d": "night-rain",
+  "10d": "day-rain-hail",
+  "10d": "night-hail",
+  "11d": "ligghtning",
+  "11n": "ligghtning",
+  "13d": "snow",
+  "13n": "snow",
+  "50d": "windy",
+  "50n": "windy"
+};
 
 module.exports = City = (function(superClass) {
   extend(City, superClass);
@@ -356,7 +377,7 @@ module.exports = City = (function(superClass) {
   };
 
   City.prototype.fmtCityWeatherInfos = function() {
-    var clouds, main, main_weather, name, sys, toSet, weather;
+    var clouds, icon, main, main_weather, name, sys, temp, toSet, weather;
     toSet = {};
     weather = this.get("weather");
     if (weather) {
@@ -375,11 +396,25 @@ module.exports = City = (function(superClass) {
       }
       sys = weather.sys;
       if (sys) {
-        toSet.country = sys.country;
+        toSet.country = sys.country.toLowerCase();
       }
       name = weather.name;
       if (name) {
         toSet.name = name;
+      }
+      icon = toSet.weather.icon;
+      if (icon) {
+        toSet.wiclass = icons[icon];
+        toSet.hotness = "normal";
+        if (toSet.temp != null) {
+          temp = parseInt(toSet.temp);
+          if (temp > 26) {
+            toSet.hotness = "hot";
+          }
+          if (temp < 9) {
+            toSet.hotness = "cold";
+          }
+        }
       }
     }
     return this.set(toSet);
@@ -474,7 +509,7 @@ module.exports = AppRouter = (function(superClass) {
 });
 
 ;require.register("views/app_view", function(exports, require, module) {
-var AppRouter, AppView, CitiesView, City, CityCollection, View,
+var AppRouter, AppView, CitiesView, City, CityCollection, View, capitals,
   extend = function(child, parent) { for (var key in parent) { if (hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; },
   hasProp = {}.hasOwnProperty;
 
@@ -487,6 +522,8 @@ CitiesView = require("./cities_view");
 City = require("../models/city");
 
 CityCollection = require('../collections/city_collection');
+
+capitals = ["Beijing", "Tokyo", "Moscow", "Korea", "Jakarta", "Tehran", "Mexico", "Lima", "Bangkok", "London", "Bogotá", "Cairo", "Baghdad", "Hong Kong", "Dhaka", "Singapore", "Ankara", "Santiago", "Riyadh", "Kinshasa", "Berlin", "Damascus", "Hanoi", "Madrid", "Pyongyang", "Kabul", "Addis Ababa", "Buenos Aires", "Rome", "Kiev", "Nairobi", "Brasília", "Taipei", "Amman", "Luanda", "Pretoria", "Paris", "Tashkent", "Stockholm", "Havana", "Phnom Penh", "Bucharest", "Baku", "Caracas", "Rabat", "Vienna", "Khartoum", "Budapest", "Warsaw", "Minsk", "Manila", "Kampala", "Accra", "Yaoundé", "Antananarivo", "Beirut", "Algiers", "Quito", "Harare", "Doha", "Sana'a Conakry", "Kuala Lumpur", "Montevideo", "Lusaka", "Hargeisa", "Bamako", "Prague", "Port-au-Prince", "Tripoli", "Kuwait City", "Belgrade", "Santo Domingo", "Mogadishu", "Sofia", "Brazzaville", "Brussels", "Yerevan", "Maputo", "Freetown", "Tbilisi", "Dakar", "Ouagadougou", "Dublin", "Monrovia", "Guatemala City", "Islamabad", "Managua", "Naypyidaw", "Ulan Bator", "Lilongwe", "Ottawa", "La Paz", "Bishkek", "Lomé", "Panama City", "Kathmandu", "Amsterdam", "Zagreb", "Muscat", "Niamey", "Chişinău", "Jerusalem", "Abuja", "Tirana", "Tunis", "Ashgabat", "N'Djamena", "Tegucigalpa", "Bangui", "Athens", "Nouakchott", "Kigali", "Riga", "Kingston", "Astana", "Oslo", "Helsinki", "Abu Dhabi", "Dushanbe", "Vilnius", "Libreville", "Asmara", "Lisbon", "San Salvador", "Asunción", "Macau", "Skopje", "Copenhagen", "Djibouti", "Yamoussoukro", "Bissau", "Bratislava", "San Juan", "Tallinn", "Bujumbura", "Sarajevo", "Wellington", "Juba", "Canberra", "San José", "Port Moresby", "Vientiane", "Dodoma", "Maseru", "Nicosia", "Ljubljana", "Paramaribo", "Windhoek", "New Delhi", "Nassau", "Gaborone", "Porto-Novo", "Prishtina", "El Aaiún", "Tiraspol", "Port Louis", "Podgorica", "Manama", "Georgetown", "Praia", "Berne", "Sri Jayawardenapura Kotte", "Reykjavík", "Bridgetown", "Malé", "Thimphu", "Malabo", "Nouméa", "Suva", "Mbabane", "Luxembourg", "Castries", "Saipan", "Moroni", "Honiara", "Dili", "Sao Tome", "Pago Pago", "Stepanakert", "Willemstad", "Kingstown", "Apia", "Port Vila", "Monaco", "Banjul", "Tarawa", "Oranjestad", "Victoria", "Gibraltar", "Saint Helier", "George Town", "Douglas", "Papeete", "Ramallah", "Majuro", "Andorra", "St. John's", "Peter Port", "Belmopan", "Nuuk", "Roseau", "Basseterre", "Mariehamn", "Charlotte Amalie", "Palikir", "Road Town", "St. George's", "Valletta", "Marigot", "Saint-Pierre", "Avarua", "Vaduz", "San Marino", "Funafuti", "Cockburn Town", "Gustavia", "Stanley", "Longyearbyen", "Philipsburg", "Mata-Utu", "Hamilton"];
 
 module.exports = AppView = (function(superClass) {
   extend(AppView, superClass);
@@ -505,7 +542,25 @@ module.exports = AppView = (function(superClass) {
     return this.router = PiourCozyOWM.Routers.AppRouter = new AppRouter();
   };
 
+  AppView.prototype.displayRandom = function() {
+    var i, len, name, num, ref, results;
+    ref = [1, 2, 3];
+    results = [];
+    for (i = 0, len = ref.length; i < len; i++) {
+      num = ref[i];
+      name = capitals[Math.floor(Math.random() * capitals.length)];
+      results.push($.getJSON("cities/" + name, function(data) {
+        var tmpl;
+        tmpl = require("./templates/random");
+        console.log(new City(data).attributes);
+        return $("#add-choices-examples").append(tmpl(new City(data).attributes));
+      }));
+    }
+    return results;
+  };
+
   AppView.prototype.afterRender = function() {
+    this.displayRandom();
     this.citiesView = new CitiesView({
       collection: new CityCollection
     });
@@ -673,72 +728,26 @@ attrs = attrs || jade.attrs; escape = escape || jade.escape; rethrow = rethrow |
 var buf = [];
 with (locals || {}) {
 var interp;
-buf.push('<div id="content"><div id="add"><div id="add-head"><h1 class="row">Cozy <strong>Weather</strong> Forecast</h1><h5 class="row">Welcome to your weather app, <strong>type the name of a city</strong></h5><form class="row"><div class="input-group col-xs-offset-4 col-xs-4"><input placeholder="Paris, fr" class="form-control"/><div class="input-group-addon"><span class="glyphicon glyphicon-search"></span></div></div><p class="help-block">Tip: To ensure the location, add the country code after the city name (for ex: Paris, fr)</p></form></div><div id="add-choices"><p class="row">Or click to add to your cozy forecast</p><div id="add-choices-examples"></div></div></div></div>');
+buf.push('<div id="content"><div id="add"><div id="add-head"><h1 class="row">Cozy <strong>Weather</strong> Forecast</h1><h5 class="row">Welcome to your weather app, <strong>type the name of a city</strong></h5><form class="row"><div class="input-group col-xs-offset-4 col-xs-4"><input placeholder="Paris, fr" class="form-control"/><div class="input-group-addon"><span class="glyphicon glyphicon-search"></span></div></div><p class="help-block">Tip: To ensure the location, add the country code after the city name (for ex: Paris, fr)</p></form></div><div id="add-choices"><p class="row">Or click to add to your cozy forecast</p><div id="add-choices-examples" class="row"><div class="col-xs-3"></div></div></div></div></div>');
 }
 return buf.join("");
 };
 });
 
-;require.register("views/widget_view", function(exports, require, module) {
-var AppRouter, AppView, CitiesView, City, CityCollection, View,
-  extend = function(child, parent) { for (var key in parent) { if (hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; },
-  hasProp = {}.hasOwnProperty;
-
-View = require("../lib/base_view");
-
-AppRouter = require("../routers/app_router");
-
-CitiesView = require("./cities_view");
-
-City = require("../models/city");
-
-CityCollection = require("../collections/city_collection");
-
-module.exports = AppView = (function(superClass) {
-  extend(AppView, superClass);
-
-  function AppView() {
-    return AppView.__super__.constructor.apply(this, arguments);
-  }
-
-  AppView.prototype.el = "body.widget";
-
-  AppView.prototype.template = function() {
-    return require("./templates/widget");
-  };
-
-  AppView.prototype.initialize = function() {
-    return this.router = PiourCozyOWM.Routers.AppRouter = new AppRouter();
-  };
-
-  AppView.prototype.afterRender = function() {
-    this.citiesView = new CitiesView({
-      collection: new CityCollection
-    });
-    return this.citiesView.collection.fetch({
-      error: (function(_this) {
-        return function() {
-          return alertUser("impossible to retrieve weather informations");
-        };
-      })(this)
-    });
-  };
-
-  AppView.prototype.events = {
-    "click": function() {
-      var intent;
-      intent = {
-        action: 'goto',
-        params: "piour-owm/"
-      };
-      return window.parent.postMessage(intent, window.location.origin);
-    }
-  };
-
-  return AppView;
-
-})(View);
-
+;require.register("views/templates/random", function(exports, require, module) {
+module.exports = function anonymous(locals, attrs, escape, rethrow, merge) {
+attrs = attrs || jade.attrs; escape = escape || jade.escape; rethrow = rethrow || jade.rethrow; merge = merge || jade.merge;
+var buf = [];
+with (locals || {}) {
+var interp;
+buf.push('<div');
+buf.push(attrs({ "class": ('add-choices-choice') + ' ' + ("col-xs-2 weather-" + (weather.icon) + " temp-" + (hotness) + "") }, {"class":true}));
+buf.push('><div class="name">' + escape((interp = name) == null ? '' : interp) + ' (' + escape((interp = country) == null ? '' : interp) + ')</div><div class="weather"><span');
+buf.push(attrs({ "class": ("wi wi-" + (wiclass) + "") }, {"class":true}));
+buf.push('></span></div><div class="infos"><div class="temp">' + escape((interp = temp) == null ? '' : interp) + '°</div><div class="humidity"> <span class="glyphicon glyphicon-tint"></span> ' + escape((interp = humidity) == null ? '' : interp) + '%</div></div></div>');
+}
+return buf.join("");
+};
 });
 
 ;

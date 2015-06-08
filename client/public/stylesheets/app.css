@@ -181,15 +181,15 @@
 }
 #add-choices .weather-01d,
 #cities .weather-01d {
-  background: #dd4226;
+  background: #fc6a23;
 }
 #add-choices .weather-01d.temp-hot,
 #cities .weather-01d.temp-hot {
-  background: #d3151c;
+  background: #fc371e;
 }
 #add-choices .weather-01d.temp-cold,
 #cities .weather-01d.temp-cold {
-  background: #e25c2e;
+  background: #fd8928;
 }
 #add-choices .weather-01n,
 #cities .weather-01n {
@@ -205,15 +205,15 @@
 }
 #add-choices .weather-02d,
 #cities .weather-02d {
-  background: #f19c24;
+  background: #f7bc2d;
 }
 #add-choices .weather-02d.temp-hot,
 #cities .weather-02d.temp-hot {
-  background: #ed761e;
+  background: #f3a528;
 }
 #add-choices .weather-02d.temp-cold,
 #cities .weather-02d.temp-cold {
-  background: #f3b129;
+  background: #f8ca30;
 }
 #add-choices .weather-02n,
 #cities .weather-02n {

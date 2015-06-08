@@ -81,25 +81,36 @@
   margin: 0;
   padding: 1em 2em 0 2em;
 }
-#cities .now .name {
+#cities .now:hover .now-delete {
+  display: inline-block;
+}
+#cities .now .now-name {
   font-size: 1.5em;
   padding-bottom: 0.5em;
+  display: inline-block;
+  width: 90%;
 }
-#cities .now .weather {
+#cities .now .now-delete {
+  display: none;
+  cursor: pointer;
+  top: -0.5em;
+  right: -0.5em;
+}
+#cities .now .now-weather {
   display: inline-block;
   width: 40%;
   font-size: 4em;
 }
-#cities .now .infos {
+#cities .now .now-infos {
   padding-bottom: 1em;
   display: inline-block;
   width: 60%;
 }
-#cities .now .infos .temp {
+#cities .now .now-infos .now-temp {
   font-size: 3.5em;
   display: inline-block;
 }
-#cities .now .infos .humidity {
+#cities .now .now-infos .now-humidity {
   font-size: 0.75em;
   display: inline-block;
 }

@@ -1,0 +1,26 @@
+.now(class="col-xs-3 weather-#{weather.icon} temp-#{hotness}")
+    .name(title="#{country}") #{name}
+    .weather
+        span(class="wi wi-#{wiclass}")
+    .infos
+        .temp #{temp}°
+        .humidity 
+            span(class="glyphicon glyphicon-tint")
+            | #{humidity}%
+.today(class="col-xs-3")
+    each time, index in hours
+        .time(class="row weather-#{time.weather.icon} temp-#{time.hotness} index-#{index}")
+            .time-hour(class="col-xs-3") #{time.hour}
+            .time-weather(class="col-xs-3")
+                span(class="wi wi-#{time.wiclass}")
+            strong.time-temp(class="col-xs-3") #{time.temp}°
+            .time-humidity(class="col-xs-3") #{time.humidity}%
+.week(class="col-xs-6")
+    .days(class="row")
+        each day, index in days
+            .day(class="col-xs-2 weather-#{day.weather.icon} temp-#{day.hotness} index-#{index}")
+                .day-name #{day.date}
+                .day-weather
+                    span(class="wi wi-#{day.wiclass}")
+                .day-temp("title="temperature during night") #{day.night}°
+                strong.day-temp("title="temperature during day") #{day.day}°

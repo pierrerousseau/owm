@@ -30,6 +30,19 @@ module.exports = class City extends Backbone.Model
     toRoundCelcius: (value) ->
         parseInt(value - 273.15)
 
+    toWiClass: (icon) ->
+        return icons[icon]
+
+    toHotness: (temp) ->
+        hotness = "normal"
+        if temp?
+            temp = parseInt(temp)
+            if  temp > 26
+                hotness = "hot"
+            if temp < 9
+                hotness = "cold"
+        hotness
+
     fmtCityWeatherInfos: () =>
         toSet = {}
 
@@ -57,15 +70,10 @@ module.exports = class City extends Backbone.Model
                 toSet.name = name
 
             icon = toSet.weather.icon
-            if icon
-                toSet.wiclass = icons[icon]
-                toSet.hotness = "normal"
+            if icon?
+                toSet.wiclass = @toWiClass(icon)
                 if toSet.temp?
-                    temp = parseInt(toSet.temp)
-                    if  temp > 26
-                        toSet.hotness = "hot"
-                    if temp < 9
-                        toSet.hotness = "cold"
+                    toSet.hotness = @toHotness(toSet.temp)
 
         @set toSet
 
@@ -94,6 +102,8 @@ module.exports = class City extends Backbone.Model
                         nextHour.temp     = @toRoundCelcius(hour.main.temp)
                         nextHour.humidity = hour.main.humidity
                         nextHour.weather  = hour.weather[0]
+                        nextHour.wiclass  = @toWiClass(nextHour.weather.icon)
+                        nextHour.hotness  = @toHotness(nextHour.temp)
 
                         next5.push nextHour
 
@@ -115,6 +125,8 @@ module.exports = class City extends Backbone.Model
                     nextDay.night    = @toRoundCelcius(day.temp.night)
                     nextDay.humidity = day.humidity
                     nextDay.weather  = day.weather[0]
+                    nextDay.wiclass  = @toWiClass(nextDay.weather.icon)
+                    nextDay.hotness  = @toHotness(nextDay.day)
 
                     next5.push nextDay
         @set "days", next5

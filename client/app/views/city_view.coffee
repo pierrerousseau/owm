@@ -1,7 +1,7 @@
 View = require "../lib/base_view"
 
 module.exports = class CityView extends View
-    className: "city"
+    className: "city row"
     tagName: "li"
 
     events:
@@ -9,7 +9,7 @@ module.exports = class CityView extends View
 
     template: ->
         template = require "./templates/city"
-        template @getRenderData()
+        template @getRenderData().model
 
     deleteCity: ->
         @model.destroy

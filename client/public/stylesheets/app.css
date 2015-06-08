@@ -33,24 +33,9 @@
   padding-top: 1em;
   text-align: center;
 }
-#add-choices .weather {
-  display: inline-block;
-  width: 40%;
-  font-size: 3em;
-}
-#add-choices .infos {
-  display: inline-block;
-  width: 40%;
-}
-#add-choices .infos .temp {
-  font-size: 1.5em;
-}
-#add-choices .infos .humidity {
-  font-size: 0.75em;
-}
 #add-choices .add-choices-choice {
   margin: 0.5em;
-  padding: 1em 0.5em;
+  padding: 1em 0.2em;
   -webkit-border-radius: 4px;
   border-radius: 4px;
   color: #fff;
@@ -61,172 +46,344 @@
   -ms-filter: progid:DXImageTransform.Microsoft.Alpha(Opacity=80);
   filter: alpha(opacity=80);
 }
-#add-choices .name,
-#add-choices .infos {
+#add-choices .name {
   padding-bottom: 1em;
 }
-#add-choices .weather-01d {
+#add-choices .weather {
+  display: inline-block;
+  width: 40%;
+  font-size: 3em;
+}
+#add-choices .infos {
+  padding-bottom: 1em;
+  display: inline-block;
+  width: 40%;
+}
+#add-choices .infos .temp {
+  font-size: 1.5em;
+}
+#add-choices .infos .humidity {
+  font-size: 0.75em;
+}
+#cities {
+  list-style: none;
+}
+#cities .city {
+  padding: 0;
+  height: 11em;
+  margin: 1em;
+  color: #fff;
+}
+#cities .now {
+  -webkit-border-radius: 4px 0 0 4px;
+  border-radius: 4px 0 0 4px;
+  height: 100%;
+  margin: 0;
+  padding: 1em 2em 0 2em;
+}
+#cities .now .name {
+  font-size: 1.5em;
+  padding-bottom: 0.5em;
+}
+#cities .now .weather {
+  display: inline-block;
+  width: 40%;
+  font-size: 4em;
+}
+#cities .now .infos {
+  padding-bottom: 1em;
+  display: inline-block;
+  width: 60%;
+}
+#cities .now .infos .temp {
+  font-size: 3.5em;
+  display: inline-block;
+}
+#cities .now .infos .humidity {
+  font-size: 0.75em;
+  display: inline-block;
+}
+#cities .today {
+  height: 100%;
+  margin-left: 1px;
+  padding: 0;
+  -webkit-border-radius: 0 4px 0 0;
+  border-radius: 0 4px 0 0;
+}
+#cities .today .time {
+  padding: 0.3em 0;
+  margin: 0;
+  height: 20%;
+}
+#cities .today .time:hover {
+  opacity: 0.8;
+  -ms-filter: progid:DXImageTransform.Microsoft.Alpha(Opacity=80);
+  filter: alpha(opacity=80);
+}
+#cities .today .time div,
+#cities .today .time strong {
+  vertical-align: middle;
+  height: 100%;
+  text-align: center;
+}
+#cities .today .index-0 {
+  -webkit-border-radius: 0 4px 0 0;
+  border-radius: 0 4px 0 0;
+}
+#cities .today .index-4 {
+  -webkit-border-radius: 0 0 4px 0;
+  border-radius: 0 0 4px 0;
+}
+#cities .week {
+  margin-right: -1px;
+}
+#cities .week .days {
+  height: 11em;
+  margin: 0;
+}
+#cities .week .days .day {
+  height: 100%;
+  margin: 0 0 0 1px;
+  padding: 0.5em 0 0 0;
+  text-align: center;
+}
+#cities .week .days .day:hover {
+  opacity: 0.8;
+  -ms-filter: progid:DXImageTransform.Microsoft.Alpha(Opacity=80);
+  filter: alpha(opacity=80);
+}
+#cities .week .days .day .day-weather {
+  padding: 0.1em 0 0.5em 0;
+  font-size: 3em;
+}
+#cities .week .days .day .day-temp {
+  display: inline-block;
+  width: 50%;
+}
+#cities .week .days .index-0 {
+  -webkit-border-radius: 4px 0 0 4px;
+  border-radius: 4px 0 0 4px;
+}
+#cities .week .days .index-4 {
+  -webkit-border-radius: 0 4px 4px 0;
+  border-radius: 0 4px 4px 0;
+}
+#add-choices .weather-01d,
+#cities .weather-01d {
   background: #dd4226;
 }
-#add-choices .weather-01d.temp-hot {
+#add-choices .weather-01d.temp-hot,
+#cities .weather-01d.temp-hot {
   background: #d3151c;
 }
-#add-choices .weather-01d.temp-cold {
+#add-choices .weather-01d.temp-cold,
+#cities .weather-01d.temp-cold {
   background: #e25c2e;
 }
-#add-choices .weather-01n {
+#add-choices .weather-01n,
+#cities .weather-01n {
   background: #171b34;
 }
-#add-choices .weather-01n.temp-hot {
+#add-choices .weather-01n.temp-hot,
+#cities .weather-01n.temp-hot {
   background: #0d0f1d;
 }
-#add-choices .weather-01n.temp-cold {
+#add-choices .weather-01n.temp-cold,
+#cities .weather-01n.temp-cold {
   background: #202648;
 }
-#add-choices .weather-02d {
+#add-choices .weather-02d,
+#cities .weather-02d {
   background: #f19c24;
 }
-#add-choices .weather-02d.temp-hot {
+#add-choices .weather-02d.temp-hot,
+#cities .weather-02d.temp-hot {
   background: #ed761e;
 }
-#add-choices .weather-02d.temp-cold {
+#add-choices .weather-02d.temp-cold,
+#cities .weather-02d.temp-cold {
   background: #f3b129;
 }
-#add-choices .weather-02n {
+#add-choices .weather-02n,
+#cities .weather-02n {
   background: #242c4a;
 }
-#add-choices .weather-02n.temp-hot {
+#add-choices .weather-02n.temp-hot,
+#cities .weather-02n.temp-hot {
   background: #14182a;
 }
-#add-choices .weather-02n.temp-cold {
+#add-choices .weather-02n.temp-cold,
+#cities .weather-02n.temp-cold {
   background: #333c66;
 }
-#add-choices .weather-03d {
+#add-choices .weather-03d,
+#cities .weather-03d {
   background: #4dbfd5;
 }
-#add-choices .weather-03d.temp-hot {
+#add-choices .weather-03d.temp-hot,
+#cities .weather-03d.temp-hot {
   background: #3aa6c6;
 }
-#add-choices .weather-03d.temp-cold {
+#add-choices .weather-03d.temp-cold,
+#cities .weather-03d.temp-cold {
   background: #5cccdd;
 }
-#add-choices .weather-03n {
+#add-choices .weather-03n,
+#cities .weather-03n {
   background: #214a60;
 }
-#add-choices .weather-03n.temp-hot {
+#add-choices .weather-03n.temp-hot,
+#cities .weather-03n.temp-hot {
   background: #122b39;
 }
-#add-choices .weather-03n.temp-cold {
+#add-choices .weather-03n.temp-cold,
+#cities .weather-03n.temp-cold {
   background: #2e6781;
 }
-#add-choices .weather-04d {
+#add-choices .weather-04d,
+#cities .weather-04d {
   background: #63aeb0;
 }
-#add-choices .weather-04d.temp-hot {
+#add-choices .weather-04d.temp-hot,
+#cities .weather-04d.temp-hot {
   background: #369194;
 }
-#add-choices .weather-04d.temp-cold {
+#add-choices .weather-04d.temp-cold,
+#cities .weather-04d.temp-cold {
   background: #82bfc0;
 }
-#add-choices .weather-04n {
+#add-choices .weather-04n,
+#cities .weather-04n {
   background: #2e4651;
 }
-#add-choices .weather-04n.temp-hot {
+#add-choices .weather-04n.temp-hot,
+#cities .weather-04n.temp-hot {
   background: #1a282e;
 }
-#add-choices .weather-04n.temp-cold {
+#add-choices .weather-04n.temp-cold,
+#cities .weather-04n.temp-cold {
   background: #406170;
 }
-#add-choices .weather-09d {
+#add-choices .weather-09d,
+#cities .weather-09d {
   background: #2a5b75;
 }
-#add-choices .weather-09d.temp-hot {
+#add-choices .weather-09d.temp-hot,
+#cities .weather-09d.temp-hot {
   background: #112045;
 }
-#add-choices .weather-09d.temp-cold {
+#add-choices .weather-09d.temp-cold,
+#cities .weather-09d.temp-cold {
   background: #397f92;
 }
-#add-choices .weather-09n {
+#add-choices .weather-09n,
+#cities .weather-09n {
   background: #142e3e;
 }
-#add-choices .weather-09n.temp-hot {
+#add-choices .weather-09n.temp-hot,
+#cities .weather-09n.temp-hot {
   background: #0b1a23;
 }
-#add-choices .weather-09n.temp-cold {
+#add-choices .weather-09n.temp-cold,
+#cities .weather-09n.temp-cold {
   background: #1d3f56;
 }
-#add-choices .weather-10d {
+#add-choices .weather-10d,
+#cities .weather-10d {
   background: #41a586;
 }
-#add-choices .weather-10d.temp-hot {
+#add-choices .weather-10d.temp-hot,
+#cities .weather-10d.temp-hot {
   background: #27845c;
 }
-#add-choices .weather-10d.temp-cold {
+#add-choices .weather-10d.temp-cold,
+#cities .weather-10d.temp-cold {
   background: #52b89f;
 }
-#add-choices .weather-10n {
+#add-choices .weather-10n,
+#cities .weather-10n {
   background: #1c4343;
 }
-#add-choices .weather-10n.temp-hot {
+#add-choices .weather-10n.temp-hot,
+#cities .weather-10n.temp-hot {
   background: #0f2626;
 }
-#add-choices .weather-10n.temp-cold {
+#add-choices .weather-10n.temp-cold,
+#cities .weather-10n.temp-cold {
   background: #285d5d;
 }
-#add-choices .weather-11d {
+#add-choices .weather-11d,
+#cities .weather-11d {
   background: #495358;
 }
-#add-choices .weather-11d.temp-hot {
+#add-choices .weather-11d.temp-hot,
+#cities .weather-11d.temp-hot {
   background: #1b1f21;
 }
-#add-choices .weather-11d.temp-cold {
+#add-choices .weather-11d.temp-cold,
+#cities .weather-11d.temp-cold {
   background: #66727a;
 }
-#add-choices .weather-11n {
+#add-choices .weather-11n,
+#cities .weather-11n {
   background: #242a33;
 }
-#add-choices .weather-11n.temp-hot {
+#add-choices .weather-11n.temp-hot,
+#cities .weather-11n.temp-hot {
   background: #14181d;
 }
-#add-choices .weather-11n.temp-cold {
+#add-choices .weather-11n.temp-cold,
+#cities .weather-11n.temp-cold {
   background: #313a47;
 }
-#add-choices .weather-13d {
+#add-choices .weather-13d,
+#cities .weather-13d {
   color: #495358;
   background: #d8dec0;
 }
-#add-choices .weather-13d.temp-hot {
+#add-choices .weather-13d.temp-hot,
+#cities .weather-13d.temp-hot {
   background: #cad2aa;
 }
-#add-choices .weather-13d.temp-cold {
+#add-choices .weather-13d.temp-cold,
+#cities .weather-13d.temp-cold {
   background: #e0e5cd;
 }
-#add-choices .weather-13n {
+#add-choices .weather-13n,
+#cities .weather-13n {
   color: #495358;
   background: #505457;
 }
-#add-choices .weather-13n.temp-hot {
+#add-choices .weather-13n.temp-hot,
+#cities .weather-13n.temp-hot {
   background: #2d3031;
 }
-#add-choices .weather-13n.temp-cold {
+#add-choices .weather-13n.temp-cold,
+#cities .weather-13n.temp-cold {
   background: #6e7478;
 }
-#add-choices .weather-50d {
+#add-choices .weather-50d,
+#cities .weather-50d {
   background: #99bdc7;
 }
-#add-choices .weather-50d.temp-hot {
+#add-choices .weather-50d.temp-hot,
+#cities .weather-50d.temp-hot {
   background: #75a6b3;
 }
-#add-choices .weather-50d.temp-cold {
+#add-choices .weather-50d.temp-cold,
+#cities .weather-50d.temp-cold {
   background: #aecbd3;
 }
-#add-choices .weather-50n: {
+#add-choices .weather-50n:,
+#cities .weather-50n: {
   background: #3e4b59;
 }
-#add-choices .weather-50n:.temp-hot {
+#add-choices .weather-50n:.temp-hot,
+#cities .weather-50n:.temp-hot {
   background: #232a33;
 }
-#add-choices .weather-50n:.temp-cold {
+#add-choices .weather-50n:.temp-cold,
+#cities .weather-50n:.temp-cold {
   background: #56667b;
 }
 

@@ -9,7 +9,12 @@ module.exports = class CityView extends View
 
     template: ->
         template = require "./templates/city"
-        template @getRenderData().model
+        data = @getRenderData().model
+        if data
+            if not data.hotness
+                @model.initialize()
+                data = @getRenderData().model
+            template data
 
     deleteCity: ->
         @model.destroy

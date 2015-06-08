@@ -72,8 +72,7 @@ module.exports = class City extends Backbone.Model
             icon = toSet.weather.icon
             if icon?
                 toSet.wiclass = @toWiClass(icon)
-                if toSet.temp?
-                    toSet.hotness = @toHotness(toSet.temp)
+                toSet.hotness = @toHotness(toSet.temp)
 
         @set toSet
 

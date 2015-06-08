@@ -39,11 +39,15 @@ module.exports = class AppView extends View
         "submit #refresh": "refresh"
 
     cityFind: (evt) ->
+        console.log("ofdsfsdf")
         city    = @$el.find "input.city"
+        console.log("ofdsfsdf", city)
         cityObj =
             "name": city.val()
+        console.log("ofdsfsdf", cityObj)
         @citiesView.collection.create cityObj,
-            error: =>
+            "wait": true,
+            "error": =>
                 alertUser "impossible to add weather informations for " +
                           city.val()
 

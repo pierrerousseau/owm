@@ -6,7 +6,8 @@ add-head-background = #49b1ec
 add-head-color      = #fff
 input-background    = #fff
 input-help-color    = #000
-choice-color        = #fff
+weather-color       = #fff
+city-height         = 11em
 
 #add-head
     background: add-head-background
@@ -43,11 +44,22 @@ choice-color        = #fff
 #add-choices
     padding-top: 1em
     text-align: center
+    .add-choices-choice
+        margin: .5em
+        padding: 1em .2em
+        border-radius: 4px
+        color: weather-color
+        cursor: pointer
+        &:hover
+            opacity: .8
+    .name
+        padding-bottom: 1em
     .weather
         display: inline-block
         width: 40%
         font-size: 3em
     .infos
+        padding-bottom: 1em
         display: inline-block
         width: 40%
         .temp
@@ -55,20 +67,84 @@ choice-color        = #fff
         .humidity
             font-size: .75em
 
-    .add-choices-choice
-        margin: .5em
-        padding: 1em .5em
-        border-radius: 4px
-        color: choice-color
-        cursor: pointer
-        &:hover
-            opacity: .8
+#cities
+    list-style: none
+    .city
+        padding: 0
+        height: city-height
+        margin: 1em
+        color: weather-color
 
-    .name
-    .infos
-        padding-bottom: 1em
+    .now
+        border-radius: 4px 0 0 4px
+        height: 100%
+        margin: 0
+        padding: 1em 2em 0 2em
+
+        .name
+            font-size: 1.5em
+            padding-bottom: .5em
+        .weather
+            display: inline-block
+            width: 40%
+            font-size: 4em
+        .infos
+            padding-bottom: 1em
+            display: inline-block
+            width: 60%
+            .temp
+                font-size: 3.5em
+                display: inline-block
+            .humidity
+                font-size: .75em
+                display: inline-block
+    .today
+        height: 100%
+        margin-left: 1px
+        padding: 0
+        border-radius: 0 4px 0 0
+        .time
+            padding: .3em 0
+            margin: 0
+            height: 20%
+            &:hover
+                opacity: .8
+            div, strong
+                vertical-align: middle
+                height: 100%
+                text-align: center
+        .index-0
+            border-radius: 0 4px 0 0
+        .index-4
+            border-radius: 0 0 4px 0
+
+    .week
+        margin-right: -1px
+
+        .days
+            height: city-height
+            margin: 0
+            .day
+                height: 100%
+                margin: 0 0 0 1px
+                padding: .5em 0 0 0
+                text-align: center
+                &:hover
+                    opacity: .8
+                .day-weather
+                    padding: .1em 0 .5em 0
+                    font-size: 3em
+                .day-temp
+                    display: inline-block
+                    width: 50%
+            .index-0
+                border-radius: 4px 0 0 4px
+            .index-4
+                border-radius: 0 4px 4px 0
 
 
+#add-choices
+#cities
     .weather-01d
         background: #DD4226
         &.temp-hot

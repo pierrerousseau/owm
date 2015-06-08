@@ -699,7 +699,7 @@ module.exports = CityView = (function(superClass) {
   CityView.prototype.tagName = "li";
 
   CityView.prototype.events = {
-    "click .remove": "deleteCity"
+    "click .now-delete": "deleteCity"
   };
 
   CityView.prototype.template = function() {
@@ -744,11 +744,11 @@ with (locals || {}) {
 var interp;
 buf.push('<div');
 buf.push(attrs({ "class": ('now') + ' ' + ("col-xs-3 weather-" + (weather.icon) + " temp-" + (hotness) + "") }, {"class":true}));
-buf.push('><div');
-buf.push(attrs({ 'title':("" + (country) + ""), "class": ('name') }, {"title":true}));
-buf.push('>' + escape((interp = name) == null ? '' : interp) + '</div><div class="weather"><span');
+buf.push('><div class="now-title"><div');
+buf.push(attrs({ 'title':("" + (country) + ""), "class": ('now-name') }, {"title":true}));
+buf.push('>' + escape((interp = name) == null ? '' : interp) + '</div><div title="remove" class="now-delete glyphicon glyphicon-remove"></div></div><div class="now-weather"><span');
 buf.push(attrs({ "class": ("wi wi-" + (wiclass) + "") }, {"class":true}));
-buf.push('></span></div><div class="infos"><div class="temp">' + escape((interp = temp) == null ? '' : interp) + '°</div><div class="humidity"> <span class="glyphicon glyphicon-tint"></span> ' + escape((interp = humidity) == null ? '' : interp) + '%</div></div></div><div class="today col-xs-3">');
+buf.push('></span></div><div class="now-infos"><div class="now-temp">' + escape((interp = temp) == null ? '' : interp) + '°</div><div class="now-humidity"> <span class="glyphicon glyphicon-tint"></span> ' + escape((interp = humidity) == null ? '' : interp) + '%</div></div></div><div class="today col-xs-3">');
 // iterate hours
 ;(function(){
   if ('number' == typeof hours.length) {

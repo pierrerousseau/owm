@@ -1,10 +1,12 @@
 .now(class="col-xs-3 weather-#{weather.icon} temp-#{hotness}")
-    .name(title="#{country}") #{name}
-    .weather
+    .now-title
+        .now-name(title="#{country}") #{name}
+        .now-delete(class="glyphicon glyphicon-remove", title="remove")
+    .now-weather
         span(class="wi wi-#{wiclass}")
-    .infos
-        .temp #{temp}°
-        .humidity 
+    .now-infos
+        .now-temp #{temp}°
+        .now-humidity 
             span(class="glyphicon glyphicon-tint")
             | #{humidity}%
 .today(class="col-xs-3")

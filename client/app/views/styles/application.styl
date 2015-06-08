@@ -81,21 +81,31 @@ city-height         = 11em
         margin: 0
         padding: 1em 2em 0 2em
 
-        .name
+        &:hover
+            .now-delete
+                display: inline-block
+        .now-name
             font-size: 1.5em
             padding-bottom: .5em
-        .weather
+            display: inline-block
+            width: 90%
+        .now-delete
+            display: none
+            cursor: pointer
+            top: -.5em
+            right: -.5em
+        .now-weather
             display: inline-block
             width: 40%
             font-size: 4em
-        .infos
+        .now-infos
             padding-bottom: 1em
             display: inline-block
             width: 60%
-            .temp
+            .now-temp
                 font-size: 3.5em
                 display: inline-block
-            .humidity
+            .now-humidity
                 font-size: .75em
                 display: inline-block
     .today

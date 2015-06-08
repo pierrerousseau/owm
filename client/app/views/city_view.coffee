@@ -5,7 +5,7 @@ module.exports = class CityView extends View
     tagName: "li"
 
     events:
-        "click .remove": "deleteCity"
+        "click .now-delete": "deleteCity"
 
     template: ->
         template = require "./templates/city"

@@ -37,19 +37,26 @@ module.exports = class AppView extends View
     events:
         "submit #search": "cityFind"
         "submit #refresh": "refresh"
+        "click .random-choice": "addRandomCity"
 
-    cityFind: (evt) ->
-        console.log("ofdsfsdf")
-        city    = @$el.find "input.city"
-        console.log("ofdsfsdf", city)
+    addCity: (name) ->
         cityObj =
-            "name": city.val()
-        console.log("ofdsfsdf", cityObj)
+            "name": name
         @citiesView.collection.create cityObj,
             "wait": true,
             "error": =>
-                alertUser "impossible to add weather informations for " +
-                          city.val()
+                alertUser "impossible to add weather informations for " + name
+
+    cityFind: (evt) ->
+        city    = @$el.find "input.city"
+        @addCity(city.val())
+
+        false
+
+    addRandomCity: (evt) ->
+        current = $(evt.currentTarget)
+        name    = current.find(".random-choice-name").text()
+        @addCity(name)
 
         false
 
@@ -62,7 +69,6 @@ module.exports = class AppView extends View
             error: =>
                 @unSetLoading()
                 alertUser "impossible to retrieve weather informations"
-
 
         false
     

@@ -5,14 +5,23 @@
   text-align: center;
 }
 #add-head h1 {
+  display: inline-block;
+  text-align: center;
   margin-top: 0;
   margin-bottom: 0.5em;
-  padding-top: 1.5em;
+  padding-top: 0.75em;
+  font-size: 4em;
   letter-spacing: 0.02em;
 }
-#add-head h5 {
-  margin-bottom: 2em;
-  font-size: smaller;
+#add-head form {
+  margin-top: 0;
+  padding-top: 2.5em;
+  margin-bottom: 0.5em;
+  display: inline-block;
+  text-align: start;
+}
+#add-head form label {
+  font-weight: normal;
 }
 #add-head .input-group input {
   border: 0;
@@ -40,17 +49,17 @@
   color: #000;
   font-size: xx-small;
 }
-#bottom div {
-  background-repeat: no-repeat;
-  -webkit-background-size: 100%;
-  -moz-background-size: 100%;
-  background-size: 100%;
+#add-head .left,
+#add-head .right {
+  padding-top: 2.5em;
+  overflow: hidden;
 }
-#bottom .left {
-  background-image: url("../images/sun-cloud.svg");
-  height: 30px;
+#add-head .left img,
+#add-head .right img {
+  height: 5em;
 }
-#bottom .right {
+#add-head .head-bottom div,
+#add-head .head-bottom .right {
   background-image: url("../images/cloud.svg");
   height: 30px;
 }
@@ -63,8 +72,9 @@
   background: #49b1ec;
 }
 #random {
-  padding-top: 1em;
+  padding: 1em;
   text-align: center;
+  background: #f3f3f3;
 }
 #random .random-choice {
   margin: 0.5em;
@@ -478,6 +488,10 @@
 #random .weather-50n:.temp-cold,
 #cities .weather-50n:.temp-cold {
   background: #56667b;
+}
+#footer {
+  text-align: center;
+  padding: 0.7em;
 }
 
 /*!

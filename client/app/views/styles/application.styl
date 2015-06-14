@@ -9,6 +9,7 @@ input-background    = #fff
 input-help-color    = #000
 weather-color       = #fff
 city-height         = 15em
+random-background   = #f3f3f3
 
 #add-head
     background: add-head-background
@@ -17,15 +18,22 @@ city-height         = 15em
     text-align: center
 
     h1
+        display: inline-block
+        text-align: center
         margin-top: 0
         margin-bottom: .5em 
-        padding-top: 1.5em
+        padding-top: .75em
+        font-size: 4em
 
         letter-spacing: .02em
-
-    h5
-        margin-bottom: 2em 
-        font-size: smaller
+    form
+        margin-top: 0
+        padding-top: 2.5em
+        margin-bottom: .5em 
+        display: inline-block
+        text-align: start
+        label 
+            font-weight: normal
 
     .input-group
         input
@@ -48,17 +56,18 @@ city-height         = 15em
     .help-block
         color: input-help-color
         font-size: xx-small
-
-#bottom
-    div
-        background-repeat: no-repeat
-        background-size: 100%
     .left
-        background-image: url(../images/sun-cloud.svg)
-        height: 30px
     .right
-        background-image: url(../images/cloud.svg)
-        height: 30px
+        padding-top: 2.5em
+        overflow: hidden
+        img 
+            height: 5em
+
+    .head-bottom
+        div
+        .right
+            background-image: url(../images/cloud.svg)
+            height: 30px
 
 #loader
     display: none
@@ -68,8 +77,9 @@ city-height         = 15em
         background: loader-color
 
 #random
-    padding-top: 1em
+    padding: 1em
     text-align: center
+    background: random-background
     .random-choice
         margin: .5em
         padding: 1em .2em
@@ -329,3 +339,7 @@ city-height         = 15em
             background: #232A33 
         &.temp-cold
             background: #56667B
+
+#footer
+    text-align: center
+    padding: .7em

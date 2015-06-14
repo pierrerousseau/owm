@@ -228,6 +228,9 @@
   -ms-filter: progid:DXImageTransform.Microsoft.Alpha(Opacity=80);
   filter: alpha(opacity=80);
 }
+#cities .week .days .day .day-name {
+  font-weight: bold;
+}
 #cities .week .days .day .day-weather {
   padding: 0.1em 0 0.5em 0;
   font-size: 3em;

@@ -328,7 +328,7 @@ module.exports = ViewCollection = (function(superClass) {
 });
 
 ;require.register("models/city", function(exports, require, module) {
-var City, icons, nbNextDays, nbNextHours,
+var City, dayNames, icons, nbNextDays, nbNextHours,
   bind = function(fn, me){ return function(){ return fn.apply(me, arguments); }; },
   extend = function(child, parent) { for (var key in parent) { if (hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; },
   hasProp = {}.hasOwnProperty;
@@ -353,6 +353,8 @@ icons = {
   "50d": "windy",
   "50n": "windy"
 };
+
+dayNames = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
 
 nbNextHours = 5;
 
@@ -445,6 +447,13 @@ module.exports = City = (function(superClass) {
     return "" + date.getDate() + '/' + (date.getMonth() + 1) + '/' + date.getFullYear();
   };
 
+  City.prototype.toDayName = function(value) {
+    var date;
+    date = new Date(0);
+    date.setUTCSeconds(value);
+    return dayNames[date.getDay()];
+  };
+
   City.prototype.fmtCityForecastInfos = function() {
     var forecast, hour, i, len, nextHour, nexts, now;
     nexts = [];
@@ -485,6 +494,7 @@ module.exports = City = (function(superClass) {
           day = forecast[i];
           nextDay = {};
           nextDay.date = this.toReadableDate(day.dt);
+          nextDay.name = this.toDayName(day.dt);
           nextDay.day = this.toRoundCelcius(day.temp.day);
           nextDay.night = this.toRoundCelcius(day.temp.night);
           nextDay.humidity = day.humidity;
@@ -792,7 +802,7 @@ buf.push('</div><div class="week col-xs-6"><div class="days row">');
 
 buf.push('<div');
 buf.push(attrs({ "class": ('day') + ' ' + ("col-xs-2 weather-" + (day.weather.icon) + " temp-" + (day.hotness) + " index-" + (index) + "") }, {"class":true}));
-buf.push('><div class="day-name">' + escape((interp = day.date) == null ? '' : interp) + '</div><div class="day-weather"><span');
+buf.push('><div class="day-name">' + escape((interp = day.name) == null ? '' : interp) + '</div><div class="day-date">' + escape((interp = day.date) == null ? '' : interp) + '</div><div class="day-weather"><span');
 buf.push(attrs({ "class": ("wi wi-" + (day.wiclass) + "") }, {"class":true}));
 buf.push('></span></div><div class="day-description">' + escape((interp = day.weather.description) == null ? '' : interp) + '</div><div title=temperature during night="title=temperature during night" class="day-temp">' + escape((interp = day.night) == null ? '' : interp) + '°</div><strong title=temperature during day="title=temperature during day" class="day-temp">' + escape((interp = day.day) == null ? '' : interp) + '°</strong></div>');
     }
@@ -804,7 +814,7 @@ buf.push('></span></div><div class="day-description">' + escape((interp = day.we
 
 buf.push('<div');
 buf.push(attrs({ "class": ('day') + ' ' + ("col-xs-2 weather-" + (day.weather.icon) + " temp-" + (day.hotness) + " index-" + (index) + "") }, {"class":true}));
-buf.push('><div class="day-name">' + escape((interp = day.date) == null ? '' : interp) + '</div><div class="day-weather"><span');
+buf.push('><div class="day-name">' + escape((interp = day.name) == null ? '' : interp) + '</div><div class="day-date">' + escape((interp = day.date) == null ? '' : interp) + '</div><div class="day-weather"><span');
 buf.push(attrs({ "class": ("wi wi-" + (day.wiclass) + "") }, {"class":true}));
 buf.push('></span></div><div class="day-description">' + escape((interp = day.weather.description) == null ? '' : interp) + '</div><div title=temperature during night="title=temperature during night" class="day-temp">' + escape((interp = day.night) == null ? '' : interp) + '°</div><strong title=temperature during day="title=temperature during day" class="day-temp">' + escape((interp = day.day) == null ? '' : interp) + '°</strong></div>');
     }

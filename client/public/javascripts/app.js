@@ -610,26 +610,37 @@ module.exports = AppView = (function(superClass) {
 
   AppView.prototype.events = {
     "submit #search": "cityFind",
-    "submit #refresh": "refresh"
+    "submit #refresh": "refresh",
+    "click .random-choice": "addRandomCity"
   };
 
-  AppView.prototype.cityFind = function(evt) {
-    var city, cityObj;
-    console.log("ofdsfsdf");
-    city = this.$el.find("input.city");
-    console.log("ofdsfsdf", city);
+  AppView.prototype.addCity = function(name) {
+    var cityObj;
     cityObj = {
-      "name": city.val()
+      "name": name
     };
-    console.log("ofdsfsdf", cityObj);
-    this.citiesView.collection.create(cityObj, {
+    return this.citiesView.collection.create(cityObj, {
       "wait": true,
       "error": (function(_this) {
         return function() {
-          return alertUser("impossible to add weather informations for " + city.val());
+          return alertUser("impossible to add weather informations for " + name);
         };
       })(this)
     });
+  };
+
+  AppView.prototype.cityFind = function(evt) {
+    var city;
+    city = this.$el.find("input.city");
+    this.addCity(city.val());
+    return false;
+  };
+
+  AppView.prototype.addRandomCity = function(evt) {
+    var current, name;
+    current = $(evt.currentTarget);
+    name = current.find(".random-choice-name").text();
+    this.addCity(name);
     return false;
   };
 
@@ -834,7 +845,7 @@ attrs = attrs || jade.attrs; escape = escape || jade.escape; rethrow = rethrow |
 var buf = [];
 with (locals || {}) {
 var interp;
-buf.push('<div id="content"><div id="add-head"><h1 class="row">Cozy <strong>Weather</strong> Forecast</h1><h5 class="row">Welcome to your weather app, <strong>type the name of a city</strong></h5><form id="search" class="row"><div class="input-group col-xs-offset-4 col-xs-4"><input placeholder="Paris, fr" class="city form-control"/><div class="input-group-addon"><img src="icons/search.svg" alt="search"/></div></div><p class="help-block">Tip: To ensure the location, add the country code after the city name (for ex: Paris, fr)</p></form><div id="bottom" class="row"><div class="left col-xs-offset-3 col-xs-1"></div><div class="right col-xs-offset-4 col-xs-1"></div></div></div><ul id="cities"></ul><div id="random"><p class="row">Or click to add to your cozy forecast</p><div id="random-choices" class="row"><div class="col-xs-3"></div></div></div></div>');
+buf.push('<div id="content"><div id="add-head"><h1 class="row">Cozy <strong>Weather</strong> Forecast</h1><h5 class="row">Welcome to your weather app, <strong>type the name of a city</strong></h5><form id="search" class="row"><div class="input-group col-xs-offset-4 col-xs-4"><input placeholder="Paris, fr" class="city form-control"/><div class="input-group-addon"><img src="icons/search.svg" alt="search"/></div></div><p class="help-block">Tip: To ensure the location, add the country code after the city name (for ex: Paris, fr)</p></form><div id="bottom" class="row"><div class="left col-xs-offset-3 col-xs-1"></div><div class="right col-xs-offset-4 col-xs-1"></div></div></div><ul id="cities"></ul><div id="random"><p class="row">Click to add to your cozy forecast ...</p><div id="random-choices" class="row"><div class="col-xs-3"></div></div></div></div>');
 }
 return buf.join("");
 };

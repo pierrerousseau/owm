@@ -32,7 +32,7 @@ module.exports = class AppView extends View
                 @unSetLoading()
             error: =>
                 @unSetLoading()
-                alertUser "impossible to retrieve weather informations"
+                alert "impossible to retrieve weather informations"
 
     events:
         "submit #search": "cityFind"
@@ -45,7 +45,7 @@ module.exports = class AppView extends View
         @citiesView.collection.create cityObj,
             "wait": true,
             "error": =>
-                alertUser "impossible to add weather informations for " + name
+                alert "impossible to add weather informations for " + name
 
     cityFind: (evt) ->
         city    = @$el.find "input.city"
@@ -68,13 +68,11 @@ module.exports = class AppView extends View
                 @unSetLoading()
             error: =>
                 @unSetLoading()
-                alertUser "impossible to retrieve weather informations"
+                alert "impossible to retrieve weather informations"
 
         false
     
     setLoading: ->
-        @.$el.find("button").toggleClass "btn-default"
-        @.$el.find("button").toggleClass "btn-warning"
+        $("#loader").show("slow")
     unSetLoading: ->
-        @.$el.find("button").toggleClass "btn-default"
-        @.$el.find("button").toggleClass "btn-warning"
+        $("#loader").hide()

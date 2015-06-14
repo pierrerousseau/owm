@@ -11,8 +11,8 @@ icons =
     "09d": "night-rain"
     "10d": "day-rain-hail"
     "10d": "night-hail"
-    "11d": "ligghtning"
-    "11n": "ligghtning"
+    "11d": "lightning"
+    "11n": "lightning"
     "13d": "snow"
     "13n": "snow"
     "50d": "windy"
@@ -54,6 +54,8 @@ module.exports = class City extends Backbone.Model
         weather = @get "weather"
         if weather
             main = weather.main
+            toSet.temp = 0
+            toSet.humidity = 0
             if main
                 toSet.temp     = @toRoundCelcius(main.temp)
                 toSet.humidity = main.humidity
@@ -67,6 +69,7 @@ module.exports = class City extends Backbone.Model
                 toSet.clouds = clouds.all
 
             sys = weather.sys
+            toSet.country = ""
             if sys
                 toSet.country = sys.country.toLowerCase()
 
@@ -74,10 +77,15 @@ module.exports = class City extends Backbone.Model
             if name
                 toSet.name = name
 
-            icon = toSet.weather.icon
-            if icon?
-                toSet.wiclass = @toWiClass(icon)
-                toSet.hotness = @toHotness(toSet.temp)
+            toSet.wiclass = "lightning"
+            if toSet.weather?
+                icon = toSet.weather.icon
+                if icon?
+                    toSet.wiclass = @toWiClass(icon)
+            else
+                toSet.weather =
+                    "icon": "11d"
+            toSet.hotness = @toHotness(toSet.temp)
 
         @set toSet
 

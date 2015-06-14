@@ -346,8 +346,8 @@ icons = {
   "09d": "night-rain",
   "10d": "day-rain-hail",
   "10d": "night-hail",
-  "11d": "ligghtning",
-  "11n": "ligghtning",
+  "11d": "lightning",
+  "11n": "lightning",
   "13d": "snow",
   "13n": "snow",
   "50d": "windy",
@@ -407,6 +407,8 @@ module.exports = City = (function(superClass) {
     weather = this.get("weather");
     if (weather) {
       main = weather.main;
+      toSet.temp = 0;
+      toSet.humidity = 0;
       if (main) {
         toSet.temp = this.toRoundCelcius(main.temp);
         toSet.humidity = main.humidity;
@@ -420,6 +422,7 @@ module.exports = City = (function(superClass) {
         toSet.clouds = clouds.all;
       }
       sys = weather.sys;
+      toSet.country = "";
       if (sys) {
         toSet.country = sys.country.toLowerCase();
       }
@@ -427,11 +430,18 @@ module.exports = City = (function(superClass) {
       if (name) {
         toSet.name = name;
       }
-      icon = toSet.weather.icon;
-      if (icon != null) {
-        toSet.wiclass = this.toWiClass(icon);
-        toSet.hotness = this.toHotness(toSet.temp);
+      toSet.wiclass = "lightning";
+      if (toSet.weather != null) {
+        icon = toSet.weather.icon;
+        if (icon != null) {
+          toSet.wiclass = this.toWiClass(icon);
+        }
+      } else {
+        toSet.weather = {
+          "icon": "11d"
+        };
       }
+      toSet.hotness = this.toHotness(toSet.temp);
     }
     return this.set(toSet);
   };
@@ -602,7 +612,7 @@ module.exports = AppView = (function(superClass) {
       error: (function(_this) {
         return function() {
           _this.unSetLoading();
-          return alertUser("impossible to retrieve weather informations");
+          return alert("impossible to retrieve weather informations");
         };
       })(this)
     });
@@ -623,7 +633,7 @@ module.exports = AppView = (function(superClass) {
       "wait": true,
       "error": (function(_this) {
         return function() {
-          return alertUser("impossible to add weather informations for " + name);
+          return alert("impossible to add weather informations for " + name);
         };
       })(this)
     });
@@ -656,7 +666,7 @@ module.exports = AppView = (function(superClass) {
       error: (function(_this) {
         return function() {
           _this.unSetLoading();
-          return alertUser("impossible to retrieve weather informations");
+          return alert("impossible to retrieve weather informations");
         };
       })(this)
     });
@@ -664,13 +674,11 @@ module.exports = AppView = (function(superClass) {
   };
 
   AppView.prototype.setLoading = function() {
-    this.$el.find("button").toggleClass("btn-default");
-    return this.$el.find("button").toggleClass("btn-warning");
+    return $("#loader").show("slow");
   };
 
   AppView.prototype.unSetLoading = function() {
-    this.$el.find("button").toggleClass("btn-default");
-    return this.$el.find("button").toggleClass("btn-warning");
+    return $("#loader").hide();
   };
 
   return AppView;
@@ -845,7 +853,7 @@ attrs = attrs || jade.attrs; escape = escape || jade.escape; rethrow = rethrow |
 var buf = [];
 with (locals || {}) {
 var interp;
-buf.push('<div id="content"><div id="add-head"><h1 class="row">Cozy <strong>Weather</strong> Forecast</h1><h5 class="row">Welcome to your weather app, <strong>type the name of a city</strong></h5><form id="search" class="row"><div class="input-group col-xs-offset-4 col-xs-4"><input placeholder="Paris, fr" class="city form-control"/><div class="input-group-addon"><img src="icons/search.svg" alt="search"/></div></div><p class="help-block">Tip: To ensure the location, add the country code after the city name (for ex: Paris, fr)</p></form><div id="bottom" class="row"><div class="left col-xs-offset-3 col-xs-1"></div><div class="right col-xs-offset-4 col-xs-1"></div></div></div><ul id="cities"></ul><div id="random"><p class="row">Click to add to your cozy forecast ...</p><div id="random-choices" class="row"><div class="col-xs-3"></div></div></div></div>');
+buf.push('<div id="content"><div id="add-head"><h1 class="row">Cozy <strong>Weather</strong> Forecast</h1><h5 class="row">Welcome to your weather app, <strong>type the name of a city</strong></h5><form id="search" class="row"><div class="input-group col-xs-offset-4 col-xs-4"><input placeholder="Paris, fr" class="city form-control"/><div class="input-group-addon"><img src="icons/search.svg" alt="search"/></div></div><p class="help-block">Tip: To ensure the location, add the country code after the city name (for ex: Paris, fr)</p></form><div id="bottom" class="row"><div class="left col-xs-offset-3 col-xs-1"></div><div class="right col-xs-offset-4 col-xs-1"></div></div></div><div id="loader" class="loader-inner ball-pulse"><div></div><div></div><div></div><p>Loading weather, please wait ...</p></div><ul id="cities"></ul><div id="random"><p class="row">Click to add to your cozy forecast ...</p><div id="random-choices" class="row"><div class="col-xs-3"></div></div></div></div>');
 }
 return buf.join("");
 };

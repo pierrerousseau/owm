@@ -5,7 +5,7 @@ module.exports = class CityView extends View
     tagName: "li"
 
     events:
-        "click .now-delete": "deleteCity"
+        "click .now-remove": "removeCity"
 
     template: ->
         template = require "./templates/city"
@@ -16,7 +16,7 @@ module.exports = class CityView extends View
                 data = @getRenderData().model
             template data
 
-    deleteCity: ->
+    removeCity: ->
         @model.destroy
             success: =>
                 @remove()

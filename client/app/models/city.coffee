@@ -18,6 +18,9 @@ icons =
     "50d": "windy"
     "50n": "windy"
 
+nbNextHours = 5
+nbNextDays  = 6
+
 module.exports = class City extends Backbone.Model
 
     urlRoot: 'cities'
@@ -77,7 +80,7 @@ module.exports = class City extends Backbone.Model
         @set toSet
 
     toReadableHour: (value) ->
-        value.split(" ")[1].slice(0, 5)
+        value.split(" ")[1].slice(0, nbNextHours)
 
     toReadableDate: (value) ->
         date = new Date 0
@@ -88,7 +91,7 @@ module.exports = class City extends Backbone.Model
         date.getFullYear()
 
     fmtCityForecastInfos: () =>
-        next5    = []
+        nexts    = []
         forecast = @get "hours"
         if forecast
             forecast = forecast.list
@@ -104,15 +107,15 @@ module.exports = class City extends Backbone.Model
                         nextHour.wiclass  = @toWiClass(nextHour.weather.icon)
                         nextHour.hotness  = @toHotness(nextHour.temp)
 
-                        next5.push nextHour
+                        nexts.push nextHour
 
-                    if next5.length >= 5
+                    if nexts.length >= nbNextHours
                         break
 
-        @set "hours", next5
+        @set "hours", nexts
 
     fmtCityDaysForecastInfos: () =>
-        next5    = []
+        nexts    = []
         forecast = @get "days"
         if forecast
             forecast = forecast.list
@@ -127,5 +130,5 @@ module.exports = class City extends Backbone.Model
                     nextDay.wiclass  = @toWiClass(nextDay.weather.icon)
                     nextDay.hotness  = @toHotness(nextDay.day)
 
-                    next5.push nextDay
-        @set "days", next5
+                    nexts.push nextDay
+        @set "days", nexts

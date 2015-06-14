@@ -1,10 +1,10 @@
-.add-choices-choice(class="col-xs-2 weather-#{weather.icon} temp-#{hotness}")
-    .name(title="#{country}") #{name}
-    .weather
+.random-choice(class="col-xs-2 weather-#{weather.icon} temp-#{hotness}")
+    .random-choice-name(title="#{country}") #{name}
+    .random-choice-weather
         span(class="wi wi-#{wiclass}")
-    .infos
-        .temp #{temp}°
-        .humidity 
-            span(class="glyphicon glyphicon-tint")
+    .random-choice-infos
+        .random-choice-temp #{temp}°
+        .random-choice-humidity 
+            img(src="/icons/humidity.svg", alt="humidity")
             | #{humidity}%
 

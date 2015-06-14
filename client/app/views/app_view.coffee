@@ -21,7 +21,7 @@ module.exports = class AppView extends View
             $.getJSON "cities/" + name, (data) ->
                 tmpl = require "./templates/random"
                 console.log new City(data).attributes
-                $("#add-choices-examples").append tmpl(new City(data).attributes)
+                $("#random-choices").append tmpl(new City(data).attributes)
 
     afterRender: ->
         @displayRandom()

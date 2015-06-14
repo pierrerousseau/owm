@@ -1,18 +1,21 @@
-.now(class="col-xs-3 weather-#{weather.icon} temp-#{hotness}")
+.now(class="col-xs-offset-1 col-xs-3 weather-#{weather.icon} temp-#{hotness}")
     .now-title
         .now-name(title="#{country}") #{name}
-        .now-delete(class="glyphicon glyphicon-remove", title="remove")
+        .now-description #{weather.description}
+        .now-remove(title="remove")
+            img(src="/icons/remove.svg", alt="remove")
     .now-weather
         span(class="wi wi-#{wiclass}")
     .now-infos
         .now-temp #{temp}°
         .now-humidity 
-            span(class="glyphicon glyphicon-tint")
+            img(src="/icons/humidity.svg", alt="humidity")
             | #{humidity}%
-.today(class="col-xs-3")
+.today(class="col-xs-2")
     each time, index in hours
         .time(class="row weather-#{time.weather.icon} temp-#{time.hotness} index-#{index}")
             .time-hour(class="col-xs-3") #{time.hour}
+                .blah
             .time-weather(class="col-xs-3")
                 span(class="wi wi-#{time.wiclass}")
             strong.time-temp(class="col-xs-3") #{time.temp}°
@@ -24,5 +27,6 @@
                 .day-name #{day.date}
                 .day-weather
                     span(class="wi wi-#{day.wiclass}")
+                .day-description #{day.weather.description}
                 .day-temp("title="temperature during night") #{day.night}°
                 strong.day-temp("title="temperature during day") #{day.day}°

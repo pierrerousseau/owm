@@ -750,9 +750,9 @@ buf.push('<div');
 buf.push(attrs({ "class": ('now') + ' ' + ("col-xs-offset-1 col-xs-3 weather-" + (weather.icon) + " temp-" + (hotness) + "") }, {"class":true}));
 buf.push('><div class="now-title"><div');
 buf.push(attrs({ 'title':("" + (country) + ""), "class": ('now-name') }, {"title":true}));
-buf.push('>' + escape((interp = name) == null ? '' : interp) + '</div><div class="now-description">' + escape((interp = weather.description) == null ? '' : interp) + '</div><div title="remove" class="now-remove"><img src="/icons/remove.svg" alt="remove"/></div></div><div class="now-weather"><span');
+buf.push('>' + escape((interp = name) == null ? '' : interp) + '</div><div class="now-description">' + escape((interp = weather.description) == null ? '' : interp) + '</div><div title="remove" class="now-remove"><img src="icons/remove.svg" alt="remove"/></div></div><div class="now-weather"><span');
 buf.push(attrs({ "class": ("wi wi-" + (wiclass) + "") }, {"class":true}));
-buf.push('></span></div><div class="now-infos"><div class="now-temp">' + escape((interp = temp) == null ? '' : interp) + '°</div><div class="now-humidity"> <img src="/icons/humidity.svg" alt="humidity"/> ' + escape((interp = humidity) == null ? '' : interp) + '%</div></div></div><div class="today col-xs-2">');
+buf.push('></span></div><div class="now-infos"><div class="now-temp">' + escape((interp = temp) == null ? '' : interp) + '°</div><div class="now-humidity"> <img src="icons/humidity.svg" alt="humidity"/> ' + escape((interp = humidity) == null ? '' : interp) + '%</div></div></div><div class="today col-xs-2">');
 // iterate hours
 ;(function(){
   if ('number' == typeof hours.length) {
@@ -824,7 +824,7 @@ attrs = attrs || jade.attrs; escape = escape || jade.escape; rethrow = rethrow |
 var buf = [];
 with (locals || {}) {
 var interp;
-buf.push('<div id="content"><div id="add-head"><h1 class="row">Cozy <strong>Weather</strong> Forecast</h1><h5 class="row">Welcome to your weather app, <strong>type the name of a city</strong></h5><form id="search" class="row"><div class="input-group col-xs-offset-4 col-xs-4"><input placeholder="Paris, fr" class="city form-control"/><div class="input-group-addon"><img src="/icons/search.svg" alt="search"/></div></div><p class="help-block">Tip: To ensure the location, add the country code after the city name (for ex: Paris, fr)</p></form><div id="bottom" class="row"><div class="left col-xs-offset-3 col-xs-1"></div><div class="right col-xs-offset-4 col-xs-1"></div></div></div><ul id="cities"></ul><div id="random"><p class="row">Or click to add to your cozy forecast</p><div id="random-choices" class="row"><div class="col-xs-3"></div></div></div></div>');
+buf.push('<div id="content"><div id="add-head"><h1 class="row">Cozy <strong>Weather</strong> Forecast</h1><h5 class="row">Welcome to your weather app, <strong>type the name of a city</strong></h5><form id="search" class="row"><div class="input-group col-xs-offset-4 col-xs-4"><input placeholder="Paris, fr" class="city form-control"/><div class="input-group-addon"><img src="icons/search.svg" alt="search"/></div></div><p class="help-block">Tip: To ensure the location, add the country code after the city name (for ex: Paris, fr)</p></form><div id="bottom" class="row"><div class="left col-xs-offset-3 col-xs-1"></div><div class="right col-xs-offset-4 col-xs-1"></div></div></div><ul id="cities"></ul><div id="random"><p class="row">Or click to add to your cozy forecast</p><div id="random-choices" class="row"><div class="col-xs-3"></div></div></div></div>');
 }
 return buf.join("");
 };
@@ -842,7 +842,7 @@ buf.push('><div');
 buf.push(attrs({ 'title':("" + (country) + ""), "class": ('random-choice-name') }, {"title":true}));
 buf.push('>' + escape((interp = name) == null ? '' : interp) + '</div><div class="random-choice-weather"><span');
 buf.push(attrs({ "class": ("wi wi-" + (wiclass) + "") }, {"class":true}));
-buf.push('></span></div><div class="random-choice-infos"><div class="random-choice-temp">' + escape((interp = temp) == null ? '' : interp) + '°</div><div class="random-choice-humidity"> <img src="/icons/humidity.svg" alt="humidity"/> ' + escape((interp = humidity) == null ? '' : interp) + '%</div></div></div>');
+buf.push('></span></div><div class="random-choice-infos"><div class="random-choice-temp">' + escape((interp = temp) == null ? '' : interp) + '°</div><div class="random-choice-humidity"> <img src="icons/humidity.svg" alt="humidity"/> ' + escape((interp = humidity) == null ? '' : interp) + '%</div></div></div>');
 }
 return buf.join("");
 };

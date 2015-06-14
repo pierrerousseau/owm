@@ -43,11 +43,11 @@
   background-size: 100%;
 }
 #bottom .left {
-  background-image: url("/images/sun-cloud.svg");
+  background-image: url("../images/sun-cloud.svg");
   height: 30px;
 }
 #bottom .right {
-  background-image: url("/images/cloud.svg");
+  background-image: url("../images/cloud.svg");
   height: 30px;
 }
 #random {

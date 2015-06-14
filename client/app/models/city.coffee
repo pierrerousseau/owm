@@ -18,6 +18,8 @@ icons =
     "50d": "windy"
     "50n": "windy"
 
+dayNames = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"]
+
 nbNextHours = 5
 nbNextDays  = 6
 
@@ -90,6 +92,11 @@ module.exports = class City extends Backbone.Model
         (date.getMonth()+ 1) + '/' +
         date.getFullYear()
 
+    toDayName: (value) ->
+        date = new Date 0
+        date.setUTCSeconds value
+        dayNames[date.getDay()]
+
     fmtCityForecastInfos: () =>
         nexts    = []
         forecast = @get "hours"
@@ -123,6 +130,7 @@ module.exports = class City extends Backbone.Model
                 for day in forecast
                     nextDay = {}
                     nextDay.date     = @toReadableDate(day.dt)
+                    nextDay.name     = @toDayName(day.dt)
                     nextDay.day      = @toRoundCelcius(day.temp.day)
                     nextDay.night    = @toRoundCelcius(day.temp.night)
                     nextDay.humidity = day.humidity

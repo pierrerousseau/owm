@@ -24,7 +24,8 @@
     .days(class="row")
         each day, index in days
             .day(class="col-xs-2 weather-#{day.weather.icon} temp-#{day.hotness} index-#{index}")
-                .day-name #{day.date}
+                .day-name #{day.name}
+                .day-date #{day.date}
                 .day-weather
                     span(class="wi wi-#{day.wiclass}")
                 .day-description #{day.weather.description}

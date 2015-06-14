@@ -3,14 +3,15 @@
   background: #49b1ec;
   color: #fff;
   text-align: center;
+  overflow: hidden;
+  height: 10em;
 }
 #add-head h1 {
   display: inline-block;
-  text-align: center;
   margin-top: 0;
   margin-bottom: 0.5em;
-  padding-top: 0.75em;
-  font-size: 4em;
+  padding-top: 1em;
+  font-size: 3em;
   letter-spacing: 0.02em;
 }
 #add-head form {
@@ -31,6 +32,7 @@
   float: none;
   height: 100%;
   height: 2.5em;
+  margin-right: 0.5em;
 }
 #add-head .input-group .input-group-addon {
   border: 0;
@@ -51,12 +53,12 @@
 }
 #add-head .left,
 #add-head .right {
-  padding-top: 2.5em;
+  padding-top: 5em;
   overflow: hidden;
 }
 #add-head .left img,
 #add-head .right img {
-  height: 5em;
+  height: 8em;
 }
 #add-head .head-bottom div,
 #add-head .head-bottom .right {

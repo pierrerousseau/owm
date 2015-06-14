@@ -3,13 +3,13 @@
         .now-name(title="#{country}") #{name}
         .now-description #{weather.description}
         .now-remove(title="remove")
-            img(src="/icons/remove.svg", alt="remove")
+            img(src="icons/remove.svg", alt="remove")
     .now-weather
         span(class="wi wi-#{wiclass}")
     .now-infos
         .now-temp #{temp}°
         .now-humidity 
-            img(src="/icons/humidity.svg", alt="humidity")
+            img(src="icons/humidity.svg", alt="humidity")
             | #{humidity}%
 .today(class="col-xs-2")
     each time, index in hours

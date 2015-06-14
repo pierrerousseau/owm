@@ -7,7 +7,7 @@ add-head-color      = #fff
 input-background    = #fff
 input-help-color    = #000
 weather-color       = #fff
-city-height         = 11em
+city-height         = 15em
 
 #add-head
     background: add-head-background
@@ -36,15 +36,30 @@ city-height         = 11em
             border: 0
             background: input-background
             cursor: pointer
+        img
+            vertical-align: top
+            height: 1.5em
+            opacity: .7
 
     .help-block
         color: input-help-color
         font-size: xx-small
 
-#add-choices
+#bottom
+    div
+        background-repeat: no-repeat
+        background-size: 100%
+    .left
+        background-image: url(/images/sun-cloud.svg)
+        height: 30px
+    .right
+        background-image: url(/images/cloud.svg)
+        height: 30px
+
+#random
     padding-top: 1em
     text-align: center
-    .add-choices-choice
+    .random-choice
         margin: .5em
         padding: 1em .2em
         border-radius: 4px
@@ -52,74 +67,106 @@ city-height         = 11em
         cursor: pointer
         &:hover
             opacity: .8
-    .name
-        padding-bottom: 1em
-    .weather
+    .random-choice-name
+        white-space: no-wrap
+        overflow: hidden
+        text-overflow: ellipsis
+        font-size: 2em
+        padding-bottom: .3em
+    .random-choice-weather
+        text-align: center
         display: inline-block
-        width: 40%
-        font-size: 3em
-    .infos
-        padding-bottom: 1em
+        width: 55%
+        font-size: 6em
+    .random-choice-infos
+        text-align: center
+        padding-bottom: .3em
         display: inline-block
-        width: 40%
-        .temp
-            font-size: 1.5em
-        .humidity
-            font-size: .75em
+        width: 45%
+        .random-choice-temp
+            font-size: 4em
+        .random-choice-humidity
+            font-size: 1em
+            display: inline-block
+            img
+                vertical-align: top
+                height: 1.5em
 
 #cities
     list-style: none
+    padding: 0
     .city
         padding: 0
         height: city-height
-        margin: 1em
+        margin: 2em 1em
         color: weather-color
 
     .now
         border-radius: 4px 0 0 4px
         height: 100%
-        margin: 0
-        padding: 1em 2em 0 2em
+        padding: 0
 
         &:hover
-            .now-delete
+            .now-remove
                 display: inline-block
         .now-name
-            font-size: 1.5em
-            padding-bottom: .5em
+            padding: .3em .3em 0 .6em
+            font-size: 2.25em
             display: inline-block
-            width: 90%
-        .now-delete
+            width: 55%
+            white-space: no-wrap
+            overflow: hidden
+            text-overflow: ellipsis
+            min-height: 62px
+        .now-description
+            font-size: 1em
+            font-style: italic
+            display: inline-block
+            width: 30%
+            white-space: no-wrap
+            overflow: hidden
+            text-overflow: ellipsis
+            padding-bottom: .9em
+        .now-remove
+            vertical-align: top
+            width: 15%
             display: none
             cursor: pointer
-            top: -.5em
-            right: -.5em
         .now-weather
+            text-align: center
+            padding: 0 .1em 0 .1em
             display: inline-block
-            width: 40%
-            font-size: 4em
+            width: 45%
+            font-size: 6.75em
         .now-infos
             padding-bottom: 1em
             display: inline-block
-            width: 60%
+            width: 55%
             .now-temp
-                font-size: 3.5em
+                font-size: 5em
                 display: inline-block
             .now-humidity
-                font-size: .75em
+                font-size: 1em
                 display: inline-block
+                img
+                    vertical-align: top
+                    height: 1.5em
     .today
         height: 100%
         margin-left: 1px
         padding: 0
         border-radius: 0 4px 0 0
         .time
-            padding: .3em 0
-            margin: 0
             height: 20%
+            font-size: 1.25em
+            margin: 0
             &:hover
                 opacity: .8
+            .time-hour
+                background: #000
+                opacity: .2
             div, strong
+                padding: .4em 0
                 vertical-align: middle
                 height: 100%
                 text-align: center
@@ -144,7 +191,11 @@ city-height         = 11em
                 .day-weather
                     padding: .1em 0 .5em 0
                     font-size: 3em
+                .day-description
+                    font-style: italic
+                    padding: 0 0 1em 0
                 .day-temp
+                    font-size: 1.5em
                     display: inline-block
                     width: 50%
             .index-0
@@ -153,7 +204,7 @@ city-height         = 11em
                 border-radius: 0 4px 4px 0
 
 
-#add-choices
+#random
 #cities
     .weather-01d
         background: #fc6a23

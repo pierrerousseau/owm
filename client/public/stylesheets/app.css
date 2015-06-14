@@ -25,15 +25,36 @@
   background: #fff;
   cursor: pointer;
 }
+#add-head .input-group img {
+  vertical-align: top;
+  height: 1.5em;
+  opacity: 0.7;
+  -ms-filter: progid:DXImageTransform.Microsoft.Alpha(Opacity=70);
+  filter: alpha(opacity=70);
+}
 #add-head .help-block {
   color: #000;
   font-size: xx-small;
 }
-#add-choices {
+#bottom div {
+  background-repeat: no-repeat;
+  -webkit-background-size: 100%;
+  -moz-background-size: 100%;
+  background-size: 100%;
+}
+#bottom .left {
+  background-image: url("/images/sun-cloud.svg");
+  height: 30px;
+}
+#bottom .right {
+  background-image: url("/images/cloud.svg");
+  height: 30px;
+}
+#random {
   padding-top: 1em;
   text-align: center;
 }
-#add-choices .add-choices-choice {
+#random .random-choice {
   margin: 0.5em;
   padding: 1em 0.2em;
   -webkit-border-radius: 4px;
@@ -41,78 +62,112 @@
   color: #fff;
   cursor: pointer;
 }
-#add-choices .add-choices-choice:hover {
+#random .random-choice:hover {
   opacity: 0.8;
   -ms-filter: progid:DXImageTransform.Microsoft.Alpha(Opacity=80);
   filter: alpha(opacity=80);
 }
-#add-choices .name {
-  padding-bottom: 1em;
+#random .random-choice-name {
+  white-space: nowrap;
+  overflow: hidden;
+  -o-text-overflow: ellipsis;
+  text-overflow: ellipsis;
+  font-size: 2em;
+  padding-bottom: 0.3em;
 }
-#add-choices .weather {
+#random .random-choice-weather {
+  text-align: center;
   display: inline-block;
-  width: 40%;
-  font-size: 3em;
+  width: 55%;
+  font-size: 6em;
 }
-#add-choices .infos {
-  padding-bottom: 1em;
+#random .random-choice-infos {
+  text-align: center;
+  padding-bottom: 0.3em;
   display: inline-block;
-  width: 40%;
+  width: 45%;
 }
-#add-choices .infos .temp {
-  font-size: 1.5em;
+#random .random-choice-infos .random-choice-temp {
+  font-size: 4em;
 }
-#add-choices .infos .humidity {
-  font-size: 0.75em;
+#random .random-choice-infos .random-choice-humidity {
+  font-size: 1em;
+  display: inline-block;
+}
+#random .random-choice-infos .random-choice-humidity img {
+  vertical-align: top;
+  height: 1.5em;
 }
 #cities {
   list-style: none;
+  padding: 0;
 }
 #cities .city {
   padding: 0;
-  height: 11em;
-  margin: 1em;
+  height: 15em;
+  margin: 2em 1em;
   color: #fff;
 }
 #cities .now {
   -webkit-border-radius: 4px 0 0 4px;
   border-radius: 4px 0 0 4px;
   height: 100%;
-  margin: 0;
-  padding: 1em 2em 0 2em;
+  padding: 0;
 }
-#cities .now:hover .now-delete {
+#cities .now:hover .now-remove {
   display: inline-block;
 }
 #cities .now .now-name {
-  font-size: 1.5em;
-  padding-bottom: 0.5em;
+  padding: 0.3em 0.3em 0 0.6em;
+  font-size: 2.25em;
   display: inline-block;
-  width: 90%;
+  width: 55%;
+  white-space: nowrap;
+  overflow: hidden;
+  -o-text-overflow: ellipsis;
+  text-overflow: ellipsis;
+  min-height: 62px;
 }
-#cities .now .now-delete {
+#cities .now .now-description {
+  font-size: 1em;
+  font-style: italic;
+  display: inline-block;
+  width: 30%;
+  white-space: nowrap;
+  overflow: hidden;
+  -o-text-overflow: ellipsis;
+  text-overflow: ellipsis;
+  padding-bottom: 0.9em;
+}
+#cities .now .now-remove {
+  vertical-align: top;
+  width: 15%;
   display: none;
   cursor: pointer;
-  top: -0.5em;
-  right: -0.5em;
 }
 #cities .now .now-weather {
+  text-align: center;
+  padding: 0 0.1em 0 0.1em;
   display: inline-block;
-  width: 40%;
-  font-size: 4em;
+  width: 45%;
+  font-size: 6.75em;
 }
 #cities .now .now-infos {
   padding-bottom: 1em;
   display: inline-block;
-  width: 60%;
+  width: 55%;
 }
 #cities .now .now-infos .now-temp {
-  font-size: 3.5em;
+  font-size: 5em;
   display: inline-block;
 }
 #cities .now .now-infos .now-humidity {
-  font-size: 0.75em;
+  font-size: 1em;
   display: inline-block;
+}
+#cities .now .now-infos .now-humidity img {
+  vertical-align: top;
+  height: 1.5em;
 }
 #cities .today {
   height: 100%;
@@ -122,17 +177,24 @@
   border-radius: 0 4px 0 0;
 }
 #cities .today .time {
-  padding: 0.3em 0;
-  margin: 0;
   height: 20%;
+  font-size: 1.25em;
+  margin: 0;
 }
 #cities .today .time:hover {
   opacity: 0.8;
   -ms-filter: progid:DXImageTransform.Microsoft.Alpha(Opacity=80);
   filter: alpha(opacity=80);
 }
+#cities .today .time .time-hour {
+  background: #000;
+  opacity: 0.2;
+  -ms-filter: progid:DXImageTransform.Microsoft.Alpha(Opacity=20);
+  filter: alpha(opacity=20);
+}
 #cities .today .time div,
 #cities .today .time strong {
+  padding: 0.4em 0;
   vertical-align: middle;
   height: 100%;
   text-align: center;
@@ -149,7 +211,7 @@
   margin-right: -1px;
 }
 #cities .week .days {
-  height: 11em;
+  height: 15em;
   margin: 0;
 }
 #cities .week .days .day {
@@ -167,7 +229,12 @@
   padding: 0.1em 0 0.5em 0;
   font-size: 3em;
 }
+#cities .week .days .day .day-description {
+  font-style: italic;
+  padding: 0 0 1em 0;
+}
 #cities .week .days .day .day-temp {
+  font-size: 1.5em;
   display: inline-block;
   width: 50%;
 }
@@ -179,221 +246,221 @@
   -webkit-border-radius: 0 4px 4px 0;
   border-radius: 0 4px 4px 0;
 }
-#add-choices .weather-01d,
+#random .weather-01d,
 #cities .weather-01d {
   background: #fc6a23;
 }
-#add-choices .weather-01d.temp-hot,
+#random .weather-01d.temp-hot,
 #cities .weather-01d.temp-hot {
   background: #fc371e;
 }
-#add-choices .weather-01d.temp-cold,
+#random .weather-01d.temp-cold,
 #cities .weather-01d.temp-cold {
   background: #fd8928;
 }
-#add-choices .weather-01n,
+#random .weather-01n,
 #cities .weather-01n {
   background: #171b34;
 }
-#add-choices .weather-01n.temp-hot,
+#random .weather-01n.temp-hot,
 #cities .weather-01n.temp-hot {
   background: #0d0f1d;
 }
-#add-choices .weather-01n.temp-cold,
+#random .weather-01n.temp-cold,
 #cities .weather-01n.temp-cold {
   background: #202648;
 }
-#add-choices .weather-02d,
+#random .weather-02d,
 #cities .weather-02d {
   background: #f7bc2d;
 }
-#add-choices .weather-02d.temp-hot,
+#random .weather-02d.temp-hot,
 #cities .weather-02d.temp-hot {
   background: #f3a528;
 }
-#add-choices .weather-02d.temp-cold,
+#random .weather-02d.temp-cold,
 #cities .weather-02d.temp-cold {
   background: #f8ca30;
 }
-#add-choices .weather-02n,
+#random .weather-02n,
 #cities .weather-02n {
   background: #242c4a;
 }
-#add-choices .weather-02n.temp-hot,
+#random .weather-02n.temp-hot,
 #cities .weather-02n.temp-hot {
   background: #14182a;
 }
-#add-choices .weather-02n.temp-cold,
+#random .weather-02n.temp-cold,
 #cities .weather-02n.temp-cold {
   background: #333c66;
 }
-#add-choices .weather-03d,
+#random .weather-03d,
 #cities .weather-03d {
   background: #4dbfd5;
 }
-#add-choices .weather-03d.temp-hot,
+#random .weather-03d.temp-hot,
 #cities .weather-03d.temp-hot {
   background: #3aa6c6;
 }
-#add-choices .weather-03d.temp-cold,
+#random .weather-03d.temp-cold,
 #cities .weather-03d.temp-cold {
   background: #5cccdd;
 }
-#add-choices .weather-03n,
+#random .weather-03n,
 #cities .weather-03n {
   background: #214a60;
 }
-#add-choices .weather-03n.temp-hot,
+#random .weather-03n.temp-hot,
 #cities .weather-03n.temp-hot {
   background: #122b39;
 }
-#add-choices .weather-03n.temp-cold,
+#random .weather-03n.temp-cold,
 #cities .weather-03n.temp-cold {
   background: #2e6781;
 }
-#add-choices .weather-04d,
+#random .weather-04d,
 #cities .weather-04d {
   background: #63aeb0;
 }
-#add-choices .weather-04d.temp-hot,
+#random .weather-04d.temp-hot,
 #cities .weather-04d.temp-hot {
   background: #369194;
 }
-#add-choices .weather-04d.temp-cold,
+#random .weather-04d.temp-cold,
 #cities .weather-04d.temp-cold {
   background: #82bfc0;
 }
-#add-choices .weather-04n,
+#random .weather-04n,
 #cities .weather-04n {
   background: #2e4651;
 }
-#add-choices .weather-04n.temp-hot,
+#random .weather-04n.temp-hot,
 #cities .weather-04n.temp-hot {
   background: #1a282e;
 }
-#add-choices .weather-04n.temp-cold,
+#random .weather-04n.temp-cold,
 #cities .weather-04n.temp-cold {
   background: #406170;
 }
-#add-choices .weather-09d,
+#random .weather-09d,
 #cities .weather-09d {
   background: #2a5b75;
 }
-#add-choices .weather-09d.temp-hot,
+#random .weather-09d.temp-hot,
 #cities .weather-09d.temp-hot {
   background: #112045;
 }
-#add-choices .weather-09d.temp-cold,
+#random .weather-09d.temp-cold,
 #cities .weather-09d.temp-cold {
   background: #397f92;
 }
-#add-choices .weather-09n,
+#random .weather-09n,
 #cities .weather-09n {
   background: #142e3e;
 }
-#add-choices .weather-09n.temp-hot,
+#random .weather-09n.temp-hot,
 #cities .weather-09n.temp-hot {
   background: #0b1a23;
 }
-#add-choices .weather-09n.temp-cold,
+#random .weather-09n.temp-cold,
 #cities .weather-09n.temp-cold {
   background: #1d3f56;
 }
-#add-choices .weather-10d,
+#random .weather-10d,
 #cities .weather-10d {
   background: #41a586;
 }
-#add-choices .weather-10d.temp-hot,
+#random .weather-10d.temp-hot,
 #cities .weather-10d.temp-hot {
   background: #27845c;
 }
-#add-choices .weather-10d.temp-cold,
+#random .weather-10d.temp-cold,
 #cities .weather-10d.temp-cold {
   background: #52b89f;
 }
-#add-choices .weather-10n,
+#random .weather-10n,
 #cities .weather-10n {
   background: #1c4343;
 }
-#add-choices .weather-10n.temp-hot,
+#random .weather-10n.temp-hot,
 #cities .weather-10n.temp-hot {
   background: #0f2626;
 }
-#add-choices .weather-10n.temp-cold,
+#random .weather-10n.temp-cold,
 #cities .weather-10n.temp-cold {
   background: #285d5d;
 }
-#add-choices .weather-11d,
+#random .weather-11d,
 #cities .weather-11d {
   background: #495358;
 }
-#add-choices .weather-11d.temp-hot,
+#random .weather-11d.temp-hot,
 #cities .weather-11d.temp-hot {
   background: #1b1f21;
 }
-#add-choices .weather-11d.temp-cold,
+#random .weather-11d.temp-cold,
 #cities .weather-11d.temp-cold {
   background: #66727a;
 }
-#add-choices .weather-11n,
+#random .weather-11n,
 #cities .weather-11n {
   background: #242a33;
 }
-#add-choices .weather-11n.temp-hot,
+#random .weather-11n.temp-hot,
 #cities .weather-11n.temp-hot {
   background: #14181d;
 }
-#add-choices .weather-11n.temp-cold,
+#random .weather-11n.temp-cold,
 #cities .weather-11n.temp-cold {
   background: #313a47;
 }
-#add-choices .weather-13d,
+#random .weather-13d,
 #cities .weather-13d {
   color: #495358;
   background: #d8dec0;
 }
-#add-choices .weather-13d.temp-hot,
+#random .weather-13d.temp-hot,
 #cities .weather-13d.temp-hot {
   background: #cad2aa;
 }
-#add-choices .weather-13d.temp-cold,
+#random .weather-13d.temp-cold,
 #cities .weather-13d.temp-cold {
   background: #e0e5cd;
 }
-#add-choices .weather-13n,
+#random .weather-13n,
 #cities .weather-13n {
   color: #495358;
   background: #505457;
 }
-#add-choices .weather-13n.temp-hot,
+#random .weather-13n.temp-hot,
 #cities .weather-13n.temp-hot {
   background: #2d3031;
 }
-#add-choices .weather-13n.temp-cold,
+#random .weather-13n.temp-cold,
 #cities .weather-13n.temp-cold {
   background: #6e7478;
 }
-#add-choices .weather-50d,
+#random .weather-50d,
 #cities .weather-50d {
   background: #99bdc7;
 }
-#add-choices .weather-50d.temp-hot,
+#random .weather-50d.temp-hot,
 #cities .weather-50d.temp-hot {
   background: #75a6b3;
 }
-#add-choices .weather-50d.temp-cold,
+#random .weather-50d.temp-cold,
 #cities .weather-50d.temp-cold {
   background: #aecbd3;
 }
-#add-choices .weather-50n:,
+#random .weather-50n:,
 #cities .weather-50n: {
   background: #3e4b59;
 }
-#add-choices .weather-50n:.temp-hot,
+#random .weather-50n:.temp-hot,
 #cities .weather-50n:.temp-hot {
   background: #232a33;
 }
-#add-choices .weather-50n:.temp-cold,
+#random .weather-50n:.temp-cold,
 #cities .weather-50n:.temp-cold {
   background: #56667b;
 }

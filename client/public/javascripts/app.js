@@ -328,7 +328,7 @@ module.exports = ViewCollection = (function(superClass) {
 });
 
 ;require.register("models/city", function(exports, require, module) {
-var City, icons,
+var City, icons, nbNextDays, nbNextHours,
   bind = function(fn, me){ return function(){ return fn.apply(me, arguments); }; },
   extend = function(child, parent) { for (var key in parent) { if (hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; },
   hasProp = {}.hasOwnProperty;
@@ -353,6 +353,10 @@ icons = {
   "50d": "windy",
   "50n": "windy"
 };
+
+nbNextHours = 5;
+
+nbNextDays = 6;
 
 module.exports = City = (function(superClass) {
   extend(City, superClass);
@@ -431,7 +435,7 @@ module.exports = City = (function(superClass) {
   };
 
   City.prototype.toReadableHour = function(value) {
-    return value.split(" ")[1].slice(0, 5);
+    return value.split(" ")[1].slice(0, nbNextHours);
   };
 
   City.prototype.toReadableDate = function(value) {
@@ -442,8 +446,8 @@ module.exports = City = (function(superClass) {
   };
 
   City.prototype.fmtCityForecastInfos = function() {
-    var forecast, hour, i, len, next5, nextHour, now;
-    next5 = [];
+    var forecast, hour, i, len, nextHour, nexts, now;
+    nexts = [];
     forecast = this.get("hours");
     if (forecast) {
       forecast = forecast.list;
@@ -459,20 +463,20 @@ module.exports = City = (function(superClass) {
             nextHour.weather = hour.weather[0];
             nextHour.wiclass = this.toWiClass(nextHour.weather.icon);
             nextHour.hotness = this.toHotness(nextHour.temp);
-            next5.push(nextHour);
+            nexts.push(nextHour);
           }
-          if (next5.length >= 5) {
+          if (nexts.length >= nbNextHours) {
             break;
           }
         }
       }
     }
-    return this.set("hours", next5);
+    return this.set("hours", nexts);
   };
 
   City.prototype.fmtCityDaysForecastInfos = function() {
-    var day, forecast, i, len, next5, nextDay;
-    next5 = [];
+    var day, forecast, i, len, nextDay, nexts;
+    nexts = [];
     forecast = this.get("days");
     if (forecast) {
       forecast = forecast.list;
@@ -487,11 +491,11 @@ module.exports = City = (function(superClass) {
           nextDay.weather = day.weather[0];
           nextDay.wiclass = this.toWiClass(nextDay.weather.icon);
           nextDay.hotness = this.toHotness(nextDay.day);
-          next5.push(nextDay);
+          nexts.push(nextDay);
         }
       }
     }
-    return this.set("days", next5);
+    return this.set("days", nexts);
   };
 
   return City;
@@ -567,7 +571,7 @@ module.exports = AppView = (function(superClass) {
         var tmpl;
         tmpl = require("./templates/random");
         console.log(new City(data).attributes);
-        return $("#add-choices-examples").append(tmpl(new City(data).attributes));
+        return $("#random-choices").append(tmpl(new City(data).attributes));
       }));
     }
     return results;
@@ -699,7 +703,7 @@ module.exports = CityView = (function(superClass) {
   CityView.prototype.tagName = "li";
 
   CityView.prototype.events = {
-    "click .now-delete": "deleteCity"
+    "click .now-remove": "removeCity"
   };
 
   CityView.prototype.template = function() {
@@ -715,7 +719,7 @@ module.exports = CityView = (function(superClass) {
     }
   };
 
-  CityView.prototype.deleteCity = function() {
+  CityView.prototype.removeCity = function() {
     return this.model.destroy({
       success: (function(_this) {
         return function() {
@@ -743,12 +747,12 @@ var buf = [];
 with (locals || {}) {
 var interp;
 buf.push('<div');
-buf.push(attrs({ "class": ('now') + ' ' + ("col-xs-3 weather-" + (weather.icon) + " temp-" + (hotness) + "") }, {"class":true}));
+buf.push(attrs({ "class": ('now') + ' ' + ("col-xs-offset-1 col-xs-3 weather-" + (weather.icon) + " temp-" + (hotness) + "") }, {"class":true}));
 buf.push('><div class="now-title"><div');
 buf.push(attrs({ 'title':("" + (country) + ""), "class": ('now-name') }, {"title":true}));
-buf.push('>' + escape((interp = name) == null ? '' : interp) + '</div><div title="remove" class="now-delete glyphicon glyphicon-remove"></div></div><div class="now-weather"><span');
+buf.push('>' + escape((interp = name) == null ? '' : interp) + '</div><div class="now-description">' + escape((interp = weather.description) == null ? '' : interp) + '</div><div title="remove" class="now-remove"><img src="/icons/remove.svg" alt="remove"/></div></div><div class="now-weather"><span');
 buf.push(attrs({ "class": ("wi wi-" + (wiclass) + "") }, {"class":true}));
-buf.push('></span></div><div class="now-infos"><div class="now-temp">' + escape((interp = temp) == null ? '' : interp) + '°</div><div class="now-humidity"> <span class="glyphicon glyphicon-tint"></span> ' + escape((interp = humidity) == null ? '' : interp) + '%</div></div></div><div class="today col-xs-3">');
+buf.push('></span></div><div class="now-infos"><div class="now-temp">' + escape((interp = temp) == null ? '' : interp) + '°</div><div class="now-humidity"> <img src="/icons/humidity.svg" alt="humidity"/> ' + escape((interp = humidity) == null ? '' : interp) + '%</div></div></div><div class="today col-xs-2">');
 // iterate hours
 ;(function(){
   if ('number' == typeof hours.length) {
@@ -758,7 +762,7 @@ buf.push('></span></div><div class="now-infos"><div class="now-temp">' + escape(
 
 buf.push('<div');
 buf.push(attrs({ "class": ('time') + ' ' + ("row weather-" + (time.weather.icon) + " temp-" + (time.hotness) + " index-" + (index) + "") }, {"class":true}));
-buf.push('><div class="time-hour col-xs-3">' + escape((interp = time.hour) == null ? '' : interp) + '</div><div class="time-weather col-xs-3"><span');
+buf.push('><div class="time-hour col-xs-3">' + escape((interp = time.hour) == null ? '' : interp) + '<div class="blah"></div></div><div class="time-weather col-xs-3"><span');
 buf.push(attrs({ "class": ("wi wi-" + (time.wiclass) + "") }, {"class":true}));
 buf.push('></span></div><strong class="time-temp col-xs-3">' + escape((interp = time.temp) == null ? '' : interp) + '°</strong><div class="time-humidity col-xs-3">' + escape((interp = time.humidity) == null ? '' : interp) + '%</div></div>');
     }
@@ -770,7 +774,7 @@ buf.push('></span></div><strong class="time-temp col-xs-3">' + escape((interp = 
 
 buf.push('<div');
 buf.push(attrs({ "class": ('time') + ' ' + ("row weather-" + (time.weather.icon) + " temp-" + (time.hotness) + " index-" + (index) + "") }, {"class":true}));
-buf.push('><div class="time-hour col-xs-3">' + escape((interp = time.hour) == null ? '' : interp) + '</div><div class="time-weather col-xs-3"><span');
+buf.push('><div class="time-hour col-xs-3">' + escape((interp = time.hour) == null ? '' : interp) + '<div class="blah"></div></div><div class="time-weather col-xs-3"><span');
 buf.push(attrs({ "class": ("wi wi-" + (time.wiclass) + "") }, {"class":true}));
 buf.push('></span></div><strong class="time-temp col-xs-3">' + escape((interp = time.temp) == null ? '' : interp) + '°</strong><div class="time-humidity col-xs-3">' + escape((interp = time.humidity) == null ? '' : interp) + '%</div></div>');
     }
@@ -790,7 +794,7 @@ buf.push('<div');
 buf.push(attrs({ "class": ('day') + ' ' + ("col-xs-2 weather-" + (day.weather.icon) + " temp-" + (day.hotness) + " index-" + (index) + "") }, {"class":true}));
 buf.push('><div class="day-name">' + escape((interp = day.date) == null ? '' : interp) + '</div><div class="day-weather"><span');
 buf.push(attrs({ "class": ("wi wi-" + (day.wiclass) + "") }, {"class":true}));
-buf.push('></span></div><div title=temperature during night="title=temperature during night" class="day-temp">' + escape((interp = day.night) == null ? '' : interp) + '°</div><strong title=temperature during day="title=temperature during day" class="day-temp">' + escape((interp = day.day) == null ? '' : interp) + '°</strong></div>');
+buf.push('></span></div><div class="day-description">' + escape((interp = day.weather.description) == null ? '' : interp) + '</div><div title=temperature during night="title=temperature during night" class="day-temp">' + escape((interp = day.night) == null ? '' : interp) + '°</div><strong title=temperature during day="title=temperature during day" class="day-temp">' + escape((interp = day.day) == null ? '' : interp) + '°</strong></div>');
     }
 
   } else {
@@ -802,7 +806,7 @@ buf.push('<div');
 buf.push(attrs({ "class": ('day') + ' ' + ("col-xs-2 weather-" + (day.weather.icon) + " temp-" + (day.hotness) + " index-" + (index) + "") }, {"class":true}));
 buf.push('><div class="day-name">' + escape((interp = day.date) == null ? '' : interp) + '</div><div class="day-weather"><span');
 buf.push(attrs({ "class": ("wi wi-" + (day.wiclass) + "") }, {"class":true}));
-buf.push('></span></div><div title=temperature during night="title=temperature during night" class="day-temp">' + escape((interp = day.night) == null ? '' : interp) + '°</div><strong title=temperature during day="title=temperature during day" class="day-temp">' + escape((interp = day.day) == null ? '' : interp) + '°</strong></div>');
+buf.push('></span></div><div class="day-description">' + escape((interp = day.weather.description) == null ? '' : interp) + '</div><div title=temperature during night="title=temperature during night" class="day-temp">' + escape((interp = day.night) == null ? '' : interp) + '°</div><strong title=temperature during day="title=temperature during day" class="day-temp">' + escape((interp = day.day) == null ? '' : interp) + '°</strong></div>');
     }
 
   }
@@ -820,7 +824,7 @@ attrs = attrs || jade.attrs; escape = escape || jade.escape; rethrow = rethrow |
 var buf = [];
 with (locals || {}) {
 var interp;
-buf.push('<div id="content"><div id="add-head"><h1 class="row">Cozy <strong>Weather</strong> Forecast</h1><h5 class="row">Welcome to your weather app, <strong>type the name of a city</strong></h5><form id="search" class="row"><div class="input-group col-xs-offset-4 col-xs-4"><input placeholder="Paris, fr" class="city form-control"/><div class="input-group-addon"><span class="glyphicon glyphicon-search"></span></div></div><p class="help-block">Tip: To ensure the location, add the country code after the city name (for ex: Paris, fr)</p></form></div><ul id="cities"></ul><div id="add-choices"><p class="row">Or click to add to your cozy forecast</p><div id="add-choices-examples" class="row"><div class="col-xs-3"></div></div></div></div>');
+buf.push('<div id="content"><div id="add-head"><h1 class="row">Cozy <strong>Weather</strong> Forecast</h1><h5 class="row">Welcome to your weather app, <strong>type the name of a city</strong></h5><form id="search" class="row"><div class="input-group col-xs-offset-4 col-xs-4"><input placeholder="Paris, fr" class="city form-control"/><div class="input-group-addon"><img src="/icons/search.svg" alt="search"/></div></div><p class="help-block">Tip: To ensure the location, add the country code after the city name (for ex: Paris, fr)</p></form><div id="bottom" class="row"><div class="left col-xs-offset-3 col-xs-1"></div><div class="right col-xs-offset-4 col-xs-1"></div></div></div><ul id="cities"></ul><div id="random"><p class="row">Or click to add to your cozy forecast</p><div id="random-choices" class="row"><div class="col-xs-3"></div></div></div></div>');
 }
 return buf.join("");
 };
@@ -833,12 +837,12 @@ var buf = [];
 with (locals || {}) {
 var interp;
 buf.push('<div');
-buf.push(attrs({ "class": ('add-choices-choice') + ' ' + ("col-xs-2 weather-" + (weather.icon) + " temp-" + (hotness) + "") }, {"class":true}));
+buf.push(attrs({ "class": ('random-choice') + ' ' + ("col-xs-2 weather-" + (weather.icon) + " temp-" + (hotness) + "") }, {"class":true}));
 buf.push('><div');
-buf.push(attrs({ 'title':("" + (country) + ""), "class": ('name') }, {"title":true}));
-buf.push('>' + escape((interp = name) == null ? '' : interp) + '</div><div class="weather"><span');
+buf.push(attrs({ 'title':("" + (country) + ""), "class": ('random-choice-name') }, {"title":true}));
+buf.push('>' + escape((interp = name) == null ? '' : interp) + '</div><div class="random-choice-weather"><span');
 buf.push(attrs({ "class": ("wi wi-" + (wiclass) + "") }, {"class":true}));
-buf.push('></span></div><div class="infos"><div class="temp">' + escape((interp = temp) == null ? '' : interp) + '°</div><div class="humidity"> <span class="glyphicon glyphicon-tint"></span> ' + escape((interp = humidity) == null ? '' : interp) + '%</div></div></div>');
+buf.push('></span></div><div class="random-choice-infos"><div class="random-choice-temp">' + escape((interp = temp) == null ? '' : interp) + '°</div><div class="random-choice-humidity"> <img src="/icons/humidity.svg" alt="humidity"/> ' + escape((interp = humidity) == null ? '' : interp) + '%</div></div></div>');
 }
 return buf.join("");
 };

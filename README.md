@@ -8,6 +8,8 @@ Weather application based on the OpenWeather Map API
 
 # Changelog
 
+* v0.6
+  * full review of the design
 * v0.5.1
   * add a reset button
 * v0.5
@@ -25,8 +27,15 @@ Weather application based on the OpenWeather Map API
 
 # Tools & resources used
 
-* weather data from OpenWeatherMap, http://openweathermap.org/
-* icons from ~d3stroy, http://d3stroy.deviantart.com/art/SILq-Weather-Icons-356609017
+* weather data from OpenWeatherMap, https://openweathermap.org/
+* weather icons from Erik Flowers, https://erikflowers.github.io/weather-icons/
+* loader icons from Connor Atherton, http://connoratherton.com/loaders
+* stuff from bootstrap, http://getbootstrap.com/
+* backbone.js, http://backbonejs.org/
+* underscore.js, http://underscorejs.org/
+* jquery, http://jquery.com/
+* stuff from cozy.io
+* please read package.json files (root and client directory) for other libs
 
 # About Cozy
 

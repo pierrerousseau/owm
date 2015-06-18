@@ -36,15 +36,19 @@ module.exports = class AppView extends View
 
     events:
         "submit #search": "cityFind"
-        "submit #refresh": "refresh"
+        "click #refresh": "refresh"
         "click .random-choice": "addRandomCity"
 
     addCity: (name) ->
+        @setLoading()
         cityObj =
             "name": name
         @citiesView.collection.create cityObj,
             "wait": true,
+            "success": =>
+                @unSetLoading()
             "error": =>
+                @unSetLoading()
                 alert "impossible to add weather informations for " + name
 
     cityFind: (evt) ->
@@ -73,6 +77,6 @@ module.exports = class AppView extends View
         false
     
     setLoading: ->
-        $("#loader").show("slow")
+        $("body").addClass("loading")
     unSetLoading: ->
-        $("#loader").hide()
+        $("body").removeClass("loading")

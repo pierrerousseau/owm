@@ -620,19 +620,26 @@ module.exports = AppView = (function(superClass) {
 
   AppView.prototype.events = {
     "submit #search": "cityFind",
-    "submit #refresh": "refresh",
+    "click #refresh": "refresh",
     "click .random-choice": "addRandomCity"
   };
 
   AppView.prototype.addCity = function(name) {
     var cityObj;
+    this.setLoading();
     cityObj = {
       "name": name
     };
     return this.citiesView.collection.create(cityObj, {
       "wait": true,
+      "success": (function(_this) {
+        return function() {
+          return _this.unSetLoading();
+        };
+      })(this),
       "error": (function(_this) {
         return function() {
+          _this.unSetLoading();
           return alert("impossible to add weather informations for " + name);
         };
       })(this)
@@ -674,11 +681,11 @@ module.exports = AppView = (function(superClass) {
   };
 
   AppView.prototype.setLoading = function() {
-    return $("#loader").show("slow");
+    return $("body").addClass("loading");
   };
 
   AppView.prototype.unSetLoading = function() {
-    return $("#loader").hide();
+    return $("body").removeClass("loading");
   };
 
   return AppView;
@@ -853,7 +860,7 @@ attrs = attrs || jade.attrs; escape = escape || jade.escape; rethrow = rethrow |
 var buf = [];
 with (locals || {}) {
 var interp;
-buf.push('<div id="content"><div id="add-head"><div class="row"><div class="left col-xs-2"><img src="images/sun-cloud.svg"/></div><h1 class="col-xs-4">Cozy <strong>Weather </strong>Forecast</h1><div class="right col-xs-2"><img src="images/cloud.svg"/></div><form id="search" class="col-xs-3"><label><strong>Add a new city </strong>to your forecast</label><div class="input-group"><input placeholder="Paris, fr" class="city form-control"/><div class="input-group-addon"><img src="icons/search.svg" alt="search"/></div></div><p class="help-block">Tip: To ensure the location, add the country code after the city name (for ex: Paris, fr)</p></form></div></div><div id="loader" class="loader-inner ball-pulse"><div></div><div></div><div></div><p>Loading weather, please wait ...</p></div><ul id="cities"></ul><div id="random"><p class="row">Click to add to your cozy forecast ...</p><div id="random-choices" class="row"><div class="col-xs-3"></div></div></div><div id="footer"> \ndata from <a href="https://openweathermap.org" target="_blank">OpenWeatherMap </a>-\nicons from <a href="https://erikflowers.github.io/weather-icons/" target="_blank">Erik Flowers</a></div></div>');
+buf.push('<div id="content"><div id="add-head"><div class="row"><div class="left col-xs-2"><img src="images/sun-cloud.svg"/></div><h1 class="col-xs-4">Cozy <strong>Weather </strong>Forecast<img id="refresh" src="icons/refresh.svg"/></h1><div class="right col-xs-2"><img src="images/cloud.svg"/></div><form id="search" class="col-xs-3"><label><strong>Add a new city </strong>to your forecast</label><div class="input-group"><input placeholder="Paris, fr" class="city form-control"/><div class="input-group-addon"><img src="icons/search.svg" alt="search"/></div></div><p class="help-block">Tip: To ensure the location, add the country code after the city name (for ex: Paris, fr)</p></form></div></div><div id="loader" class="loader-inner ball-pulse"><div></div><div></div><div></div><p>Loading weather, please wait ...</p></div><ul id="cities"></ul><div id="random"><p class="row">Click to add to your cozy forecast ...</p><div id="random-choices" class="row"><div class="col-xs-3"></div></div></div><div id="footer"> \ndata from <a href="https://openweathermap.org" target="_blank">OpenWeatherMap </a>-\nicons from <a href="https://erikflowers.github.io/weather-icons/" target="_blank">Erik Flowers</a></div></div>');
 }
 return buf.join("");
 };

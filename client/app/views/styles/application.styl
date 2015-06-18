@@ -11,6 +11,13 @@ weather-color       = #fff
 city-height         = 15em
 random-background   = #f3f3f3
 
+.loading 
+    #refresh
+        opacity: .5
+    #loader
+        display: block
+
+
 #add-head
     background: add-head-background
     color: add-head-color
@@ -23,13 +30,18 @@ random-background   = #f3f3f3
         display: inline-block
         margin-top: 0
         margin-bottom: .5em 
-        padding-top: 1em
+        padding-top: .5em
         font-size: 3em
-
         letter-spacing: .02em
+
+        img 
+            margin-left: .2em
+            opacity: .7
+            height: 1em
+            cursor: pointer
     form
         margin-top: 0
-        padding-top: 2.5em
+        padding-top: 2em
         margin-bottom: .5em 
         display: inline-block
         text-align: start
@@ -58,6 +70,7 @@ random-background   = #f3f3f3
     .help-block
         color: input-help-color
         font-size: xx-small
+        white-space: nowrap
     .left
     .right
         padding-top: 5em

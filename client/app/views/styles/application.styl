@@ -15,7 +15,7 @@ random-background   = #f3f3f3
     #refresh
         opacity: .5
     #loader
-        display: block
+        visibility: visible
 
 
 #add-head
@@ -85,8 +85,10 @@ random-background   = #f3f3f3
             height: 30px
 
 #loader
-    display: none
-    padding-top: 2em
+    visibility: hidden
+    padding: 0
+    margin: 0
+    padding-top: .2em
     text-align: center
     div
         background: loader-color
@@ -134,7 +136,7 @@ random-background   = #f3f3f3
     .city
         padding: 0
         height: city-height
-        margin: 2em 1em
+        margin: 1em 1em
         color: weather-color
 
     .now

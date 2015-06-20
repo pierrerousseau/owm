@@ -580,30 +580,44 @@ module.exports = AppView = (function(superClass) {
     return this.router = PiourCozyOWM.Routers.AppRouter = new AppRouter();
   };
 
+  AppView.prototype.afterRender = function() {
+    this.citiesView = new CitiesView({
+      collection: new CityCollection
+    });
+    return this.loadCities();
+  };
+
+  AppView.prototype.events = {
+    "submit #search": "cityFind",
+    "click #refresh": "refresh",
+    "click .random-choice": "addRandomCity"
+  };
+
   AppView.prototype.displayRandom = function() {
     var i, len, name, num, ref, results;
+    $(".random-choice").remove();
     ref = [1, 2, 3];
     results = [];
     for (i = 0, len = ref.length; i < len; i++) {
       num = ref[i];
       name = capitals[Math.floor(Math.random() * capitals.length)];
       results.push($.getJSON("cities/" + name, function(data) {
-        var tmpl;
+        var newCity, tmpl;
         tmpl = require("./templates/random");
-        console.log(new City(data).attributes);
-        return $("#random-choices").append(tmpl(new City(data).attributes));
+        newCity = $(tmpl(new City(data).attributes));
+        newCity.hide();
+        $("#random-choices").append(newCity);
+        return newCity.show("slow");
       }));
     }
     return results;
   };
 
-  AppView.prototype.afterRender = function() {
+  AppView.prototype.loadCities = function() {
     this.displayRandom();
-    this.citiesView = new CitiesView({
-      collection: new CityCollection
-    });
     this.setLoading();
     return this.citiesView.collection.fetch({
+      reset: true,
       success: (function(_this) {
         return function() {
           return _this.unSetLoading();
@@ -616,12 +630,6 @@ module.exports = AppView = (function(superClass) {
         };
       })(this)
     });
-  };
-
-  AppView.prototype.events = {
-    "submit #search": "cityFind",
-    "click #refresh": "refresh",
-    "click .random-choice": "addRandomCity"
   };
 
   AppView.prototype.addCity = function(name) {
@@ -653,30 +661,16 @@ module.exports = AppView = (function(superClass) {
     return false;
   };
 
+  AppView.prototype.refresh = function(evt) {
+    this.loadCities();
+    return false;
+  };
+
   AppView.prototype.addRandomCity = function(evt) {
     var current, name;
     current = $(evt.currentTarget);
     name = current.find(".random-choice-name").text();
     this.addCity(name);
-    return false;
-  };
-
-  AppView.prototype.refresh = function(evt) {
-    this.setLoading();
-    this.citiesView.collection.fetch({
-      reset: true,
-      success: (function(_this) {
-        return function() {
-          return _this.unSetLoading();
-        };
-      })(this),
-      error: (function(_this) {
-        return function() {
-          _this.unSetLoading();
-          return alert("impossible to retrieve weather informations");
-        };
-      })(this)
-    });
     return false;
   };
 
@@ -756,18 +750,27 @@ module.exports = CityView = (function(superClass) {
   };
 
   CityView.prototype.removeCity = function() {
+    this.fromClick = true;
     return this.model.destroy({
-      success: (function(_this) {
-        return function() {
-          return _this.remove();
-        };
-      })(this),
       error: (function(_this) {
         return function() {
-          return alertUser("impossible to remove " + _this.model.get("name"));
+          return alert("impossible to remove " + _this.model.get("name"));
         };
       })(this)
     });
+  };
+
+  CityView.prototype.remove = function() {
+    var el;
+    el = this.$el;
+    if (this.fromClick) {
+      el.hide("slow", function() {
+        return el.remove();
+      });
+      return this.fromClick = false;
+    } else {
+      return el.remove();
+    }
   };
 
   return CityView;

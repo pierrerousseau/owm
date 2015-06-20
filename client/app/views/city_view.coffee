@@ -17,8 +17,15 @@ module.exports = class CityView extends View
             template data
 
     removeCity: ->
+        @fromClick = true
         @model.destroy
-            success: =>
-                @remove()
             error: =>
-                alertUser "impossible to remove " + @model.get "name"
+                alert "impossible to remove " + @model.get "name"
+
+    remove: ->
+        el = @$el
+        if @fromClick
+            el.hide("slow", -> el.remove())
+            @fromClick = false
+        else
+            el.remove()

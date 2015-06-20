@@ -135,13 +135,12 @@ random-background   = #f3f3f3
     padding: 0
     .city
         padding: 0
-        height: city-height
         margin: 1em 1em
         color: weather-color
 
     .now
         border-radius: 4px 0 0 4px
-        height: 100%
+        height: city-height
         padding: 0
 
         &:hover
@@ -190,13 +189,13 @@ random-background   = #f3f3f3
                     vertical-align: top
                     height: 1.5em
     .today
-        height: 100%
+        height: city-height
         margin-left: 1px
         padding: 0
         border-radius: 0 4px 0 0
         .time
-            height: 20%
             font-size: 1.25em
+            height: 20%
             margin: 0
             &:hover
                 opacity: .8
@@ -204,9 +203,10 @@ random-background   = #f3f3f3
                 background: #000
                 opacity: .2
             div, strong
+                display: inline-block
                 padding: .4em 0
-                vertical-align: middle
                 height: 100%
+                width: 25%
                 text-align: center
         .index-0
             border-radius: 0 4px 0 0
@@ -215,6 +215,7 @@ random-background   = #f3f3f3
 
     .week
         margin-right: -1px
+        height: city-height
 
         .days
             height: city-height

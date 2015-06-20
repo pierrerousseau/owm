@@ -147,14 +147,13 @@
 }
 #cities .city {
   padding: 0;
-  height: 15em;
   margin: 1em 1em;
   color: #fff;
 }
 #cities .now {
   -webkit-border-radius: 4px 0 0 4px;
   border-radius: 4px 0 0 4px;
-  height: 100%;
+  height: 15em;
   padding: 0;
 }
 #cities .now:hover .now-remove {
@@ -213,15 +212,15 @@
   height: 1.5em;
 }
 #cities .today {
-  height: 100%;
+  height: 15em;
   margin-left: 1px;
   padding: 0;
   -webkit-border-radius: 0 4px 0 0;
   border-radius: 0 4px 0 0;
 }
 #cities .today .time {
-  height: 20%;
   font-size: 1.25em;
+  height: 20%;
   margin: 0;
 }
 #cities .today .time:hover {
@@ -237,9 +236,10 @@
 }
 #cities .today .time div,
 #cities .today .time strong {
+  display: inline-block;
   padding: 0.4em 0;
-  vertical-align: middle;
   height: 100%;
+  width: 25%;
   text-align: center;
 }
 #cities .today .index-0 {
@@ -252,6 +252,7 @@
 }
 #cities .week {
   margin-right: -1px;
+  height: 15em;
 }
 #cities .week .days {
   height: 15em;

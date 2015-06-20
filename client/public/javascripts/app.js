@@ -863,7 +863,7 @@ attrs = attrs || jade.attrs; escape = escape || jade.escape; rethrow = rethrow |
 var buf = [];
 with (locals || {}) {
 var interp;
-buf.push('<div id="content"><div id="add-head"><div class="row"><div class="left hidden-xs hidden-sm col-md-2"><img src="images/sun-cloud.svg"/></div><h1 class="col-md-4">Cozy <strong>Weather </strong>Forecast<img id="refresh" src="icons/refresh.svg"/></h1><div class="right hidden-xs hidden-sm col-md-2"><img src="images/cloud.svg"/></div><form id="search" class="col-xs-offset-1 col-xs-10 col-md-offset-0 col-md-3"><label><strong>Add a new city </strong>to your forecast</label><div class="input-group"><input placeholder="Paris, fr" class="city form-control"/><div class="input-group-addon"><img src="icons/search.svg" alt="search"/></div></div><p class="help-block">Tip: To ensure the location, add the country code after the city name (for ex: Paris, fr)</p></form></div></div><div id="loader" class="loader-inner ball-pulse"><div></div><div></div><div></div><p>Loading weather, please wait ...</p></div><ul id="cities"></ul><div id="random"><p class="row">Click to add to your cozy forecast ...</p><div id="random-choices" class="row"><div class="col-xs-3"></div></div></div><div id="footer"> \ndata from <a href="https://openweathermap.org" target="_blank">OpenWeatherMap </a>-\nicons from <a href="https://erikflowers.github.io/weather-icons/" target="_blank">Erik Flowers</a></div></div>');
+buf.push('<div id="content"><div id="add-head"><div class="row"><div class="left hidden-xs hidden-sm col-md-2"><img src="images/sun-cloud.svg"/></div><h1 class="col-md-4">Cozy <strong>Weather </strong>Forecast<img id="refresh" src="icons/refresh.svg"/></h1><div class="right hidden-xs hidden-sm col-md-2"><img src="images/cloud.svg"/></div><form id="search" class="col-xs-offset-1 col-xs-10 col-md-offset-0 col-md-3"><label><strong>Add a new city </strong>to your forecast</label><div class="input-group"><input placeholder="Paris, fr" class="city form-control"/><div class="input-group-addon"><img src="icons/search.svg" alt="search"/></div></div><p class="help-block">Tip: To ensure the location, add the country code after the city name (for ex: Paris, fr)</p></form></div></div><div id="loader" class="loader-inner ball-pulse"><div></div><div></div><div></div><p>Loading weather, please wait ...</p></div><ul id="cities"></ul><div id="random"><p class="row">Click to add to your cozy forecast ...</p><div id="random-choices" class="row"><div class="hidden-xs col-md-1"></div></div></div><div id="footer"> \ndata from <a href="https://openweathermap.org" target="_blank">OpenWeatherMap </a>-\nicons from <a href="https://erikflowers.github.io/weather-icons/" target="_blank">Erik Flowers</a></div></div>');
 }
 return buf.join("");
 };
@@ -876,7 +876,7 @@ var buf = [];
 with (locals || {}) {
 var interp;
 buf.push('<div');
-buf.push(attrs({ "class": ('random-choice') + ' ' + ("col-xs-2 weather-" + (weather.icon) + " temp-" + (hotness) + "") }, {"class":true}));
+buf.push(attrs({ "class": ('random-choice') + ' ' + ("col-xs-offset-1 col-xs-10 col-md-offset-0 col-md-3 col-lg-2 weather-" + (weather.icon) + " temp-" + (hotness) + "") }, {"class":true}));
 buf.push('><div');
 buf.push(attrs({ 'title':("" + (country) + ""), "class": ('random-choice-name') }, {"title":true}));
 buf.push('>' + escape((interp = name) == null ? '' : interp) + '</div><div class="random-choice-weather"><span');

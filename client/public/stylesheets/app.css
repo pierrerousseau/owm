@@ -12,7 +12,6 @@
   color: #fff;
   text-align: center;
   overflow: hidden;
-  height: 10em;
 }
 #add-head h1 {
   display: inline-block;
@@ -70,6 +69,7 @@
 }
 #add-head .left,
 #add-head .right {
+  height: 10em;
   padding-top: 5em;
   overflow: hidden;
 }

@@ -66,7 +66,7 @@
 #add-head .help-block {
   color: #000;
   font-size: xx-small;
-  white-space: nowrap;
+  text-align: center;
 }
 #add-head .left,
 #add-head .right {
@@ -147,13 +147,15 @@
 }
 #cities .city {
   padding: 0;
-  margin: 1em 1em;
+  margin: 0 1em;
+  margin-bottom: 1em;
   color: #fff;
 }
 #cities .now {
   -webkit-border-radius: 4px 0 0 4px;
   border-radius: 4px 0 0 4px;
   height: 15em;
+  margin-bottom: 1em;
   padding: 0;
 }
 #cities .now:hover .now-remove {
@@ -213,6 +215,7 @@
 }
 #cities .today {
   height: 15em;
+  margin-bottom: 1em;
   margin-left: 1px;
   padding: 0;
   -webkit-border-radius: 0 4px 0 0;
@@ -253,6 +256,7 @@
 #cities .week {
   margin-right: -1px;
   height: 15em;
+  margin-bottom: 1em;
 }
 #cities .week .days {
   height: 15em;

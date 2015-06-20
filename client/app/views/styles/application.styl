@@ -9,6 +9,7 @@ input-background    = #fff
 input-help-color    = #000
 weather-color       = #fff
 city-height         = 15em
+city-margin-bottom  = 1em
 random-background   = #f3f3f3
 
 .loading 
@@ -70,7 +71,7 @@ random-background   = #f3f3f3
     .help-block
         color: input-help-color
         font-size: xx-small
-        white-space: nowrap
+        text-align: center
     .left
     .right
         padding-top: 5em
@@ -135,12 +136,14 @@ random-background   = #f3f3f3
     padding: 0
     .city
         padding: 0
-        margin: 1em 1em
+        margin: 0 1em
+        margin-bottom: city-margin-bottom
         color: weather-color
 
     .now
         border-radius: 4px 0 0 4px
         height: city-height
+        margin-bottom: city-margin-bottom
         padding: 0
 
         &:hover
@@ -190,6 +193,7 @@ random-background   = #f3f3f3
                     height: 1.5em
     .today
         height: city-height
+        margin-bottom: city-margin-bottom
         margin-left: 1px
         padding: 0
         border-radius: 0 4px 0 0
@@ -216,6 +220,7 @@ random-background   = #f3f3f3
     .week
         margin-right: -1px
         height: city-height
+        margin-bottom: city-margin-bottom
 
         .days
             height: city-height

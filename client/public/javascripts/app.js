@@ -786,12 +786,12 @@ var buf = [];
 with (locals || {}) {
 var interp;
 buf.push('<div');
-buf.push(attrs({ "class": ('now') + ' ' + ("col-lg-offset-1 col-lg-3 weather-" + (weather.icon) + " temp-" + (hotness) + "") }, {"class":true}));
+buf.push(attrs({ "class": ('now') + ' ' + ("col-md-offset-1 col-md-5 col-lg-3 weather-" + (weather.icon) + " temp-" + (hotness) + "") }, {"class":true}));
 buf.push('><div class="now-title"><div');
 buf.push(attrs({ 'title':("" + (country) + ""), "class": ('now-name') }, {"title":true}));
 buf.push('>' + escape((interp = name) == null ? '' : interp) + '</div><div class="now-description">' + escape((interp = weather.description) == null ? '' : interp) + '</div><div title="remove" class="now-remove"><img src="icons/remove.svg" alt="remove"/></div></div><div class="now-weather"><span');
 buf.push(attrs({ "class": ("wi wi-" + (wiclass) + "") }, {"class":true}));
-buf.push('></span></div><div class="now-infos"><div class="now-temp">' + escape((interp = temp) == null ? '' : interp) + '°</div><div class="now-humidity"> <img src="icons/humidity.svg" alt="humidity"/> ' + escape((interp = humidity) == null ? '' : interp) + '%</div></div></div><div class="today col-lg-2">');
+buf.push('></span></div><div class="now-infos"><div class="now-temp">' + escape((interp = temp) == null ? '' : interp) + '°</div><div class="now-humidity"> <img src="icons/humidity.svg" alt="humidity"/> ' + escape((interp = humidity) == null ? '' : interp) + '%</div></div></div><div class="today col-md-5 col-lg-2">');
 // iterate hours
 ;(function(){
   if ('number' == typeof hours.length) {
@@ -821,7 +821,7 @@ buf.push('></span></div><strong class="time-temp">' + escape((interp = time.temp
   }
 }).call(this);
 
-buf.push('</div><div class="week col-lg-6"><div class="days row">');
+buf.push('</div><div class="week col-lg-6"><div class="pad hidden-xs col-md-1 hidden-lg"></div><div class="days row">');
 // iterate days
 ;(function(){
   if ('number' == typeof days.length) {
@@ -829,8 +829,8 @@ buf.push('</div><div class="week col-lg-6"><div class="days row">');
     for (var index = 0, $$l = days.length; index < $$l; index++) {
       var day = days[index];
 
-buf.push('<div');
-buf.push(attrs({ "class": ('day') + ' ' + ("col-lg-2 weather-" + (day.weather.icon) + " temp-" + (day.hotness) + " index-" + (index) + "") }, {"class":true}));
+buf.push('<div class="pad col-xs-1 hidden-md hidden-lg"></div><div');
+buf.push(attrs({ "class": ('day') + ' ' + ("col-xs-10 col-md-2 weather-" + (day.weather.icon) + " temp-" + (day.hotness) + " index-" + (index) + "") }, {"class":true}));
 buf.push('><div class="day-name">' + escape((interp = day.name) == null ? '' : interp) + '</div><div class="day-date">' + escape((interp = day.date) == null ? '' : interp) + '</div><div class="day-weather"><span');
 buf.push(attrs({ "class": ("wi wi-" + (day.wiclass) + "") }, {"class":true}));
 buf.push('></span></div><div class="day-description">' + escape((interp = day.weather.description) == null ? '' : interp) + '</div><div title=temperature during night="title=temperature during night" class="day-temp">' + escape((interp = day.night) == null ? '' : interp) + '°</div><strong title=temperature during day="title=temperature during day" class="day-temp">' + escape((interp = day.day) == null ? '' : interp) + '°</strong></div>');
@@ -841,8 +841,8 @@ buf.push('></span></div><div class="day-description">' + escape((interp = day.we
     for (var index in days) {
       $$l++;      var day = days[index];
 
-buf.push('<div');
-buf.push(attrs({ "class": ('day') + ' ' + ("col-lg-2 weather-" + (day.weather.icon) + " temp-" + (day.hotness) + " index-" + (index) + "") }, {"class":true}));
+buf.push('<div class="pad col-xs-1 hidden-md hidden-lg"></div><div');
+buf.push(attrs({ "class": ('day') + ' ' + ("col-xs-10 col-md-2 weather-" + (day.weather.icon) + " temp-" + (day.hotness) + " index-" + (index) + "") }, {"class":true}));
 buf.push('><div class="day-name">' + escape((interp = day.name) == null ? '' : interp) + '</div><div class="day-date">' + escape((interp = day.date) == null ? '' : interp) + '</div><div class="day-weather"><span');
 buf.push(attrs({ "class": ("wi wi-" + (day.wiclass) + "") }, {"class":true}));
 buf.push('></span></div><div class="day-description">' + escape((interp = day.weather.description) == null ? '' : interp) + '</div><div title=temperature during night="title=temperature during night" class="day-temp">' + escape((interp = day.night) == null ? '' : interp) + '°</div><strong title=temperature during day="title=temperature during day" class="day-temp">' + escape((interp = day.day) == null ? '' : interp) + '°</strong></div>');

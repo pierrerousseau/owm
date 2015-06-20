@@ -1,4 +1,4 @@
-.now(class="col-lg-offset-1 col-lg-3 weather-#{weather.icon} temp-#{hotness}")
+.now(class="col-md-offset-1 col-md-5 col-lg-3 weather-#{weather.icon} temp-#{hotness}")
     .now-title
         .now-name(title="#{country}") #{name}
         .now-description #{weather.description}
@@ -11,7 +11,7 @@
         .now-humidity 
             img(src="icons/humidity.svg", alt="humidity")
             | #{humidity}%
-.today(class="col-lg-2")
+.today(class="col-md-5 col-lg-2")
     each time, index in hours
         .time(class="weather-#{time.weather.icon} temp-#{time.hotness} index-#{index}")
             .time-hour #{time.hour}
@@ -20,9 +20,11 @@
             strong.time-temp #{time.temp}°
             .time-humidity #{time.humidity}%
 .week(class="col-lg-6")
+    .pad(class="hidden-xs col-md-1 hidden-lg")
     .days(class="row")
         each day, index in days
-            .day(class="col-lg-2 weather-#{day.weather.icon} temp-#{day.hotness} index-#{index}")
+            .pad(class="col-xs-1 hidden-md hidden-lg")
+            .day(class="col-xs-10 col-md-2 weather-#{day.weather.icon} temp-#{day.hotness} index-#{index}")
                 .day-name #{day.name}
                 .day-date #{day.date}
                 .day-weather

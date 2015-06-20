@@ -15,29 +15,37 @@ module.exports = class AppView extends View
     initialize: ->
         @router = PiourCozyOWM.Routers.AppRouter = new AppRouter()
 
-    displayRandom: ->
-        for num in [1, 2, 3]
-            name = capitals[Math.floor(Math.random() * capitals.length)]
-            $.getJSON "cities/" + name, (data) ->
-                tmpl = require "./templates/random"
-                console.log new City(data).attributes
-                $("#random-choices").append tmpl(new City(data).attributes)
-
     afterRender: ->
-        @displayRandom()
         @citiesView = new CitiesView(collection: new CityCollection)
-        @setLoading()
-        @citiesView.collection.fetch
-            success: =>
-                @unSetLoading()
-            error: =>
-                @unSetLoading()
-                alert "impossible to retrieve weather informations"
+        @loadCities()
 
     events:
         "submit #search": "cityFind"
         "click #refresh": "refresh"
         "click .random-choice": "addRandomCity"
+
+
+    displayRandom: ->
+        $(".random-choice").remove()
+        for num in [1, 2, 3]
+            name = capitals[Math.floor(Math.random() * capitals.length)]
+            $.getJSON "cities/" + name, (data) ->
+                tmpl = require "./templates/random"
+                newCity = $ tmpl(new City(data).attributes)
+                newCity.hide()
+                $("#random-choices").append newCity
+                newCity.show("slow")
+
+    loadCities: ->
+        @displayRandom()
+        @setLoading()
+        @citiesView.collection.fetch
+            reset: true
+            success: =>
+                @unSetLoading()
+            error: =>
+                @unSetLoading()
+                alert "impossible to retrieve weather informations"
 
     addCity: (name) ->
         @setLoading()
@@ -57,6 +65,11 @@ module.exports = class AppView extends View
 
         false
 
+    refresh: (evt) ->
+        @loadCities()
+
+        false
+    
     addRandomCity: (evt) ->
         current = $(evt.currentTarget)
         name    = current.find(".random-choice-name").text()
@@ -64,18 +77,6 @@ module.exports = class AppView extends View
 
         false
 
-    refresh: (evt) ->
-        @setLoading()
-        @citiesView.collection.fetch
-            reset: true
-            success: =>
-                @unSetLoading()
-            error: =>
-                @unSetLoading()
-                alert "impossible to retrieve weather informations"
-
-        false
-    
     setLoading: ->
         $("body").addClass("loading")
     unSetLoading: ->

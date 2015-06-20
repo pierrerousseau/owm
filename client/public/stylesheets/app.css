@@ -5,7 +5,7 @@
   filter: alpha(opacity=50);
 }
 .loading #loader {
-  display: block;
+  visibility: visible;
 }
 #add-head {
   background: #49b1ec;
@@ -83,8 +83,10 @@
   height: 30px;
 }
 #loader {
-  display: none;
-  padding-top: 2em;
+  visibility: hidden;
+  padding: 0;
+  margin: 0;
+  padding-top: 0.2em;
   text-align: center;
 }
 #loader div {
@@ -146,7 +148,7 @@
 #cities .city {
   padding: 0;
   height: 15em;
-  margin: 2em 1em;
+  margin: 1em 1em;
   color: #fff;
 }
 #cities .now {

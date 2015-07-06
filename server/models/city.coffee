@@ -81,7 +81,7 @@ City.fullCities = (cities, callback) ->
         callback(err, results)
 
 City.all = (callback) ->
-    @request "all", (err, cities) =>
+    @request "byDate", (err, cities) =>
         if err
             callback.call(@, err, [])
         else

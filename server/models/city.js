@@ -115,7 +115,7 @@ City.fullCities = function(cities, callback) {
 };
 
 City.all = function(callback) {
-  return this.request("all", (function(_this) {
+  return this.request("byDate", (function(_this) {
     return function(err, cities) {
       if (err) {
         return callback.call(_this, err, []);

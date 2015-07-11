@@ -8,9 +8,9 @@ icons =
     "04d": "cloudy"
     "04n": "cloudy"
     "09d": "rain"
-    "09d": "night-rain"
+    "09n": "night-rain"
     "10d": "day-rain-hail"
-    "10d": "night-hail"
+    "10n": "night-hail"
     "11d": "lightning"
     "11n": "lightning"
     "13d": "snow"
@@ -52,6 +52,7 @@ module.exports = class City extends Backbone.Model
         toSet = {}
 
         weather = @get "weather"
+        console.log(weather)
         if weather
             main = weather.main
             toSet.temp = 0

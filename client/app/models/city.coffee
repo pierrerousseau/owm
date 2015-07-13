@@ -9,7 +9,7 @@ icons =
     "04n": "cloudy"
     "09d": "rain"
     "09n": "night-rain"
-    "10d": "day-rain-hail"
+    "10d": "day-hail"
     "10n": "night-hail"
     "11d": "lightning"
     "11n": "lightning"

@@ -510,16 +510,16 @@
 #cities .weather-50d.temp-cold {
   background: #aecbd3;
 }
-#random .weather-50n:,
-#cities .weather-50n: {
+#random .weather-50n,
+#cities .weather-50n {
   background: #3e4b59;
 }
-#random .weather-50n:.temp-hot,
-#cities .weather-50n:.temp-hot {
+#random .weather-50n.temp-hot,
+#cities .weather-50n.temp-hot {
   background: #232a33;
 }
-#random .weather-50n:.temp-cold,
-#cities .weather-50n:.temp-cold {
+#random .weather-50n.temp-cold,
+#cities .weather-50n.temp-cold {
   background: #56667b;
 }
 #footer {

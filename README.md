@@ -8,6 +8,8 @@ Weather application based on the OpenWeather Map API
 
 # Changelog
 
+* v0.6.3
+  * add more fonts
 * v0.6.2
   * add fonts
 * v0.6.1

@@ -129,19 +129,23 @@
   text-align: center;
   display: inline-block;
   width: 55%;
-  font-size: 6em;
+  font-size: 7em;
+  padding-left: 0.2em;
+  vertical-align: top;
 }
 #random .random-choice-infos {
-  text-align: center;
   padding-bottom: 0.3em;
   display: inline-block;
+  padding-right: 0.2em;
   width: 45%;
 }
 #random .random-choice-infos .random-choice-temp {
-  font-size: 4em;
+  font-family: "Source Sans Pro ExtraLight", sans-serif;
+  font-size: 5em;
 }
 #random .random-choice-infos .random-choice-humidity {
-  font-size: 1em;
+  font-family: "Source Sans Pro ExtraLight", sans-serif;
+  font-size: 1.5em;
   display: inline-block;
 }
 #random .random-choice-infos .random-choice-humidity img {
@@ -180,7 +184,7 @@
   min-height: 62px;
 }
 #cities .now .now-description {
-  font-size: 1em;
+  font-size: 1.3em;
   font-style: italic;
   display: inline-block;
   width: 30%;
@@ -209,11 +213,13 @@
   width: 55%;
 }
 #cities .now .now-infos .now-temp {
-  font-size: 5em;
+  font-family: "Source Sans Pro ExtraLight", sans-serif;
+  font-size: 6.5em;
   display: inline-block;
 }
 #cities .now .now-infos .now-humidity {
-  font-size: 1em;
+  font-family: "Source Sans Pro ExtraLight", sans-serif;
+  font-size: 1.5em;
   display: inline-block;
 }
 #cities .now .now-infos .now-humidity img {
@@ -284,7 +290,7 @@
   font-weight: bold;
 }
 #cities .week .days .day .day-weather {
-  padding: 0.1em 0 0.5em 0;
+  padding: 0.4em 0 0.2em 0;
   font-size: 3em;
 }
 #cities .week .days .day .day-description {

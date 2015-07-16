@@ -405,7 +405,6 @@ module.exports = City = (function(superClass) {
     var clouds, icon, main, main_weather, name, sys, toSet, weather;
     toSet = {};
     weather = this.get("weather");
-    console.log(weather);
     if (weather) {
       main = weather.main;
       toSet.temp = 0;

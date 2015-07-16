@@ -52,7 +52,6 @@ module.exports = class City extends Backbone.Model
         toSet = {}
 
         weather = @get "weather"
-        console.log(weather)
         if weather
             main = weather.main
             toSet.temp = 0

@@ -1,16 +1,17 @@
-.now(class="col-md-offset-1 col-md-5 col-lg-3 weather-#{weather.icon} temp-#{hotness}")
-    .now-title
-        .now-name(title="#{country}") #{name}
-        .now-description #{weather.description}
-        .now-remove(title="remove")
+.now(class="col-md-6 col-lg-3 weather-#{weather.icon} temp-#{hotness}")
+    .now-title(class="row")
+        .now-name(class="col-xs-6", title="#{country}") #{name}
+        .now-description(class="col-xs-4") #{weather.description}
+        .now-remove(class="col-xs-2", title="remove")
             img(src="icons/remove.svg", alt="remove")
-    .now-weather
-        span(class="wi wi-#{wiclass}")
-    .now-infos
-        .now-temp #{temp}°
-        .now-humidity 
+    .now-infos(class="row")
+        .now-weather(class="col-xs-6")
+            span(class="wi wi-#{wiclass}")
+        .now-temp(class="col-xs-4") #{temp}°
+        .now-humidity(class="col-xs-2")
             img(src="icons/humidity.svg", alt="humidity")
             | #{humidity}%
+
 .today(class="col-md-5 col-lg-2")
     each time, index in hours
         .time(class="weather-#{time.weather.icon} temp-#{time.hotness} index-#{index}")
@@ -19,11 +20,11 @@
                 span(class="wi wi-#{time.wiclass}")
             strong.time-temp #{time.temp}°
             .time-humidity #{time.humidity}%
-.week(class="col-lg-6")
-    .pad(class="hidden-xs col-md-1 hidden-lg")
+
+.week(class="col-lg-7")
     .days(class="row")
+        .pad(class="hidden-xs col-lg-1")
         each day, index in days
-            .pad(class="col-xs-1 hidden-md hidden-lg")
             .day(class="col-xs-10 col-md-2 weather-#{day.weather.icon} temp-#{day.hotness} index-#{index}")
                 .day-name #{day.name}
                 .day-date #{day.date}

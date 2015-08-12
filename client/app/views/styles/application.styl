@@ -12,6 +12,14 @@ city-height         = 15em
 city-margin-bottom  = 1em
 random-background   = #f3f3f3
 
+.test
+    color: black
+    display: flex
+    align-items: center
+
+    .insidetest
+        font-size: 3em
+
 .loading 
     #refresh
         opacity: .5
@@ -144,7 +152,7 @@ random-background   = #f3f3f3
     list-style: none
     padding: 0
     .city
-        padding: 0
+        padding: 0 2%
         margin: 0 1em
         margin-bottom: city-margin-bottom
         color: weather-color
@@ -155,53 +163,51 @@ random-background   = #f3f3f3
         margin-bottom: city-margin-bottom
         padding: 0
 
-        &:hover
-            .now-remove
-                display: inline-block
+        .now-title
+            display: flex
+            align-items: baseline
+
         .now-name
             padding: .3em .3em 0 .6em
             font-size: 2.25em
-            display: inline-block
-            width: 55%
             white-space: no-wrap
             overflow: hidden
             text-overflow: ellipsis
-            min-height: 62px
         .now-description
             font-size: 1.3em
             font-style: italic
-            display: inline-block
-            width: 30%
             white-space: no-wrap
             overflow: hidden
             text-overflow: ellipsis
-            padding-bottom: .9em
         .now-remove
-            vertical-align: top
-            width: 15%
-            display: none
+            align-self: center
+            text-align: right
             cursor: pointer
+            padding: 0
+            img
+                height: 4em
+
+        .now-infos
+            display: flex
+            align-items: baseline
+            padding-top: .25em
+
         .now-weather
             text-align: center
-            padding: 0 .1em 0 .1em
-            display: inline-block
-            width: 45%
             font-size: 6.75em
-        .now-infos
-            padding-bottom: 1em
-            display: inline-block
-            width: 55%
-            .now-temp
-                font-family: "Source Sans Pro ExtraLight", sans-serif
-                font-size: 6.5em
-                display: inline-block
-            .now-humidity
-                font-family: "Source Sans Pro ExtraLight", sans-serif
-                font-size: 1.5em
-                display: inline-block
-                img
-                    vertical-align: top
-                    height: 1.5em
+        .now-temp
+            font-family: "Source Sans Pro ExtraLight", sans-serif
+            font-size: 6.5em
+            margin: 0
+            padding: 0
+            width: 1.1em
+        .now-humidity
+            font-family: "Source Sans Pro ExtraLight", sans-serif
+            font-size: 1.2em
+            margin: 0
+            padding: 0
+            img
+                height: 1.2em
     .today
         height: city-height
         margin-bottom: city-margin-bottom
@@ -232,11 +238,16 @@ random-background   = #f3f3f3
         margin-right: -1px
         height: city-height
         margin-bottom: city-margin-bottom
+        padding: 0
+
+        .pad
+            width: 2%
 
         .days
             height: city-height
             margin: 0
             .day
+                width: 19%
                 height: 100%
                 margin: 0 0 0 1px
                 padding: .5em 0 0 0
@@ -377,3 +388,39 @@ random-background   = #f3f3f3
 #footer
     text-align: center
     padding: .7em
+
+
+@media (min-width:1200px) and (max-width:1400px)
+    #cities
+        .now
+            width: 30%
+        .week
+            width: 53%
+            .pad
+                display: none
+            .days
+                .day
+                    width: 19.7%
+    #random
+        #random-choices
+            .random-pad
+                width: 12.5%
+            .random-choice
+                width: 25%
+
+@media (min-width:992px) and (max-width:1199px)
+    #cities
+        .week
+            .days
+                .day
+                    width: 18.2%
+
+@media (max-width:992px)
+    #cities
+        .week
+            .days
+                .day
+                    width: 100%
+    #random
+        .random-choice
+            width: 100%

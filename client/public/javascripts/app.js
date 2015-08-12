@@ -786,12 +786,12 @@ var buf = [];
 with (locals || {}) {
 var interp;
 buf.push('<div');
-buf.push(attrs({ "class": ('now') + ' ' + ("col-md-offset-1 col-md-5 col-lg-3 weather-" + (weather.icon) + " temp-" + (hotness) + "") }, {"class":true}));
-buf.push('><div class="now-title"><div');
-buf.push(attrs({ 'title':("" + (country) + ""), "class": ('now-name') }, {"title":true}));
-buf.push('>' + escape((interp = name) == null ? '' : interp) + '</div><div class="now-description">' + escape((interp = weather.description) == null ? '' : interp) + '</div><div title="remove" class="now-remove"><img src="icons/remove.svg" alt="remove"/></div></div><div class="now-weather"><span');
+buf.push(attrs({ "class": ('now') + ' ' + ("col-md-6 col-lg-3 weather-" + (weather.icon) + " temp-" + (hotness) + "") }, {"class":true}));
+buf.push('><div class="now-title row"><div');
+buf.push(attrs({ 'title':("" + (country) + ""), "class": ('now-name') + ' ' + ("col-xs-6") }, {"class":true,"title":true}));
+buf.push('>' + escape((interp = name) == null ? '' : interp) + '</div><div class="now-description col-xs-4">' + escape((interp = weather.description) == null ? '' : interp) + '</div><div title="remove" class="now-remove col-xs-2"><img src="icons/remove.svg" alt="remove"/></div></div><div class="now-infos row"><div class="now-weather col-xs-6"><span');
 buf.push(attrs({ "class": ("wi wi-" + (wiclass) + "") }, {"class":true}));
-buf.push('></span></div><div class="now-infos"><div class="now-temp">' + escape((interp = temp) == null ? '' : interp) + '°</div><div class="now-humidity"> <img src="icons/humidity.svg" alt="humidity"/> ' + escape((interp = humidity) == null ? '' : interp) + '%</div></div></div><div class="today col-md-5 col-lg-2">');
+buf.push('></span></div><div class="now-temp col-xs-4">' + escape((interp = temp) == null ? '' : interp) + '°</div><div class="now-humidity col-xs-2"><img src="icons/humidity.svg" alt="humidity"/> ' + escape((interp = humidity) == null ? '' : interp) + '%</div></div></div><div class="today col-md-5 col-lg-2">');
 // iterate hours
 ;(function(){
   if ('number' == typeof hours.length) {
@@ -821,7 +821,7 @@ buf.push('></span></div><strong class="time-temp">' + escape((interp = time.temp
   }
 }).call(this);
 
-buf.push('</div><div class="week col-lg-6"><div class="pad hidden-xs col-md-1 hidden-lg"></div><div class="days row">');
+buf.push('</div><div class="week col-lg-7"><div class="days row"><div class="pad hidden-xs col-lg-1"></div>');
 // iterate days
 ;(function(){
   if ('number' == typeof days.length) {
@@ -829,7 +829,7 @@ buf.push('</div><div class="week col-lg-6"><div class="pad hidden-xs col-md-1 hi
     for (var index = 0, $$l = days.length; index < $$l; index++) {
       var day = days[index];
 
-buf.push('<div class="pad col-xs-1 hidden-md hidden-lg"></div><div');
+buf.push('<div');
 buf.push(attrs({ "class": ('day') + ' ' + ("col-xs-10 col-md-2 weather-" + (day.weather.icon) + " temp-" + (day.hotness) + " index-" + (index) + "") }, {"class":true}));
 buf.push('><div class="day-name">' + escape((interp = day.name) == null ? '' : interp) + '</div><div class="day-date">' + escape((interp = day.date) == null ? '' : interp) + '</div><div class="day-weather"><span');
 buf.push(attrs({ "class": ("wi wi-" + (day.wiclass) + "") }, {"class":true}));
@@ -841,7 +841,7 @@ buf.push('></span></div><div class="day-description">' + escape((interp = day.we
     for (var index in days) {
       $$l++;      var day = days[index];
 
-buf.push('<div class="pad col-xs-1 hidden-md hidden-lg"></div><div');
+buf.push('<div');
 buf.push(attrs({ "class": ('day') + ' ' + ("col-xs-10 col-md-2 weather-" + (day.weather.icon) + " temp-" + (day.hotness) + " index-" + (index) + "") }, {"class":true}));
 buf.push('><div class="day-name">' + escape((interp = day.name) == null ? '' : interp) + '</div><div class="day-date">' + escape((interp = day.date) == null ? '' : interp) + '</div><div class="day-weather"><span');
 buf.push(attrs({ "class": ("wi wi-" + (day.wiclass) + "") }, {"class":true}));
@@ -863,7 +863,7 @@ attrs = attrs || jade.attrs; escape = escape || jade.escape; rethrow = rethrow |
 var buf = [];
 with (locals || {}) {
 var interp;
-buf.push('<div id="content"><div id="add-head"><div class="row"><div class="left hidden-xs hidden-sm col-md-2"><img src="images/sun-cloud.svg"/></div><h1 class="col-md-4">Cozy <strong>Weather </strong>Forecast<img id="refresh" src="icons/refresh.svg"/></h1><div class="right hidden-xs hidden-sm col-md-2"><img src="images/cloud.svg"/></div><form id="search" class="col-xs-offset-1 col-xs-10 col-md-offset-0 col-md-3"><label><strong>Add a new city </strong>to your forecast</label><div class="input-group"><input placeholder="Paris, fr" class="city form-control"/><div class="input-group-addon"><img src="icons/search.svg" alt="search"/></div></div><p class="help-block">Tip: To ensure the location, add the country code after the city name (for ex: Paris, fr)</p></form></div></div><div id="loader" class="loader-inner ball-pulse"><div></div><div></div><div></div><p>Loading weather, please wait ...</p></div><ul id="cities"></ul><div id="random"><p class="row">Click to add to your cozy forecast ...</p><div id="random-choices" class="row"><div class="hidden-xs col-md-1 col-lg-3"></div></div></div><div id="footer"> \ndata from <a href="https://openweathermap.org" target="_blank">OpenWeatherMap </a>-\nicons from <a href="https://erikflowers.github.io/weather-icons/" target="_blank">Erik Flowers</a></div></div>');
+buf.push('<div id="content"><div id="add-head"><div class="row"><div class="left hidden-xs hidden-sm col-md-2"><img src="images/sun-cloud.svg"/></div><h1 class="col-md-4">Cozy <strong>Weather </strong>Forecast<img id="refresh" src="icons/refresh.svg"/></h1><div class="right hidden-xs hidden-sm col-md-2"><img src="images/cloud.svg"/></div><form id="search" class="col-xs-offset-1 col-xs-10 col-md-offset-0 col-md-3"><label><strong>Add a new city </strong>to your forecast</label><div class="input-group"><input placeholder="Paris, fr" class="city form-control"/><div class="input-group-addon"><img src="icons/search.svg" alt="search"/></div></div><p class="help-block">Tip: To ensure the location, add the country code after the city name (for ex: Paris, fr)</p></form></div></div><div id="loader" class="loader-inner ball-pulse"><div></div><div></div><div></div><p>Loading weather, please wait ...</p></div><ul id="cities"></ul><div id="random"><p class="row">Click to add to your cozy forecast ...</p><div id="random-choices" class="row"><div class="hidden-xs col-md-1 col-lg-3 random-pad"></div></div></div><div id="footer"> \ndata from <a href="https://openweathermap.org" target="_blank">OpenWeatherMap </a>-\nicons from <a href="https://erikflowers.github.io/weather-icons/" target="_blank">Erik Flowers</a></div></div>');
 }
 return buf.join("");
 };

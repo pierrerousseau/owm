@@ -5,14 +5,14 @@ Weather application based on the OpenWeather Map API
 # To do ...
 
 * display current weather and 14 days forcast for a stored city
+* display rise and fall of sea levels (tide)
+* add more cities
 
 # Changelog
 
-* v0.6.3
-  * add more fonts
-* v0.6.2
+* v0.7.0
+  * set a helper to find cities
   * add fonts
-* v0.6.1
   * update data-system access
 * v0.6
   * full review of the design

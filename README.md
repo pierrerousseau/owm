@@ -10,6 +10,8 @@ Weather application based on the OpenWeather Map API
 
 # Changelog
 
+* v0.7.1
+  * add API key
 * v0.7.0
   * set a helper to find cities
   * add fonts

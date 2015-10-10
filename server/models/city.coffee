@@ -11,6 +11,7 @@ module.exports = City = americano.getModel "City",
 
 
 httpGet = (url, deflt, callback) ->
+    console.log url
     result = deflt
     req = http.get url, (res) ->
         data   = ""
@@ -38,6 +39,11 @@ addCityKeys = (mainKey, values, city) ->
     city
 
 
+addAPIKey = (url) ->
+    apiKey = "&APPID=74cd76c870c1c4a1df6c3bab6840471d"
+    url + apiKey
+
+
 City.baseUrl        = "http://api.openweathermap.org/data/2.5/"
 City.weatherUrl     = City.baseUrl + "weather?q="
 City.forecastUrl    = City.baseUrl + "forecast/?id="
@@ -57,19 +63,19 @@ City.fullCity = (city, mainCallback) ->
 
     async.series([
         ((callback) ->
-            httpGet weatherUrl, null, (weather, err) =>
+            httpGet (addAPIKey weatherUrl), null, (weather, err) =>
                 if not err
                     fullCity = addCityKeys "weather", weather, fullCity
                     forecastUrl    += weather.id
                     dayForecastUrl += weather.id
                 callback()),
         ((callback) ->
-            httpGet forecastUrl, null, (forecast, err) =>
+            httpGet (addAPIKey forecastUrl), null, (forecast, err) =>
                 if not err
                     fullCity = addCityKeys "hours", forecast, fullCity
                 callback()),
         ((callback) ->
-            httpGet dayForecastUrl, null, (forecast, err) =>
+            httpGet (addAPIKey dayForecastUrl), null, (forecast, err) =>
                 if not err
                     fullCity = addCityKeys "days", forecast, fullCity
                 callback(null, fullCity))

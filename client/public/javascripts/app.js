@@ -378,8 +378,13 @@ module.exports = City = (function(superClass) {
     return this.fmtCityDaysForecastInfos();
   };
 
-  City.prototype.toRoundCelcius = function(value) {
-    return parseInt(value - 273.15);
+  City.prototype.toRoundDegres = function(value) {
+    var deg;
+    deg = parseInt(value - 273.15);
+    if ((localStorage["owm-unit"] != null) && localStorage["owm-unit"] === "F") {
+      deg = parseInt(value * 1.8 - 459.67);
+    }
+    return deg;
   };
 
   City.prototype.toWiClass = function(icon) {
@@ -391,10 +396,10 @@ module.exports = City = (function(superClass) {
     hotness = "normal";
     if (temp != null) {
       temp = parseInt(temp);
-      if (temp > 26) {
+      if (temp > 300) {
         hotness = "hot";
       }
-      if (temp < 9) {
+      if (temp < 23) {
         hotness = "cold";
       }
     }
@@ -407,10 +412,12 @@ module.exports = City = (function(superClass) {
     weather = this.get("weather");
     if (weather) {
       main = weather.main;
-      toSet.temp = 0;
       toSet.humidity = 0;
+      toSet.temp = 0;
+      toSet.hotness = this.toHotness(toSet.temp);
       if (main) {
-        toSet.temp = this.toRoundCelcius(main.temp);
+        toSet.hotness = this.toHotness(main.temp);
+        toSet.temp = this.toRoundDegres(main.temp);
         toSet.humidity = main.humidity;
       }
       main_weather = weather.weather;
@@ -441,7 +448,6 @@ module.exports = City = (function(superClass) {
           "icon": "11d"
         };
       }
-      toSet.hotness = this.toHotness(toSet.temp);
     }
     return this.set(toSet);
   };
@@ -477,11 +483,11 @@ module.exports = City = (function(superClass) {
           if (hour.dt * 1000 >= now) {
             nextHour = {};
             nextHour.hour = this.toReadableHour(hour.dt_txt);
-            nextHour.temp = this.toRoundCelcius(hour.main.temp);
+            nextHour.hotness = this.toHotness(hour.main.temp);
+            nextHour.temp = this.toRoundDegres(hour.main.temp);
             nextHour.humidity = hour.main.humidity;
             nextHour.weather = hour.weather[0];
             nextHour.wiclass = this.toWiClass(nextHour.weather.icon);
-            nextHour.hotness = this.toHotness(nextHour.temp);
             nexts.push(nextHour);
           }
           if (nexts.length >= nbNextHours) {
@@ -505,12 +511,12 @@ module.exports = City = (function(superClass) {
           nextDay = {};
           nextDay.date = this.toReadableDate(day.dt);
           nextDay.name = this.toDayName(day.dt);
-          nextDay.day = this.toRoundCelcius(day.temp.day);
-          nextDay.night = this.toRoundCelcius(day.temp.night);
+          nextDay.hotness = this.toHotness(day.temp.day);
+          nextDay.day = this.toRoundDegres(day.temp.day);
+          nextDay.night = this.toRoundDegres(day.temp.night);
           nextDay.humidity = day.humidity;
           nextDay.weather = day.weather[0];
           nextDay.wiclass = this.toWiClass(nextDay.weather.icon);
-          nextDay.hotness = this.toHotness(nextDay.day);
           nexts.push(nextDay);
         }
       }
@@ -582,6 +588,7 @@ module.exports = AppView = (function(superClass) {
     this.citiesView = new CitiesView({
       collection: new CityCollection
     });
+    this.setUnit();
     return this.loadCities();
   };
 
@@ -589,7 +596,30 @@ module.exports = AppView = (function(superClass) {
     "submit #search": "cityFind",
     "click #refresh": "refresh",
     "click .random-choice": "addRandomCity",
-    "click .search": "showHelper"
+    "click .search": "showHelper",
+    "click .unit": "changeUnit"
+  };
+
+  AppView.prototype.setUnit = function() {
+    var unitContainer;
+    unitContainer = $(".unit");
+    if (localStorage["owm-unit"] != null) {
+      return unitContainer.text(localStorage["owm-unit"]);
+    } else {
+      return unitContainer.text("C");
+    }
+  };
+
+  AppView.prototype.changeUnit = function() {
+    var unitContainer;
+    unitContainer = $(".unit");
+    if (unitContainer.text().trim() === "C") {
+      unitContainer.text("F");
+    } else {
+      unitContainer.text("C");
+    }
+    localStorage["owm-unit"] = unitContainer.text().trim();
+    return this.refresh();
   };
 
   AppView.prototype.displayRandom = function() {
@@ -863,7 +893,7 @@ attrs = attrs || jade.attrs; escape = escape || jade.escape; rethrow = rethrow |
 var buf = [];
 with (locals || {}) {
 var interp;
-buf.push('<datalist id="capitals"><option value="Paris, fr"></option><option value="Beijing, cn"></option><option value="Tokyo, jp"></option><option value="Moscow, ru"></option><option value="Seoul, kr"></option><option value="Jakarta, id"></option><option value="Tehran, ir"></option><option value="Mexico, mx"></option><option value="Lima, pe"></option><option value="Bangkok, th"></option><option value="London, gb"></option><option value="Bogota, co"></option><option value="Cairo, eg"></option><option value="Baghdad, iq"></option><option value="Hong Kong, hk"></option><option value="Dhaka, bd"></option><option value="Singapore, sg"></option><option value="Ankara, tr"></option><option value="Santiago, cl"></option><option value="Riyadh, sa"></option><option value="Kinshasa, cd"></option><option value="Berlin, de"></option><option value="Damascus, sy"></option><option value="Hanoi, vn"></option><option value="Madrid, es"></option><option value="Pyongyang, kp"></option><option value="Kabul, af"></option><option value="Addis Ababa, et"></option><option value="Buenos Aires, ar"></option><option value="Rome, it"></option><option value="Kiev, ua"></option><option value="Nairobi, ke"></option><option value="Brasília, br"></option><option value="Taipei, tw"></option><option value="Amman, jo"></option><option value="Luanda, ao"></option><option value="Pretoria, za"></option><option value="Tashkent, uz"></option><option value="Stockholm, se"></option><option value="Havana, cu"></option><option value="Phnom Penh, kh"></option><option value="Bucharest, ro"></option><option value="Baku, az"></option><option value="Caracas, ve"></option><option value="Rabat, ma"></option><option value="Vienna, at"></option><option value="Khartoum, sd"></option><option value="Budapest, hu"></option><option value="Warsaw, pl"></option><option value="Minsk, by"></option><option value="Manila, ph"></option><option value="Kampala, ug"></option><option value="Accra, gh"></option><option value="Yaoundé, cm"></option><option value="Antananarivo, mg"></option><option value="Beirut, lb"></option><option value="Algiers, dz"></option><option value="Quito, ec"></option><option value="Harare, zw"></option><option value="Doha, qa"></option><option value="Camayenne, gn"></option><option value="Kuala Lumpur, my"></option><option value="Montevideo, uy"></option><option value="Lusaka, zm"></option><option value="Bamako, ml"></option><option value="Prague, cz"></option><option value="Port-au-Prince, ht"></option><option value="Tripoli, ly"></option><option value="Kuwait City, kw"></option><option value="Belgrade, rs"></option><option value="Santo Domingo, do"></option><option value="Mogadishu, so"></option><option value="Sofia, bg"></option><option value="Brazzaville, cg"></option><option value="Brussels, be"></option><option value="Yerevan, am"></option><option value="Maputo, mz"></option><option value="Freetown, sl"></option><option value="Tbilisi, ge"></option><option value="Dakar, sn"></option><option value="Ouagadougou, bf"></option><option value="Dublin, ir"></option><option value="Monrovia, lr"></option><option value="Guatemala City, gt"></option><option value="Islamabad, pk"></option><option value="Managua, ni"></option><option value="Loikaw, mm"></option><option value="Ulaanbaatar, mn"></option><option value="Lilongwe, mw"></option><option value="Ottawa, ca"></option><option value="La Paz, bo"></option><option value="Bishkek, kg"></option><option value="Lomé, tg"></option><option value="Panama City, pa"></option><option value="Kathmandu, np"></option><option value="Amsterdam, nl"></option><option value="Zagreb, hr"></option><option value="Muscat, om"></option><option value="Niamey, ne"></option><option value="Chişinău, md"></option><option value="Jerusalem, il"></option><option value="Abuja, ng"></option><option value="Tirana, al"></option><option value="Tunis, tu"></option><option value="Ashgabat, tm"></option><option value="N\'Djamena, td"></option><option value="Tegucigalpa, hn"></option><option value="Bangui, cf"></option><option value="Athens, gr"></option><option value="Nouakchott, mr"></option><option value="Kigali, rw"></option><option value="Riga, lv"></option><option value="Kingston, jm"></option><option value="Astana, kz"></option><option value="Oslo, no"></option><option value="Helsinki, fi"></option><option value="Abu Dhabi, ae"></option><option value="Dushanbe, tj"></option><option value="Vilnius, lt"></option><option value="Libreville, ga"></option><option value="Asmara, er"></option><option value="Lisbon, pt"></option><option value="San Salvador, sv"></option><option value="Asunción, py"></option><option value="Macau, mo"></option><option value="Skopje, mk"></option><option value="Copenhagen, dk"></option><option value="Djibouti, dj"></option><option value="Yamoussoukro, ci"></option><option value="Bissau, gw"></option><option value="Bratislava, sk"></option><option value="San Juan, pr"></option><option value="Tallinn, ee"></option><option value="Bujumbura, bj"></option><option value="Sarajevo, ba"></option><option value="Wellington, nz"></option><option value="Juba, ss"></option><option value="Canberra, au"></option><option value="San José, cr"></option><option value="Port Moresby, pg"></option><option value="Vientiane, la"></option><option value="Dodoma, tz"></option><option value="Maseru, ls"></option><option value="Nicosia, cy"></option><option value="Ljubljana, si"></option><option value="Paramaribo, sr"></option><option value="Windhoek, na"></option><option value="New Delhi, in"></option><option value="Nassau, bs"></option><option value="Gaborone, bw"></option><option value="Porto-Novo, bj"></option><option value="Prishtina, xk"></option><option value="El Aaiún, eh"></option><option value="Tiraspol, md"></option><option value="Port Louis, mu"></option><option value="Podgorica, me"></option><option value="Manama, bh"></option><option value="Georgetown, gy"></option><option value="Praia, cv"></option><option value="Berne, ch"></option><option value="Sri Jayawardenapura Kotte, lk"></option><option value="Reykjavík, is"></option><option value="Bridgetown, bb"></option><option value="Malé, mv"></option><option value="Thimphu, bt"></option><option value="Malabo, gq"></option><option value="Nouméa, nb"></option><option value="Suva, fj"></option><option value="Mbabane, sz"></option><option value="Luxembourg, lu"></option><option value="Castries, lc"></option><option value="Saipan, mp"></option><option value="Moroni, km"></option><option value="Honiara, sb"></option><option value="Dili, tl"></option><option value="Sao Tome, st"></option><option value="Pago Pago, as"></option><option value="Willemstad, cw"></option><option value="Kingstown, vc"></option><option value="Apia, ws"></option><option value="Port Vila, vu"></option><option value="Monaco, mc"></option><option value="Banjul, gm"></option><option value="Tarawa, ki"></option><option value="Oranjestad, aw"></option><option value="Victoria, sc"></option><option value="Gibraltar, gi"></option><option value="Saint Helier, je"></option><option value="George Town, ky"></option><option value="Douglas, im"></option><option value="Papeete, pf"></option><option value="Ramallah, ps"></option><option value="Majuro, mh"></option><option value="Andorra, ad"></option><option value="St. John\'s, ca"></option><option value="Peter Port, gg"></option><option value="Belmopan, bz"></option><option value="Nuuk, gl"></option><option value="Roseau, dm"></option><option value="Basseterre, kn"></option><option value="Mariehamn, ax"></option><option value="Charlotte Amalie, vi"></option><option value="Palikir, fm"></option><option value="Road Town, vg"></option><option value="St. George\'s, gd"></option><option value="Valletta, mt"></option><option value="Marigot, mf"></option><option value="Saint-Pierre, re"></option><option value="Avarua, ck"></option><option value="Vaduz, li"></option><option value="San Marino, sm"></option><option value="Funafuti, tv"></option><option value="Cockburn Town, tc"></option><option value="Gustavia, bl"></option><option value="Stanley, fk"></option><option value="Longyearbyen, sj"></option><option value="Philipsburg, sx"></option><option value="Mata-Utu, wf"></option><option value="Hamilton, bm"></option></datalist><div id="content"><div id="add-head"><div class="row"><div class="left hidden-xs hidden-sm col-md-2"><img src="images/sun-cloud.svg"/></div><h1 class="col-md-4">Cozy <strong>Weather </strong>Forecast<img id="refresh" src="icons/refresh.svg"/></h1><div class="right hidden-xs hidden-sm col-md-2"><img src="images/cloud.svg"/></div><form id="search" class="col-xs-offset-1 col-xs-10 col-md-offset-0 col-md-3"><label><strong>Add a new city </strong>to your forecast</label><div class="input-group"><input list="capitals" type="text" placeholder="Paris, fr" class="city form-control"/><div title="The list is just here to help, if you can\'t find your city there, just type its name and press enter" class="input-group-addon search"><img src="icons/search.svg" alt="search"/></div></div><p class="help-block">Tip: To ensure the location, add the country code after the city name (for ex: Paris, fr)</p></form></div></div><div id="loader" class="loader-inner ball-pulse"><div></div><div></div><div></div><p>Loading weather, please wait ...</p></div><ul id="cities"></ul><div id="random"><p class="row">Click to add to your cozy forecast ...</p><div id="random-choices" class="row"><div class="hidden-xs col-md-1 col-lg-3 random-pad"></div></div></div><div id="footer"> \ndata from <a href="https://openweathermap.org" target="_blank">OpenWeatherMap </a>-\nicons from <a href="https://erikflowers.github.io/weather-icons/" target="_blank">Erik Flowers</a></div></div>');
+buf.push('<datalist id="capitals"><option value="Paris, fr"></option><option value="Beijing, cn"></option><option value="Tokyo, jp"></option><option value="Moscow, ru"></option><option value="Seoul, kr"></option><option value="Jakarta, id"></option><option value="Tehran, ir"></option><option value="Mexico, mx"></option><option value="Lima, pe"></option><option value="Bangkok, th"></option><option value="London, gb"></option><option value="Bogota, co"></option><option value="Cairo, eg"></option><option value="Baghdad, iq"></option><option value="Hong Kong, hk"></option><option value="Dhaka, bd"></option><option value="Singapore, sg"></option><option value="Ankara, tr"></option><option value="Santiago, cl"></option><option value="Riyadh, sa"></option><option value="Kinshasa, cd"></option><option value="Berlin, de"></option><option value="Damascus, sy"></option><option value="Hanoi, vn"></option><option value="Madrid, es"></option><option value="Pyongyang, kp"></option><option value="Kabul, af"></option><option value="Addis Ababa, et"></option><option value="Buenos Aires, ar"></option><option value="Rome, it"></option><option value="Kiev, ua"></option><option value="Nairobi, ke"></option><option value="Brasília, br"></option><option value="Taipei, tw"></option><option value="Amman, jo"></option><option value="Luanda, ao"></option><option value="Pretoria, za"></option><option value="Tashkent, uz"></option><option value="Stockholm, se"></option><option value="Havana, cu"></option><option value="Phnom Penh, kh"></option><option value="Bucharest, ro"></option><option value="Baku, az"></option><option value="Caracas, ve"></option><option value="Rabat, ma"></option><option value="Vienna, at"></option><option value="Khartoum, sd"></option><option value="Budapest, hu"></option><option value="Warsaw, pl"></option><option value="Minsk, by"></option><option value="Manila, ph"></option><option value="Kampala, ug"></option><option value="Accra, gh"></option><option value="Yaoundé, cm"></option><option value="Antananarivo, mg"></option><option value="Beirut, lb"></option><option value="Algiers, dz"></option><option value="Quito, ec"></option><option value="Harare, zw"></option><option value="Doha, qa"></option><option value="Camayenne, gn"></option><option value="Kuala Lumpur, my"></option><option value="Montevideo, uy"></option><option value="Lusaka, zm"></option><option value="Bamako, ml"></option><option value="Prague, cz"></option><option value="Port-au-Prince, ht"></option><option value="Tripoli, ly"></option><option value="Kuwait City, kw"></option><option value="Belgrade, rs"></option><option value="Santo Domingo, do"></option><option value="Mogadishu, so"></option><option value="Sofia, bg"></option><option value="Brazzaville, cg"></option><option value="Brussels, be"></option><option value="Yerevan, am"></option><option value="Maputo, mz"></option><option value="Freetown, sl"></option><option value="Tbilisi, ge"></option><option value="Dakar, sn"></option><option value="Ouagadougou, bf"></option><option value="Dublin, ir"></option><option value="Monrovia, lr"></option><option value="Guatemala City, gt"></option><option value="Islamabad, pk"></option><option value="Managua, ni"></option><option value="Loikaw, mm"></option><option value="Ulaanbaatar, mn"></option><option value="Lilongwe, mw"></option><option value="Ottawa, ca"></option><option value="La Paz, bo"></option><option value="Bishkek, kg"></option><option value="Lomé, tg"></option><option value="Panama City, pa"></option><option value="Kathmandu, np"></option><option value="Amsterdam, nl"></option><option value="Zagreb, hr"></option><option value="Muscat, om"></option><option value="Niamey, ne"></option><option value="Chişinău, md"></option><option value="Jerusalem, il"></option><option value="Abuja, ng"></option><option value="Tirana, al"></option><option value="Tunis, tu"></option><option value="Ashgabat, tm"></option><option value="N\'Djamena, td"></option><option value="Tegucigalpa, hn"></option><option value="Bangui, cf"></option><option value="Athens, gr"></option><option value="Nouakchott, mr"></option><option value="Kigali, rw"></option><option value="Riga, lv"></option><option value="Kingston, jm"></option><option value="Astana, kz"></option><option value="Oslo, no"></option><option value="Helsinki, fi"></option><option value="Abu Dhabi, ae"></option><option value="Dushanbe, tj"></option><option value="Vilnius, lt"></option><option value="Libreville, ga"></option><option value="Asmara, er"></option><option value="Lisbon, pt"></option><option value="San Salvador, sv"></option><option value="Asunción, py"></option><option value="Macau, mo"></option><option value="Skopje, mk"></option><option value="Copenhagen, dk"></option><option value="Djibouti, dj"></option><option value="Yamoussoukro, ci"></option><option value="Bissau, gw"></option><option value="Bratislava, sk"></option><option value="San Juan, pr"></option><option value="Tallinn, ee"></option><option value="Bujumbura, bj"></option><option value="Sarajevo, ba"></option><option value="Wellington, nz"></option><option value="Juba, ss"></option><option value="Canberra, au"></option><option value="San José, cr"></option><option value="Port Moresby, pg"></option><option value="Vientiane, la"></option><option value="Dodoma, tz"></option><option value="Maseru, ls"></option><option value="Nicosia, cy"></option><option value="Ljubljana, si"></option><option value="Paramaribo, sr"></option><option value="Windhoek, na"></option><option value="New Delhi, in"></option><option value="Nassau, bs"></option><option value="Gaborone, bw"></option><option value="Porto-Novo, bj"></option><option value="Prishtina, xk"></option><option value="El Aaiún, eh"></option><option value="Tiraspol, md"></option><option value="Port Louis, mu"></option><option value="Podgorica, me"></option><option value="Manama, bh"></option><option value="Georgetown, gy"></option><option value="Praia, cv"></option><option value="Berne, ch"></option><option value="Sri Jayawardenapura Kotte, lk"></option><option value="Reykjavík, is"></option><option value="Bridgetown, bb"></option><option value="Malé, mv"></option><option value="Thimphu, bt"></option><option value="Malabo, gq"></option><option value="Nouméa, nb"></option><option value="Suva, fj"></option><option value="Mbabane, sz"></option><option value="Luxembourg, lu"></option><option value="Castries, lc"></option><option value="Saipan, mp"></option><option value="Moroni, km"></option><option value="Honiara, sb"></option><option value="Dili, tl"></option><option value="Sao Tome, st"></option><option value="Pago Pago, as"></option><option value="Willemstad, cw"></option><option value="Kingstown, vc"></option><option value="Apia, ws"></option><option value="Port Vila, vu"></option><option value="Monaco, mc"></option><option value="Banjul, gm"></option><option value="Tarawa, ki"></option><option value="Oranjestad, aw"></option><option value="Victoria, sc"></option><option value="Gibraltar, gi"></option><option value="Saint Helier, je"></option><option value="George Town, ky"></option><option value="Douglas, im"></option><option value="Papeete, pf"></option><option value="Ramallah, ps"></option><option value="Majuro, mh"></option><option value="Andorra, ad"></option><option value="St. John\'s, ca"></option><option value="Peter Port, gg"></option><option value="Belmopan, bz"></option><option value="Nuuk, gl"></option><option value="Roseau, dm"></option><option value="Basseterre, kn"></option><option value="Mariehamn, ax"></option><option value="Charlotte Amalie, vi"></option><option value="Palikir, fm"></option><option value="Road Town, vg"></option><option value="St. George\'s, gd"></option><option value="Valletta, mt"></option><option value="Marigot, mf"></option><option value="Saint-Pierre, re"></option><option value="Avarua, ck"></option><option value="Vaduz, li"></option><option value="San Marino, sm"></option><option value="Funafuti, tv"></option><option value="Cockburn Town, tc"></option><option value="Gustavia, bl"></option><option value="Stanley, fk"></option><option value="Longyearbyen, sj"></option><option value="Philipsburg, sx"></option><option value="Mata-Utu, wf"></option><option value="Hamilton, bm"></option></datalist><div id="content"><div id="options"><div class="unit"></div></div><div id="add-head"><div class="row"><div class="left hidden-xs hidden-sm col-md-2"><img src="images/sun-cloud.svg"/></div><h1 class="col-md-4">Cozy <strong>Weather </strong>Forecast<img id="refresh" src="icons/refresh.svg"/></h1><div class="right hidden-xs hidden-sm col-md-2"><img src="images/cloud.svg"/></div><form id="search" class="col-xs-offset-1 col-xs-10 col-md-offset-0 col-md-3"><label><strong>Add a new city </strong>to your forecast</label><div class="input-group"><input list="capitals" type="text" placeholder="Paris, fr" class="city form-control"/><div title="The list is just here to help, if you can\'t find your city there, just type its name and press enter" class="input-group-addon search"><img src="icons/search.svg" alt="search"/></div></div><p class="help-block">Tip: To ensure the location, add the country code after the city name (for ex: Paris, fr)</p></form></div></div><div id="loader" class="loader-inner ball-pulse"><div></div><div></div><div></div><p>Loading weather, please wait ...</p></div><ul id="cities"></ul><div id="random"><p class="row">Click to add to your cozy forecast ...</p><div id="random-choices" class="row"><div class="hidden-xs col-md-1 col-lg-3 random-pad"></div></div></div><div id="footer"> \ndata from <a href="https://openweathermap.org" target="_blank">OpenWeatherMap </a>-\nicons from <a href="https://erikflowers.github.io/weather-icons/" target="_blank">Erik Flowers</a></div></div>');
 }
 return buf.join("");
 };

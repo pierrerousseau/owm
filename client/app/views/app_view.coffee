@@ -15,6 +15,7 @@ module.exports = class AppView extends View
 
     afterRender: ->
         @citiesView = new CitiesView(collection: new CityCollection)
+        @setUnit()
         @loadCities()
 
     events:
@@ -22,6 +23,23 @@ module.exports = class AppView extends View
         "click #refresh": "refresh"
         "click .random-choice": "addRandomCity"
         "click .search": "showHelper"
+        "click .unit": "changeUnit"
+
+    setUnit: ->
+        unitContainer = $(".unit")
+        if localStorage["owm-unit"]?
+            unitContainer.text(localStorage["owm-unit"])
+        else
+            unitContainer.text("C")
+
+    changeUnit: ->
+        unitContainer = $(".unit")
+        if unitContainer.text().trim() == "C"
+            unitContainer.text("F")
+        else
+            unitContainer.text("C")
+        localStorage["owm-unit"] = unitContainer.text().trim()
+        @refresh()
 
     displayRandom: ->
         $(".random-choice").remove()

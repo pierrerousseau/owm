@@ -32,8 +32,11 @@ module.exports = class City extends Backbone.Model
         @fmtCityForecastInfos()
         @fmtCityDaysForecastInfos()
 
-    toRoundCelcius: (value) ->
-        parseInt(value - 273.15)
+    toRoundDegres: (value) ->
+        deg = parseInt(value - 273.15)
+        if localStorage["owm-unit"]? and localStorage["owm-unit"] == "F"
+            deg = parseInt(value * 1.8 - 459.67)
+        deg
 
     toWiClass: (icon) ->
         return icons[icon]
@@ -42,9 +45,9 @@ module.exports = class City extends Backbone.Model
         hotness = "normal"
         if temp?
             temp = parseInt(temp)
-            if  temp > 26
+            if  temp > 300
                 hotness = "hot"
-            if temp < 9
+            if temp < 23
                 hotness = "cold"
         hotness
 
@@ -54,10 +57,13 @@ module.exports = class City extends Backbone.Model
         weather = @get "weather"
         if weather
             main = weather.main
-            toSet.temp = 0
+
             toSet.humidity = 0
+            toSet.temp     = 0
+            toSet.hotness  = @toHotness(toSet.temp)
             if main
-                toSet.temp     = @toRoundCelcius(main.temp)
+                toSet.hotness  = @toHotness(main.temp)
+                toSet.temp     = @toRoundDegres(main.temp)
                 toSet.humidity = main.humidity
 
             main_weather = weather.weather
@@ -85,7 +91,6 @@ module.exports = class City extends Backbone.Model
             else
                 toSet.weather =
                     "icon": "11d"
-            toSet.hotness = @toHotness(toSet.temp)
 
         @set toSet
 
@@ -116,11 +121,11 @@ module.exports = class City extends Backbone.Model
                     if hour.dt * 1000 >= now
                         nextHour = {}
                         nextHour.hour     = @toReadableHour(hour.dt_txt)
-                        nextHour.temp     = @toRoundCelcius(hour.main.temp)
+                        nextHour.hotness  = @toHotness(hour.main.temp)
+                        nextHour.temp     = @toRoundDegres(hour.main.temp)
                         nextHour.humidity = hour.main.humidity
                         nextHour.weather  = hour.weather[0]
                         nextHour.wiclass  = @toWiClass(nextHour.weather.icon)
-                        nextHour.hotness  = @toHotness(nextHour.temp)
 
                         nexts.push nextHour
 
@@ -139,12 +144,12 @@ module.exports = class City extends Backbone.Model
                     nextDay = {}
                     nextDay.date     = @toReadableDate(day.dt)
                     nextDay.name     = @toDayName(day.dt)
-                    nextDay.day      = @toRoundCelcius(day.temp.day)
-                    nextDay.night    = @toRoundCelcius(day.temp.night)
+                    nextDay.hotness  = @toHotness(day.temp.day)
+                    nextDay.day      = @toRoundDegres(day.temp.day)
+                    nextDay.night    = @toRoundDegres(day.temp.night)
                     nextDay.humidity = day.humidity
                     nextDay.weather  = day.weather[0]
                     nextDay.wiclass  = @toWiClass(nextDay.weather.icon)
-                    nextDay.hotness  = @toHotness(nextDay.day)
 
                     nexts.push nextDay
         @set "days", nexts

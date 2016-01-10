@@ -200,7 +200,6 @@ random-background   = #f3f3f3
             font-size: 6.5em
             margin: 0
             padding: 0
-            width: 1.1em
         .now-humidity
             font-family: "Source Sans Pro ExtraLight", sans-serif
             font-size: 1.2em
@@ -389,6 +388,13 @@ random-background   = #f3f3f3
     text-align: center
     padding: .7em
 
+#options
+    position: absolute
+    top: 1em
+    right: 1em 
+    .unit
+        &:hover
+            cursor: pointer 
 
 @media (min-width:1200px) and (max-width:1400px)
     #cities
@@ -424,3 +430,4 @@ random-background   = #f3f3f3
     #random
         .random-choice
             width: 100%
+

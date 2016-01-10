@@ -251,7 +251,6 @@
   font-size: 6.5em;
   margin: 0;
   padding: 0;
-  width: 1.1em;
 }
 #cities .now .now-humidity {
   font-family: "Source Sans Pro ExtraLight", sans-serif;
@@ -572,6 +571,14 @@
 #footer {
   text-align: center;
   padding: 0.7em;
+}
+#options {
+  position: absolute;
+  top: 1em;
+  right: 1em;
+}
+#options .unit:hover {
+  cursor: pointer;
 }
 @media (min-width:1200px) and (max-width:1400px) {
   #cities .now {

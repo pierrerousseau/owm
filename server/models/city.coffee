@@ -46,7 +46,7 @@ addAPIKey = (url) ->
 
 City.baseUrl        = "http://api.openweathermap.org/data/2.5/"
 City.weatherUrl     = City.baseUrl + "weather?q="
-City.forecastUrl    = City.baseUrl + "forecast/?id="
+City.forecastUrl    = City.baseUrl + "forecast?id="
 City.dayForecastUrl = City.baseUrl + "forecast/daily?cnt=5&id="
 
 City.fullCity = (city, mainCallback) ->

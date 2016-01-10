@@ -10,6 +10,9 @@ Weather application based on the OpenWeather Map API
 
 # Changelog
 
+* v0.7.2
+  * new OWM forecast link (?)
+  * Farenheit/Celcius button
 * v0.7.1
   * add API key
 * v0.7.0

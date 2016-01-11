@@ -63,19 +63,19 @@ City.fullCity = (city, mainCallback) ->
 
     async.series([
         ((callback) ->
-            httpGet (addAPIKey weatherUrl), null, (weather, err) =>
+            httpGet (addAPIKey weatherUrl), null, (weather, err) ->
                 if not err
                     fullCity = addCityKeys "weather", weather, fullCity
                     forecastUrl    += weather.id
                     dayForecastUrl += weather.id
                 callback()),
         ((callback) ->
-            httpGet (addAPIKey forecastUrl), null, (forecast, err) =>
+            httpGet (addAPIKey forecastUrl), null, (forecast, err) ->
                 if not err
                     fullCity = addCityKeys "hours", forecast, fullCity
                 callback()),
         ((callback) ->
-            httpGet (addAPIKey dayForecastUrl), null, (forecast, err) =>
+            httpGet (addAPIKey dayForecastUrl), null, (forecast, err) ->
                 if not err
                     fullCity = addCityKeys "days", forecast, fullCity
                 callback(null, fullCity))

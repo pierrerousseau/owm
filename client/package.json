@@ -1,6 +1,6 @@
 {
     "author": "Your Name",
-    "name": "package-name",
+    "name": "owm-client",
     "description": "Package description",
     "version": "0.7.2",
     "homepage": "",
@@ -8,9 +8,9 @@
         "type": "git",
         "url": ""
     },
-    "engines": {
-        "node": "~0.6.10 || 0.8 || 0.9"
-    },
+    "engines": [
+        "node >= 0.8.0"
+    ],
     "scripts": {
         "start": "brunch watch --server"
     },

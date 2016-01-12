@@ -9,6 +9,7 @@
     "type": "git",
     "url": "https://github.com/pierrerousseau/owm.git"
   },
+  "license": "MIT",
   "main": "server.coffee",
   "dependencies": {
     "americano": "0.3.3",

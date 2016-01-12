@@ -19,7 +19,6 @@ module.exports = City = americano.getModel("City", {
 
 httpGet = function(url, deflt, callback) {
   var req, result;
-  console.log(url);
   result = deflt;
   req = http.get(url, function(res) {
     var chunks, data, length;
@@ -81,34 +80,28 @@ City.fullCity = function(city, mainCallback) {
   };
   return async.series([
     (function(callback) {
-      return httpGet(addAPIKey(weatherUrl), null, (function(_this) {
-        return function(weather, err) {
-          if (!err) {
-            fullCity = addCityKeys("weather", weather, fullCity);
-            forecastUrl += weather.id;
-            dayForecastUrl += weather.id;
-          }
-          return callback();
-        };
-      })(this));
+      return httpGet(addAPIKey(weatherUrl), null, function(weather, err) {
+        if (!err) {
+          fullCity = addCityKeys("weather", weather, fullCity);
+          forecastUrl += weather.id;
+          dayForecastUrl += weather.id;
+        }
+        return callback();
+      });
     }), (function(callback) {
-      return httpGet(addAPIKey(forecastUrl), null, (function(_this) {
-        return function(forecast, err) {
-          if (!err) {
-            fullCity = addCityKeys("hours", forecast, fullCity);
-          }
-          return callback();
-        };
-      })(this));
+      return httpGet(addAPIKey(forecastUrl), null, function(forecast, err) {
+        if (!err) {
+          fullCity = addCityKeys("hours", forecast, fullCity);
+        }
+        return callback();
+      });
     }), (function(callback) {
-      return httpGet(addAPIKey(dayForecastUrl), null, (function(_this) {
-        return function(forecast, err) {
-          if (!err) {
-            fullCity = addCityKeys("days", forecast, fullCity);
-          }
-          return callback(null, fullCity);
-        };
-      })(this));
+      return httpGet(addAPIKey(dayForecastUrl), null, function(forecast, err) {
+        if (!err) {
+          fullCity = addCityKeys("days", forecast, fullCity);
+        }
+        return callback(null, fullCity);
+      });
     })
   ], function(err, results) {
     return mainCallback(null, fullCity);

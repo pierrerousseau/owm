@@ -251,6 +251,7 @@
   font-size: 6.5em;
   margin: 0;
   padding: 0;
+  text-align: center;
 }
 #cities .now .now-humidity {
   font-family: "Source Sans Pro ExtraLight", sans-serif;
@@ -533,7 +534,6 @@
 }
 #random .weather-13n,
 #cities .weather-13n {
-  color: #495358;
   background: #505457;
 }
 #random .weather-13n.temp-hot,

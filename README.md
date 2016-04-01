@@ -10,6 +10,11 @@ Weather application based on the OpenWeather Map API
 
 # Changelog
 
+* v0.7.3
+  * improve support for node4
+  * linting
+  * color for text when snowing during night
+  * bug fix : try to deal with the owm call by minute limit
 * v0.7.2
   * new OWM forecast link (?)
   * Farenheit/Celcius button

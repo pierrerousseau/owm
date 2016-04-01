@@ -2,6 +2,12 @@ http      = require "http"
 async     = require "async"
 americano = require "americano-cozy"
 
+# openweathermap limits the number of connection by minutes, 
+# returning error 429 code, so we must retry sometimes
+# let's do it for any empty answer from owm
+maxRetry   = 5  # number of times to retry the call
+delayRetry = 50 # ms to wait between each call
+
 module.exports = City = americano.getModel "City",
     "name":
         "type": String
@@ -43,6 +49,17 @@ addAPIKey = (url) ->
     url + apiKey
 
 
+callWithRetry = (url, callback, count) ->
+    if not count
+        count = 1
+    httpGet url, null, (infos, err) ->
+        if (not err) and (not infos) and count < maxRetry
+            setTimeout((() -> callWithRetry url, callback, count + 1), 
+                       delayRetry)
+        else
+            callback infos, err
+
+
 City.baseUrl        = "http://api.openweathermap.org/data/2.5/"
 City.weatherUrl     = City.baseUrl + "weather?q="
 City.forecastUrl    = City.baseUrl + "forecast?id="
@@ -62,19 +79,19 @@ City.fullCity = (city, mainCallback) ->
 
     async.series([
         ((callback) ->
-            httpGet (addAPIKey weatherUrl), null, (weather, err) ->
+            callWithRetry (addAPIKey weatherUrl), (weather, err) ->
                 if not err
                     fullCity = addCityKeys "weather", weather, fullCity
                     forecastUrl    += weather.id
                     dayForecastUrl += weather.id
                 callback()),
         ((callback) ->
-            httpGet (addAPIKey forecastUrl), null, (forecast, err) ->
+            callWithRetry (addAPIKey forecastUrl), (forecast, err) ->
                 if not err
                     fullCity = addCityKeys "hours", forecast, fullCity
                 callback()),
         ((callback) ->
-            httpGet (addAPIKey dayForecastUrl), null, (forecast, err) ->
+            callWithRetry (addAPIKey dayForecastUrl), (forecast, err) ->
                 if not err
                     fullCity = addCityKeys "days", forecast, fullCity
                 callback(null, fullCity))

@@ -1,6 +1,6 @@
 .now(class="col-md-6 col-lg-3 weather-#{weather.icon} temp-#{hotness}")
     .now-title(class="row")
-        .now-name(class="col-xs-6", title="#{country}") #{name}
+        a.now-name(class="col-xs-6", title="#{country}", href="#{url}", target="_blank") #{name}
         .now-description(class="col-xs-4") #{weather.description}
         .now-remove(class="col-xs-2", title="remove")
             img(src="icons/remove.svg", alt="remove")

@@ -2,6 +2,8 @@ http      = require "http"
 async     = require "async"
 americano = require "americano-cozy"
 
+cityUrl = "http://openweathermap.org/city/"
+
 # openweathermap limits the number of connection by minutes, 
 # returning error 429 code, so we must retry sometimes
 # let's do it for any empty answer from owm
@@ -75,13 +77,14 @@ City.fullCity = (city, mainCallback) ->
         "name": city.name
         "weather": {},
         "hours": {},
-        "days": {}
+        "days": {},
 
     async.series([
         ((callback) ->
             callWithRetry (addAPIKey weatherUrl), (weather, err) ->
                 if not err
                     fullCity = addCityKeys "weather", weather, fullCity
+                    fullCity.url = cityUrl + weather.id 
                     forecastUrl    += weather.id
                     dayForecastUrl += weather.id
                 callback()),

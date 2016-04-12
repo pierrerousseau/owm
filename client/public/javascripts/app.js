@@ -817,9 +817,9 @@ with (locals || {}) {
 var interp;
 buf.push('<div');
 buf.push(attrs({ "class": ('now') + ' ' + ("col-md-6 col-lg-3 weather-" + (weather.icon) + " temp-" + (hotness) + "") }, {"class":true}));
-buf.push('><div class="now-title row"><div');
-buf.push(attrs({ 'title':("" + (country) + ""), "class": ('now-name') + ' ' + ("col-xs-6") }, {"class":true,"title":true}));
-buf.push('>' + escape((interp = name) == null ? '' : interp) + '</div><div class="now-description col-xs-4">' + escape((interp = weather.description) == null ? '' : interp) + '</div><div title="remove" class="now-remove col-xs-2"><img src="icons/remove.svg" alt="remove"/></div></div><div class="now-infos row"><div class="now-weather col-xs-6"><span');
+buf.push('><div class="now-title row"><a');
+buf.push(attrs({ 'title':("" + (country) + ""), 'href':("" + (url) + ""), 'target':("_blank"), "class": ('now-name') + ' ' + ("col-xs-6") }, {"class":true,"title":true,"href":true,"target":true}));
+buf.push('>' + escape((interp = name) == null ? '' : interp) + '</a><div class="now-description col-xs-4">' + escape((interp = weather.description) == null ? '' : interp) + '</div><div title="remove" class="now-remove col-xs-2"><img src="icons/remove.svg" alt="remove"/></div></div><div class="now-infos row"><div class="now-weather col-xs-6"><span');
 buf.push(attrs({ "class": ("wi wi-" + (wiclass) + "") }, {"class":true}));
 buf.push('></span></div><div class="now-temp col-xs-4">' + escape((interp = temp) == null ? '' : interp) + '°</div><div class="now-humidity col-xs-2"><img src="icons/humidity.svg" alt="humidity"/> ' + escape((interp = humidity) == null ? '' : interp) + '%</div></div></div><div class="today col-md-5 col-lg-2">');
 // iterate hours

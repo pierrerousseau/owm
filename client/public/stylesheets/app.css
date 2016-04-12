@@ -208,6 +208,8 @@
   overflow: hidden;
   -o-text-overflow: ellipsis;
   text-overflow: ellipsis;
+  color: #fff;
+  text-decoration: none;
 }
 #cities .now .now-description {
   font-size: 1.3em;
